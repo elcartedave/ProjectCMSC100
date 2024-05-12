@@ -32,9 +32,9 @@ app.post("/", async function(req, res){
         let ut = req.body.userType.toLowerCase();
         if((ut == merchant || ut == customer) && validator.isEmail(req.body.email)){
             let newsignUP = new signUp({
-                firstName: req.body.fname,
-                lastName: req.body.lname,
-                userType: req.body.userType,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                userType: req.body.userType.toLowerCase(),
                 eMail: req.body.email,
                 passWord: req.body.password
             });
