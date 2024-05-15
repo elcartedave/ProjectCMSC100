@@ -1,10 +1,12 @@
+// Login.js
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Login.css"; // Import the CSS file
 
 const Login = () => {
   const navigate = useNavigate();
-  const [loginData, setloginData] = useState({
+  const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
@@ -12,67 +14,69 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setloginData({ ...loginData, [e.target.name]: e.target.value });
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3001/login",
-        loginData
-      );
+      const response = await axios.post("http://localhost:3001/login", loginData);
       const token = response.data.token;
       alert("Login Successful!");
-      console.log(response);
-      //   if (response && response.data) {
-      //     setError(response.data);
-      //   } else {
-      //     setError("Signup error: Response or data is undefined");
-      //   }
       window.location.reload();
       navigate("/");
       localStorage.setItem("token", token);
     } catch (error) {
-      setError("Signup error!");
+      setError("Login error!");
     }
   };
 
   return (
-    <div>
-      <h1>LOGIN</h1>
-      <form
-        className="container"
-        method="post"
-        action="/login"
-        onSubmit={handleSubmit}
-      >
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={loginData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={loginData.password}
-            onChange={handleChange}
-            required
-          />
+    <div className="login-container">
+      <div className="background-gradient"></div>
+      <div className="login-box">
+        <h1 className="login-title">LOG IN</h1>
+        <h2 className="welcome-back">Welcome Back,</h2>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="input-group">
+            <label htmlFor="email" className="input-label">EMAIL</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="input-field"
+              value={loginData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="password" className="input-label">PASSWORD</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="input-field"
+              value={loginData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="sign-in-button">SIGN IN</button>
+        </form>
+        {error && <p className="error-message">{error}</p>}
+        <div className="new-user-section">
+          <p className="new-user-text">NEW USER?</p>
+          <a href="/signup" className="create-account-link">create an account</a>
         </div>
-        <button type="submit">Submit</button>
-      </form>
-      <p>{error}</p>
+      </div>
+      <footer className="footer">
+        <p className="contact-info">farmtotable@gmail.com</p>
+        <p className="footer-contact">CONTACT US</p>
+      </footer>
+      <div className="image-container">
+        <img src="Copy of 9 - Ball Shirt Design 2 (25).png" alt="Decorative" className="decorative-image" />
+      </div>
     </div>
   );
 };
