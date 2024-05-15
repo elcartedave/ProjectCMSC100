@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-const App = () => {
+const SignUp = () => {
     const [signupData, setsignupData] = useState({
         firstName: '',
         lastName: '',
@@ -11,22 +11,24 @@ const App = () => {
         password: ''
     });
 
+    const [error, setError] = useState("");
+
     const handleChange = (e) => {
         setsignupData({ ...signupData, [e.target.name]: e.target.value });
     };
-
+    
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
           const response = await axios.post('http://localhost:3001/signup', signupData);
           console.log(response); 
           if (response && response.data) {
-              console.log(response.data); 
+              setError(response.data); 
           } else {
-              console.error('Signup error: Response or data is undefined');
+              setError('Signup error: Response or data is undefined');
           }
       } catch (error) {
-          console.error('Signup error:', error.response.data);
+          setError('Signup error:' + error.response.data);
       }
     };
 
@@ -34,7 +36,7 @@ const App = () => {
         <div>
             <h1>SIGNING UP</h1>
             <form className="container" method="post" action="/signup" onSubmit={handleSubmit}>
-                <div className="form-group">
+                    <div className="form-group">
                     <label htmlFor="fname">First Name</label>
                     <input type="text" className="form-control" id="fname" name="firstName" value={signupData.firstName} onChange={handleChange} required />
 
@@ -52,8 +54,9 @@ const App = () => {
                 </div>
                 <button type="submit">Submit</button>
             </form>
+            <p>{error}</p>
         </div>
     );
 };
 
-export default App;
+export default SignUp;
