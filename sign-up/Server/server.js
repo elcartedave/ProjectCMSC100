@@ -112,31 +112,54 @@ app.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid password!" });
     }
-    const token = jwt.sign({ userId: user._id }, secret_key, {
-      expiresIn: "1hr",
-    });
-    res.json({ message: "Login successful", token });
+    const token = jwt.sign({ userId: user._id }, secret_key);
+    res.json({ success: true, token });
   } catch (error) {
     res.status(500).json({ error: "Error logging in " });
   }
 });
 
-const ProductDataSchema = {
-  productName: String,
-  productType: String,
-  productPrice: Number,
-  productDescription: String,
-  productQuantity: Number,
-};
+const Product = mongoose.model("Product", {
+  id: {
+    type: Number,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+});
 
-const ProductL = mongoose.model(
-  "productList",
-  ProductDataSchema,
-  "productList"
-);
+app.post("/removeProduct", async (req, res) => {
+  await Product.findOneAndDelete({ id: req.body.id });
+  console.log("Removed!");
+  res.json({
+    success: true,
+    name: req.body.name,
+  });
+});
 
 app.get("/productlist", async function (req, res) {
-  const result = await ProductL.find({});
+  const result = await Product.find({});
   res.send(result);
 });
 

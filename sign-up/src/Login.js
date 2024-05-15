@@ -25,13 +25,13 @@ const Login = () => {
       const token = response.data.token;
       alert("Login Successful!");
       console.log(response);
-      if (response && response.data) {
-        setError(response.data);
-      } else {
-        setError("Signup error: Response or data is undefined");
-      }
-      navigate("/", { replace: true });
+      //   if (response && response.data) {
+      //     setError(response.data);
+      //   } else {
+      //     setError("Signup error: Response or data is undefined");
+      //   }
       window.location.reload();
+      navigate("/");
       localStorage.setItem("token", token);
     } catch (error) {
       setError("Signup error!");
