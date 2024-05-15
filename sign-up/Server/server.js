@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 await mongoose.connect(
-  "mongodb+srv://sadiares1:hKgPfm6gaefBBSm1@cluster0.namen2s.mongodb.net/ICS"
+  "mongodb+srv://elcartedave:cmsc100@cluster0.o6ffaeb.mongodb.net/"
 );
 
 //create model
@@ -115,7 +115,7 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, secret_key, {
       expiresIn: "1hr",
     });
-    res.json({ message: "Login successful" });
+    res.json({ message: "Login successful", token });
   } catch (error) {
     res.status(500).json({ error: "Error logging in " });
   }
