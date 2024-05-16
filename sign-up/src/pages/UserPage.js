@@ -1,5 +1,5 @@
 import React from "react";
-import ProductList from "../ProductList.js";
+import ProductList from "../components/ProductList.js";
 import Navbar from "../components/Navbar.js";
 const UserPage = () => {
   return (

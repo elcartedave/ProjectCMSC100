@@ -1,18 +1,26 @@
 import React from "react";
-import SignUp from "./SignUp.js";
-import UserList from "./UserList.js";
+import SignUp from "./pages/SignUp.js";
+import UserList from "./components/UserList.js";
 
-import Login from "./Login.js";
+import Login from "./pages/Login.js";
 import { Routes, Route } from "react-router-dom";
 import UserPage from "./pages/UserPage.js";
+import AdminPage from "./pages/adminpage.js";
+import AddProduct from "./components/AddProduct.js";
+import AdminProductList from "./components/AdminProductList.js";
 const App = () => {
-  const isUserSignedIn = !!localStorage.getItem("token");
+  const isCustomerSignedIn = !!localStorage.getItem("cust-token");
+  const isMerchantSignedIn = !!localStorage.getItem("admin-token");
   return (
     <div>
       <Routes>
-        {isUserSignedIn ? (
+        {isCustomerSignedIn ? (
+          <Route path="/" element={<UserPage />} />
+        ) : isMerchantSignedIn ? (
           <>
-            <Route path="/" element={<UserPage />} />
+            <Route path="/" element={<AdminPage />} />
+            <Route path="/addproduct" element={<AddProduct />} />
+            <Route path="/listproduct" element={<AdminProductList />} />
           </>
         ) : (
           <>

@@ -11,7 +11,9 @@ const Navbar = () => {
           </Link>
           <button
             onClick={() => {
-              localStorage.removeItem("token");
+              !!localStorage.getItem("cust-token")
+                ? localStorage.removeItem("cust-token")
+                : localStorage.removeItem("cust-token");
               window.location.replace("/");
             }}
           >
