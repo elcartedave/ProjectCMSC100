@@ -61,6 +61,7 @@ const AddProduct = () => {
               quantity: "",
             });
             setImage(false);
+            window.scrollTo(0, 0);
           } else {
             alert("Failed!");
           }

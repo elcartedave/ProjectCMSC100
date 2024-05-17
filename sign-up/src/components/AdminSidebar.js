@@ -13,6 +13,11 @@ const AdminSidebar = () => {
           <button>Product List</button>
         </div>
       </Link>
+      <Link to={"/userlist"} style={{ textDecoration: "none" }}>
+        <div className="sidebar-item">
+          <button>User List</button>
+        </div>
+      </Link>
     </div>
   );
 };
