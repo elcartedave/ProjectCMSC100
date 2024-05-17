@@ -4,10 +4,12 @@ import AddProduct from "../components/AddProduct.js";
 import AdminProductList from "../components/AdminProductList.js";
 import AdminSidebar from "../components/AdminSidebar.js";
 import UserList from "../components/UserList.js";
+import AdminNavbar from "../components/AdminNavbar.js";
 
 const AdminPage = () => {
   return (
     <div className="admin">
+      <AdminNavbar />
       <AdminSidebar />
       <Routes>
         <Route path="/addproduct" element={<AddProduct />} />

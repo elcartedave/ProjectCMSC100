@@ -1,26 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./CSS/Navbar.css";
 const Navbar = () => {
   return (
     <nav>
       <Link to="/">
         <h1>HomePage</h1>
-        <ul>
-          <Link to="/">
-            <li>Cart</li>
-          </Link>
-          <button
-            onClick={() => {
-              !!localStorage.getItem("cust-token")
-                ? localStorage.removeItem("cust-token")
-                : localStorage.removeItem("cust-token");
-              window.location.replace("/");
-            }}
-          >
-            Log Out
-          </button>
-        </ul>
       </Link>
+
+      <Link to="/">
+        <li>Cart</li>
+      </Link>
+      <h2
+        onClick={() => {
+          localStorage.removeItem("cust-token");
+          window.location.replace("/");
+        }}
+      >
+        Log Out
+      </h2>
     </nav>
   );
 };
