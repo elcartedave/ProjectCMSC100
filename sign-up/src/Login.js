@@ -32,52 +32,46 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="background-gradient"></div>
-      <div className="login-box">
-        <h1 className="login-title">LOG IN</h1>
-        <h2 className="welcome-back">Welcome Back,</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email" className="input-label">EMAIL</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="input-field"
-              value={loginData.email}
-              onChange={handleChange}
-              required
-            />
+      <div class = "login-page">
+          <div class = "login-panel">
+            <h1 class ="login-title">LOG IN</h1>
+            <h2 className="welcome-back">Welcome Back,</h2>
+            <form className="login-form" onSubmit={handleSubmit}>
+              <label for= "email" className="input-label">EMAIL</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="input-field"
+                placeholder= "Email"
+                value={loginData.email}
+                onChange={handleChange}
+                required />
+              <label for="password" className="input-label">PASSWORD</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="input-field"
+                placeholder="Password"
+                value={loginData.password}
+                onChange={handleChange}
+                required/>
+              <div class = "button-wrapper">
+              <button type="submit" className="sign-in-button">SIGN IN</button>
+              </div>
+            </form>
+            {error && <p className="error-message">{error}</p>}
+            <div className="newuser-wrapper">
+              <p className="new-user-text">NEW USER?</p>
+              <a href="/signup" className="create-account-link">Create an account</a>
+            </div>
           </div>
-          <div className="input-group">
-            <label htmlFor="password" className="input-label">PASSWORD</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="input-field"
-              value={loginData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit" className="sign-in-button">SIGN IN</button>
-        </form>
-        {error && <p className="error-message">{error}</p>}
-        <div className="new-user-section">
-          <p className="new-user-text">NEW USER?</p>
-          <a href="/signup" className="create-account-link">create an account</a>
-        </div>
+          <h1 className="web-title">HARVEST <br></br>BUD</h1>
+          <img src="./images/farm_logo.png" alt="harvestbud" className="login-image"/>
+          <img src="./images/harvestbud_logo.png" alt="harvestbud" className="web-logo"/>
       </div>
-      <footer className="footer">
-        <p className="contact-info">farmtotable@gmail.com</p>
-        <p className="footer-contact">CONTACT US</p>
-      </footer>
-      <div className="image-container">
-        <img src="Copy of 9 - Ball Shirt Design 2 (25).png" alt="Decorative" className="decorative-image" />
-      </div>
-    </div>
+      
   );
 };
 

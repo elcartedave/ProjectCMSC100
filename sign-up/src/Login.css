@@ -1,171 +1,134 @@
-/* Login.css */
 
-.login-container {
-    position: relative;
-    width: 1920px;
-    height: 1080px;
-    background: linear-gradient(315.62deg, #FBD242 24.73%, #FFC700 52.09%);
-    display: flex;
-    
-    align-items: left;
-  }
-  
-  .background-gradient {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(315.62deg, #FBD242 24.73%, #FFC700 52.09%);
-    z-index: -1;
-  }
-  
-  .login-box {
-    position: relative;
-    width: 638px;
-    height: 750px; 
-    background: #FFFFFF;
-    box-shadow: 0px 4px 50px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 34px;
-    padding: 20px;
-    left: 57px;
-    top: 62px;
-    flex-direction: column;
-    
-  }
-  
-  .login-title {
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 70px;
-    line-height: 150%;
-    color: #1E4F2A;
-    margin-top: 20px;
-  }
-  
-  .welcome-back {
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 150%;
-    color: #000000;
-    margin-bottom: 20px;
-  }
-  
-  .login-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .input-group {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .input-label {
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 150%;
-    color: #000000;
-    margin-bottom: 10px;
-  }
-  
-  .input-field {
-    box-sizing: border-box;
-    width: 100%;
-    height: 57px;
-    background: #FFFFFF;
-    border: 2px solid #E8E8E8;
-    border-radius: 115.5px;
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 150%;
-    color: #E8E8E8;
-    padding-left: 15px;
-  }
-  
-  .sign-in-button {
-    box-sizing: border-box;
-    width: 214px;
-    height: 57px;
-    background: #1E4F2A;
-    border: 2px solid #E8E8E8;
-    border-radius: 115.5px;
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 150%;
-    color: #E8E8E8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .new-user-section {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .new-user-text,
-  .create-account-link {
-    font-family: 'Inter';
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 150%;
-    color: #000000;
-  }
-  
-  .create-account-link {
-    text-decoration: underline;
-    margin-top: 10px;
-  }
-  
-  .footer {
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    bottom: 0;
-  }
-  
-  .contact-info,
-  .footer-contact {
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 150%;
-    color: #000000;
-    text-decoration: underline;
-  }
-  
-  .footer-contact {
-    font-weight: 600;
-    font-size: 25px;
-    text-decoration: none;
-    color: #1E4F2A;
-  }
-  
-  .image-container {
-    position: absolute;
-    width: 631px;
-    height: 675px;
-    right: 100px;
-    top: 162px;
-  }
-  
-  .decorative-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
+.login-page {
+  background: linear-gradient(316deg, #FFDF6E 24.73%, #FFC700 100.52%);
+  width: 100%;
+  height: 100%;
+  position: fixed
+}
+
+.login-panel{
+  margin: 30px;
+  width: 35%;
+  height: 90%;
+  padding: 40px;
+  border-radius: 34px;
+  background: #FFF;
+  box-shadow: 0px 4px 50px 5px rgba(0, 0, 0, 0.25);
+}
+
+.login-title {
+  color: #1E4F2A;
+  font-family: "Raleway", sans-serif;
+  font-size: 70px;
+  font-style: extra-bold;
+  font-weight: 700;
+  margin: 0;
+}
+
+.welcome-back {
+  color: #000;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: normal;
+  padding-bottom: 20px;
+}
+
+.input-label {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 20px;
+  padding-bottom: 5px;
+}
+
+.input-field{
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: normal;
+  border-radius: 34px;
+  width: 100%;
+  border: 2px solid #E8E8E8;
+  margin-bottom: 30px;
+  padding: 15px 15px 15px 20px;
+}
+
+.input-field:focus{
+  outline-width: 0;
+  border: 3px solid #1E4F2A;
+}
+
+.button-wrapper{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.sign-in-button{
+  width: 214px;
+  height: 55px;
+  flex-shrink: 0;
+  border-radius: 34px;
+  border: none;
+  background: #1E4F2A;
+  color: #FFF;
+}
+
+.sign-in-button:hover{
+  background-color: #42B95F;
+  box-shadow: 0px 4px 50px 5px rgba(0, 0, 0, 0.25);
+
+}
+.error-message {
+  color: red;
+  text-align: center;
+  margin: 5px;
+}
+
+.newuser-wrapper {
+  text-align: center;
+}
+
+.new-user-text {
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 15px;
+  color: #000000;
+  margin: 0;
+}
+
+.create-account-link {
+  text-decoration: underline;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 15px;
+  color: #000000;
+  margin: 0;
+}
+
+.create-account-link:hover {
+  color: #1E4F2A;
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+}
+
+.web-title {
+  position: absolute;
+  left: 1300px;
+  top: 90px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 25px;
+  color: #1E4F2A;
+  margin: 0;
+}
+
+.web-logo{
+  position: absolute;
+  left: 1210px;
+  top: 100px;
+}
+.login-image{
+  position: absolute;
+  left: 800px;
+  top: 0px;
+}
