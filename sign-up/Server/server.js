@@ -23,10 +23,11 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+    "Access-Control-Allow-Headers Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"
   );
   next();
 });
+
 await mongoose.connect(
   "mongodb+srv://sadiares1:hKgPfm6gaefBBSm1@cluster0.namen2s.mongodb.net/ICS"
 );
@@ -115,9 +116,25 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, secret_key, {
       expiresIn: "1hr",
     });
-    res.json({ message: "Login successful" });
+    res.json({ message: "Login successful", token });
   } catch (error) {
     res.status(500).json({ error: "Error logging in " });
+  }
+});
+
+//try
+app.post("/token", async (req, res) => {
+  try {
+    const { token } = req.body;
+    
+    if (!token) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+    
+    const tokenData = jwt.verify(token, secret_key);
+    res.json({ message: "Token Verified", tokenData });
+  } catch (error) {
+    res.status(500).json({ error: "Error on verifying token " });
   }
 });
 
@@ -139,6 +156,78 @@ app.get("/productlist", async function (req, res) {
   const result = await ProductL.find({});
   res.send(result);
 });
+
+const ShoppingCartSchema = {
+  productID : String,
+  userID : String, //token
+  productQuantity: Number,
+};
+
+const SCS = mongoose.model(
+  "shoppingCart",
+  ShoppingCartSchema,
+  "shoppingCart"
+);
+
+app.post("/shoppingcart", async function (req, res) {
+  const {productIDs, userIDs, quantity } = req.body;
+  var empty = "";
+  if(productIDs != empty && userIDs != empty && quantity != empty){
+    let newShop = new SCS({
+      productID: productIDs,
+      userID: userIDs,
+      productQuantity: quantity
+    });
+    await newShop
+      .save()
+      .then(() => {
+        res.status(200).send("Add to cart successfully");
+      })
+      .catch((err) => {
+        res.status(500).send("Product not added to cart");
+      });
+  }
+});
+
+app.get("/shoppingcart", async function (req, res) {
+  const userId = req.query.userId; // Get userId from query parameters
+  console.log("User ID:", userId);
+  try {
+    // Perform the aggregation
+    const result = await SCS.aggregate([
+      { $match: { userID: userId } }, // Match documents by userID
+      {
+        $addFields: {
+            productIDAsOID: { $toObjectId: "$productID" }
+        }
+      },
+      {
+        $lookup: {
+          from: "productList",
+          localField: "productIDAsOID",
+          foreignField: "_id",
+          as: "ProductInShopCart"
+        }
+       },
+      { $unwind: '$ProductInShopCart' },
+      {
+        $group: {
+          _id: "$productID",
+          productName: { $first: "$ProductInShopCart.productName" },
+          quantity: { $sum: '$productQuantity' },
+          totalPrice: { $sum: { $multiply: ["$productQuantity", "$ProductInShopCart.productPrice"] } }
+        }
+      }
+    ]);
+
+    // Send the aggregated results
+    res.send(result);
+  } catch (error) {
+    console.error('Error fetching shopping cart items:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.listen(3001, function () {
   console.log("server is running");

@@ -5,6 +5,7 @@ import Filter from './Filter.js';
 
 function ProductList() {
     const [product, setProduct] = useState([]);
+    const [tokenData, settokenData] = useState([]);
     const [filtered, setFilter] = useState('all');
     let ProductL = [...product];
 
@@ -64,11 +65,24 @@ function ProductList() {
                 setProduct(response.data);
                 console.log(response);
             });
+            const token = localStorage.getItem('token');
+            axios.post('http://localhost:3001/token',{token})
+            .then((response) => {
+                settokenData(response.data.tokenData)
+                console.log(response);
+            });
     }, []);
 
     function FonChangeVS(fValue){
         setFilter(fValue);
 
+    }
+
+    function CheckTokenPushCart(tokened, productid){
+        axios.post('http://localhost:3001/shoppingcart', {productIDs:productid, userIDs:tokened.userId, quantity:1})
+        .then((response) => {
+            console.log(response);
+        })
     }
 
     return (
@@ -89,7 +103,7 @@ function ProductList() {
                                         <p className="card-text">Price: ₱{prod.productPrice}</p>
                                         <p className="card-text">Description: {prod.productDescription}</p>
                                         <p className="card-text">Quantity: {prod.productQuantity}</p>
-                                        <button className="btn btn-primary">Add to cart</button>
+                                        <button className="btn btn-primary" onClick={() => CheckTokenPushCart(tokenData,prod._id)}>Add to cart</button>
                                     </div>
                                 </div>
                             </div>

@@ -19,6 +19,9 @@ const Login = () => {
       e.preventDefault();
       try {
           const response = await axios.post('http://localhost:3001/login', loginData);
+          const token = response.data.token;
+          console.log(token);
+          localStorage.setItem('token',token);
           console.log(response); 
           if (response && response.data) {
               setError(response.data); 
