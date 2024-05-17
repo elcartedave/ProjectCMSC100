@@ -8,6 +8,10 @@ const AdminPage = () => {
   return (
     <div className="admin">
       <AdminSidebar />
+      <Routes>
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/listproduct" element={<AdminProductList />} />
+      </Routes>
     </div>
   );
 };

@@ -81,7 +81,7 @@ const Login = () => {
         {error && <p className="error-message">{error}</p>}
         <div className="new-user-section">
           <p className="new-user-text">NEW USER?</p>
-          <a href="/signup" className="create-account-link">
+          <a href="/sign-up" className="create-account-link">
             create an account
           </a>
         </div>
