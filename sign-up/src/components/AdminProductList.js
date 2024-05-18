@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import "./CSS/ProductList.css";
+import { Link } from "react-router-dom";
 
 const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
@@ -28,32 +30,24 @@ const ListProduct = () => {
 
   return (
     <div className="list-product">
-      <h1>All Products List</h1>
-      <div className="listproduct-format-main">
-        <p>Products</p>
-        <p>Title</p>
-        <p>Price</p>
-        <p>Type</p>
-        <p>Description</p>
-        <p>Quantity</p>
-      </div>
-      <div className="listproduct-allproducts">
-        <hr />
+      <h1 className="admin-header">PRODUCT LIST</h1>
+      <Link to="/addproduct" style={{ textDecoration: "none" }}>
+        <button className="add-product"> <i class='bx bx-plus-circle' ></i> ADD PRODUCT</button>
+      </Link>
+      <div className="productPanel">
         {allproducts.map((product, index) => {
           return (
             <>
-              <div key={index} className="listproduct-format-main">
+              <div key={index} className="productCard">
                 <img src={product.image} alt="" />
-                <p>{product.name}</p>
-                <p>Php {product.price}</p>
-                <p>{product.type}</p>
-                <p>{product.description}</p>
-                <p>{product.quantity}</p>
-                <button onClick={() => remove_product(product.id)}>
-                  Delete
+                <p className="product-name">{product.name}</p>
+                <p className="product-price">&#8369; {product.price}</p>
+                <p className="product-type">{product.type} | {product.quantity}</p>
+                <p className="product-description">{product.description}</p>
+                <button onClick={() => remove_product(product.id)} className="product-delete">
+                  DELETE
                 </button>
               </div>
-              <hr />
             </>
           );
         })}

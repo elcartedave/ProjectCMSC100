@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import "./SignUp.css";
 const SignUp = () => {
   const [signupData, setsignupData] = useState({
     firstName: "",
@@ -35,62 +35,90 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <h1>SIGNING UP</h1>
-      <form
-        className="container"
-        method="post"
-        action="/signup"
-        onSubmit={handleSubmit}
-      >
-        <div className="form-group">
-          <label htmlFor="fname">First Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="fname"
-            name="firstName"
-            value={signupData.firstName}
-            onChange={handleChange}
-            required
-          />
+    <div className="signup-page">
+      <div className="signup-panel">
+        <h1 className="signup-title">SIGN UP</h1>
+        <h2 className="hello">Hello,</h2>
+        <form
+          className="container"
+          method="post"
+          action="/signup"
+          onSubmit={handleSubmit}
+        >
+          <div className="form-group">
+            <label htmlFor="fname" className="fname-label">FIRST NAME</label>
+            <label htmlFor="lname" className="lname-label">LAST NAME</label>
+            <input
+              type="text"
+              className="signup-input-fname"
+              id="fname"
+              name="firstName"
+              placeholder="First Name"
+              value={signupData.firstName}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              className="signup-input-lname"
+              id="lname"
+              name="lastName"
+              placeholder="Last Name"
+              value={signupData.lastName}
+              onChange={handleChange}
+              required
+            />
 
-          <label htmlFor="lname">Last Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="lname"
-            name="lastName"
-            value={signupData.lastName}
-            onChange={handleChange}
-            required
-          />
+            <h3 htmlFor="email" className="email-label">EMAIL</h3>
+            <input
+              type="email"
+              className="signup-input"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={signupData.email}
+              onChange={handleChange}
+              required
+            />
 
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={signupData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={signupData.password}
-            onChange={handleChange}
-            required
-          />
+            <h3 className="password-label">PASSWORD</h3>
+            <input
+              type="password"
+              className="signup-input" 
+              id="password"
+              name="password"
+              placeholder="Passowrd"
+              value={signupData.password}
+              onChange={handleChange}
+              required
+            />
+          <div class="button-wrapper">
+          <button className= "signup-button" type="submit">SIGN UP</button>
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <div className="newuser-wrapper">
+            <p className="new-user-text">ACCOUNT EXIST?</p>
+            <a href="/" className="create-account-link">
+              Login to your Account
+            </a>
+          </div>
         </div>
-        <button type="submit">Submit</button>
-      </form>
-      <p>{error}</p>
+        </form>
+      </div>
+      <h1 className="web-title">
+        HARVEST <br></br>BUD
+      </h1>
+      <img
+        src="./images/farm_logo.png"
+        alt="harvestbud"
+        className="login-image"
+      />
+      <img
+        src="./images/harvestbud_logo.png"
+        alt="harvestbud"
+        className="web-logo"
+      />
+        
     </div>
   );
 };
