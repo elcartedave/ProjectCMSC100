@@ -304,6 +304,45 @@ app.get("/shoppingcart", async function (req, res) {
 
 app.use("/images", express.static(path.join(__dirname, "./upload/images")));
 
+app.post("/removeitem", async (req, res) => {
+  const { productID, userID } = req.body;
+
+  if (!productID || !userID) {
+    return res
+      .status(400)
+      .json({ error: "Product ID and User ID are required" });
+  }
+
+  try {
+    // Find the item in the cart
+    const cartItem = await SCS.findOne({ productID, userID });
+
+    if (!cartItem) {
+      return res.status(404).json({ error: "Item not found in cart" });
+    }
+
+    if (cartItem.productQuantity > 1) {
+      // Decrease the quantity
+      cartItem.productQuantity -= 1;
+      await cartItem.save();
+      res.json({
+        success: true,
+        message: "Item quantity decreased successfully",
+      });
+    } else {
+      // Remove the item if quantity is 1
+      await SCS.findOneAndDelete({ productID, userID });
+      res.json({
+        success: true,
+        message: "Item removed from cart successfully",
+      });
+    }
+  } catch (error) {
+    console.error("Error updating item quantity in cart:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.listen(3001, function () {
-  console.log("server is running");
+  console.log("server is running on port 3001");
 });

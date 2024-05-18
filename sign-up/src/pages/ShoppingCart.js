@@ -41,6 +41,66 @@ function ShoppingCart() {
     }
   }, []);
 
+  const handleRemove = (productID) => {
+    const token = localStorage.getItem("cust-token");
+    axios
+      .post("http://localhost:3001/token", { token })
+      .then((response) => {
+        const tokenData = response.data.tokenData;
+        const userID = tokenData.userId;
+
+        axios
+          .post("http://localhost:3001/removeitem", {
+            productID,
+            userID,
+          })
+          .then((response) => {
+            if (response.data.success) {
+              // Update the summaryData state to decrease the quantity or remove the item
+              const updatedSummaryData = summaryData
+                .map((item) => {
+                  if (item._id === productID) {
+                    if (item.quantity > 1) {
+                      return {
+                        ...item,
+                        quantity: item.quantity - 1,
+                        totalPrice:
+                          item.totalPrice - item.totalPrice / item.quantity,
+                      };
+                    }
+                    return null; // This will be filtered out
+                  }
+                  return item;
+                })
+                .filter(Boolean);
+
+              setSummaryData(updatedSummaryData);
+
+              // Recalculate total items and total price
+              let items = 0;
+              let price = 0;
+              updatedSummaryData.forEach((item) => {
+                items += item.quantity;
+                price += item.totalPrice;
+              });
+              setTotalItems(items);
+              setTotalPrice(price);
+            } else {
+              console.error(
+                "Error removing item from cart:",
+                response.data.error
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Error removing item from cart:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Token verification error:", error);
+      });
+  };
+
   return (
     <div className="container mt-4">
       <h2>Shopping Cart</h2>
@@ -56,6 +116,14 @@ function ShoppingCart() {
               </div>
               <div>
                 <p className="card-text">Total Price: P{item.totalPrice}</p>
+              </div>
+              <div>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleRemove(item._id)}
+                >
+                  Remove
+                </button>
               </div>
             </div>
           </div>
