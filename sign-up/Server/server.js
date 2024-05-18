@@ -219,6 +219,89 @@ app.post("/upload", upload.single("product"), function (req, res) {
   });
 });
 
+const ShoppingCartSchema = {
+  productID: String,
+  userID: String, //token
+  productQuantity: Number,
+};
+
+const SCS = mongoose.model("shoppingCart", ShoppingCartSchema, "shoppingCart");
+
+app.post("/token", async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const tokenData = jwt.verify(token, secret_key);
+    res.json({ message: "Token Verified", tokenData });
+  } catch (error) {
+    res.status(500).json({ error: "Error on verifying token " });
+  }
+});
+
+app.post("/shoppingcart", async function (req, res) {
+  const { productIDs, userIDs, quantity } = req.body;
+  var empty = "";
+  if (productIDs != empty && userIDs != empty && quantity != empty) {
+    let newShop = new SCS({
+      productID: productIDs,
+      userID: userIDs,
+      productQuantity: quantity,
+    });
+    try {
+      await newShop.save();
+      res.status(200).send("Add to cart successfully");
+    } catch (err) {
+      console.log("error!", err);
+      res.status(500).send("Product not added to cart");
+    }
+  }
+});
+
+app.get("/shoppingcart", async function (req, res) {
+  const userId = req.query.userId;
+  console.log("User ID:", userId);
+  try {
+    const result = await SCS.aggregate([
+      { $match: { userID: userId } },
+      {
+        $addFields: {
+          productIDAsOID: { $toObjectId: "$productID" },
+        },
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "productIDAsOID",
+          foreignField: "_id",
+          as: "ProductInShopCart",
+        },
+      },
+      { $unwind: "$ProductInShopCart" },
+      {
+        $group: {
+          _id: "$productID",
+          productName: { $first: "$ProductInShopCart.name" },
+          quantity: { $sum: "$productQuantity" },
+          totalPrice: {
+            $sum: {
+              $multiply: ["$productQuantity", "$ProductInShopCart.price"],
+            },
+          },
+        },
+      },
+    ]);
+
+    res.send(result);
+  } catch (error) {
+    console.error("Error fetching shopping cart items:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.use("/images", express.static(path.join(__dirname, "./upload/images")));
 
 app.listen(3001, function () {

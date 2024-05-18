@@ -25,7 +25,8 @@ const SignUp = () => {
       );
       console.log(response);
       if (response && response.data) {
-        setError(response.data);
+        alert(response.data);
+        window.location.replace("/");
       } else {
         setError("Signup error: Response or data is undefined");
       }
@@ -90,7 +91,6 @@ const SignUp = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <p>{error}</p>
     </div>
   );
 };

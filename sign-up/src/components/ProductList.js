@@ -5,6 +5,7 @@ import Filter from "../Filter.js";
 
 function ProductList() {
   const [product, setProduct] = useState([]);
+  const [tokenData, settokenData] = useState([]);
   const [filtered, setFilter] = useState("all");
   let ProductL = [...product];
 
@@ -61,10 +62,34 @@ function ProductList() {
       setProduct(response.data);
       console.log(response);
     });
+    const token = localStorage.getItem("cust-token");
+    axios.post("http://localhost:3001/token", { token }).then((response) => {
+      settokenData(response.data.tokenData);
+      console.log(response);
+    });
   }, []);
 
   function FonChangeVS(fValue) {
     setFilter(fValue);
+  }
+
+  function CheckTokenPushCart(tokened, productid, productQuantity) {
+    if (productQuantity != 0) {
+      axios
+        .post("http://localhost:3001/shoppingcart", {
+          productIDs: productid,
+          userIDs: tokened.userId,
+          quantity: 1,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            alert("added to cart!");
+          }
+        });
+    } else {
+      alert("Out of stocks");
+    }
   }
 
   return (
@@ -92,7 +117,14 @@ function ProductList() {
                     <p className="card-text">Price: ₱{prod.price}</p>
                     <p className="card-text">Description: {prod.description}</p>
                     <p className="card-text">Quantity: {prod.quantity}</p>
-                    <button className="btn btn-primary">Add to cart</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() =>
+                        CheckTokenPushCart(tokenData, prod._id, prod.quantity)
+                      }
+                    >
+                      Add to cart
+                    </button>
                   </div>
                 </div>
               </div>
