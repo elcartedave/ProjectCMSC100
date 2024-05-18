@@ -34,6 +34,7 @@ const Login = () => {
       if (response.data.userType === "admin") {
         localStorage.setItem("admin-token", token);
       }
+      console.log(response);
     } catch (error) {
       setError("Login error!");
     }
