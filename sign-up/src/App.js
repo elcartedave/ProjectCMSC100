@@ -6,10 +6,12 @@ import Login from "./pages/Login.js";
 import { Routes, Route } from "react-router-dom";
 import UserPage from "./pages/UserPage.js";
 import AdminPage from "./pages/adminpage.js";
+import Unauthorized from "./pages/unauthorized.js";
 
 const App = () => {
   const isCustomerSignedIn = !!localStorage.getItem("cust-token");
   const isMerchantSignedIn = !!localStorage.getItem("admin-token");
+
   return (
     <div>
       <Routes>
@@ -23,6 +25,7 @@ const App = () => {
             <Route path="/sign-up" element={<SignUp />} />
           </>
         )}
+        <Route path="*" element={<Unauthorized />} />
       </Routes>
     </div>
   );

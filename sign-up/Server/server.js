@@ -343,6 +343,8 @@ app.post("/removeitem", async (req, res) => {
   }
 });
 
+//app.get("/user")
+
 app.listen(3001, function () {
   console.log("server is running on port 3001");
 });
