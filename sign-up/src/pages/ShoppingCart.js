@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 function ShoppingCart() {
   const [summaryData, setSummaryData] = useState([]);
@@ -135,7 +136,9 @@ function ShoppingCart() {
         <>
           <p>Total Items: {totalItems}</p>
           <p>Total Price: {totalPrice}</p>
-          <button>Checkout</button>
+          <Link to="/checkout">
+            <button>Checkout</button>
+          </Link>
         </>
       ) : (
         <></>

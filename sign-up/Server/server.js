@@ -242,6 +242,42 @@ app.post("/token", async (req, res) => {
   }
 });
 
+const orderTransactionSchema = {
+  transactionID: String,
+  productID: String,
+  orderQuantity: Number,
+  email: String,
+  date: Date,
+  time: Date,
+};
+
+const orderTransaction = mongoose.model(
+  "transactions",
+  orderTransactionSchema,
+  "transactions"
+);
+
+app.post("/createOrder", async function (req, res) {
+  const { transactionID, productID, orderQuantity, email, date, time } =
+    req.body;
+  if (transactionID && productID && orderQuantity && email && date && time) {
+    let newTransaction = new orderTransaction({
+      transactionID: transactionID,
+      productID: productID,
+      orderQuantity: orderQuantity,
+      email: email,
+      date: date,
+      time: time,
+    });
+    try {
+      await newTransaction.save();
+      res.status(200).send("Added new transaction");
+    } catch (err) {
+      res.status(500).send("Transaction failed");
+    }
+  }
+});
+
 app.post("/shoppingcart", async function (req, res) {
   const { productIDs, userIDs, quantity } = req.body;
   var empty = "";
