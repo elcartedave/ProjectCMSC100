@@ -60,6 +60,7 @@ app.post("/userlist", async function (req, res) {
   const { id } = req.body;
   try {
     await User.findByIdAndDelete(id);
+    await SCS.deleteMany({ userID: id.toString() });
     res.json({ success: true, message: "User deleted successfully" });
   } catch (error) {
     res.status(500).send("Error deleting user: " + error.message);
@@ -188,7 +189,8 @@ app.post("/addproduct", async (req, res) => {
 });
 
 app.post("/removeProduct", async (req, res) => {
-  await Product.findOneAndDelete({ id: req.body.id });
+  await Product.findOneAndDelete({ _id: req.body._id });
+  await SCS.deleteMany({ productID: req.body._id.toString() });
   console.log("Removed!");
   res.json({
     success: true,
@@ -242,14 +244,21 @@ app.post("/token", async (req, res) => {
   }
 });
 
-const orderTransactionSchema = {
-  transactionID: String,
-  productID: String,
+const orderTransactionSchema = new mongoose.Schema({
+  userID: String,
+  products: [
+    {
+      productID: String,
+      orderQuantity: Number,
+      totalPrice: Number,
+    },
+  ],
   orderQuantity: Number,
+  totalPrice: Number,
   email: String,
   date: Date,
-  time: Date,
-};
+  status: String,
+});
 
 const orderTransaction = mongoose.model(
   "transactions",
@@ -258,16 +267,24 @@ const orderTransaction = mongoose.model(
 );
 
 app.post("/createOrder", async function (req, res) {
-  const { transactionID, productID, orderQuantity, email, date, time } =
-    req.body;
-  if (transactionID && productID && orderQuantity && email && date && time) {
+  const { userID, products, email, date } = req.body;
+  if (userID && products.length > 0 && email && date) {
+    let totalOrderQuantity = 0;
+    let totalOrderPrice = 0;
+
+    products.forEach((product) => {
+      totalOrderQuantity += product.orderQuantity;
+      totalOrderPrice += product.totalPrice;
+    });
+
     let newTransaction = new orderTransaction({
-      transactionID: transactionID,
-      productID: productID,
-      orderQuantity: orderQuantity,
+      userID: userID,
+      products: products,
+      orderQuantity: totalOrderQuantity,
+      totalPrice: totalOrderPrice,
       email: email,
       date: date,
-      time: time,
+      status: "Pending",
     });
     try {
       await newTransaction.save();

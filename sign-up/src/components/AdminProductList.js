@@ -23,7 +23,7 @@ const ListProduct = () => {
         Accept: "application/json",
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ id: id }),
+      body: JSON.stringify({ _id: id }),
     });
     await fetchInfo();
   };
@@ -32,7 +32,10 @@ const ListProduct = () => {
     <div className="list-product">
       <h1 className="admin-header">PRODUCTS</h1>
       <Link to="/addproduct" style={{ textDecoration: "none" }}>
-        <button className="add-product-button"> <i class='bx bx-plus-circle' ></i> ADD PRODUCT</button>
+        <button className="add-product-button">
+          {" "}
+          <i class="bx bx-plus-circle"></i> ADD PRODUCT
+        </button>
       </Link>
       <div className="productPanel">
         {allproducts.map((product, index) => {
@@ -42,9 +45,14 @@ const ListProduct = () => {
                 <img src={product.image} alt="" />
                 <p className="product-name">{product.name}</p>
                 <p className="product-price">&#8369; {product.price}</p>
-                <p className="product-type">{product.type} | {product.quantity}</p>
+                <p className="product-type">
+                  {product.type} | {product.quantity}
+                </p>
                 <p className="product-description">{product.description}</p>
-                <button onClick={() => remove_product(product.id)} className="product-delete">
+                <button
+                  onClick={() => remove_product(product._id)}
+                  className="product-delete"
+                >
                   DELETE
                 </button>
               </div>

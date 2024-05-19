@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Checkout() {
   const [summaryData, setSummaryData] = useState([]);
@@ -38,9 +39,47 @@ function Checkout() {
     }
   }, []);
 
-  //   const handleSubmit = () => {
-  //     await fetch
-  //   };
+  const handleCheckout = () => {
+    const token = localStorage.getItem("cust-token");
+    if (token) {
+      axios
+        .post("http://localhost:3001/token", { token })
+        .then(async (response) => {
+          const tokenData = response.data.tokenData;
+          const userId = tokenData.userId;
+          const resp = await fetch("http://localhost:3001/userlist");
+          const data = await resp.json();
+          const foundUser = data.find((item) => item._id === userId);
+          const date = new Date();
+          const email = foundUser.email;
+          console.log(email);
+          const products = summaryData.map((item) => ({
+            productID: item._id,
+            orderQuantity: item.quantity,
+            totalPrice: item.totalPrice,
+          }));
+
+          axios
+            .post("http://localhost:3001/createOrder", {
+              userID: userId,
+              products,
+              email,
+              date,
+            })
+            .then(() => {
+              alert("Transaction successful!");
+              window.location.replace("/");
+            })
+            .catch((error) => {
+              console.error("Transaction error:", error);
+              alert("Transaction failed!");
+            });
+        })
+        .catch((error) => {
+          console.error("Token verification error:", error);
+        });
+    }
+  };
 
   return (
     <div className="container mt-4">
@@ -63,7 +102,9 @@ function Checkout() {
       <p>Shipping Option: Cash On Delivery</p>
       <p>Total Items: {totalItems}</p>
       <p>Total Price: {totalPrice}</p>
-      <button className="btn btn-success">Confirm Transaction</button>
+      <button className="btn btn-success" onClick={handleCheckout}>
+        Confirm Transaction
+      </button>
     </div>
   );
 }

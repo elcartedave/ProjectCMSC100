@@ -15,7 +15,6 @@ const User = () => {
             .post("http://localhost:3001/token", { token })
             .then((response) => {
               setUserID(response.data.tokenData.userId);
-              console.log(userID);
             });
         } catch (error) {
           console.error("Error fetching userID:", error);
@@ -24,7 +23,7 @@ const User = () => {
     };
 
     fetchUserID();
-  }, [userID]);
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,7 +52,8 @@ const User = () => {
     <div className="navbar-item">
       <Link to={`/user/${user._id}`} className="navbar-link">
         <button className="user-profile">
-        <i class='bx bxs-user-circle'></i>{user.firstName} {user.lastName}
+          <i className="bx bxs-user-circle"></i>
+          {user.firstName} {user.lastName}
         </button>
       </Link>
     </div>

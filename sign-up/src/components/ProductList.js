@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Filter from "../Filter.js";
+import Filter from "./Filter.js";
 
 function ProductList() {
   const [product, setProduct] = useState([]);
