@@ -50,11 +50,11 @@ const User = () => {
   }
 
   return (
-    <div>
-      <Link to={`/user/${user._id}`}>
-        <h1>
-          {user.firstName} {user.lastName}
-        </h1>
+    <div className="navbar-item">
+      <Link to={`/user/${user._id}`} className="navbar-link">
+        <button className="user-profile">
+        <i class='bx bxs-user-circle'></i>{user.firstName} {user.lastName}
+        </button>
       </Link>
     </div>
   );

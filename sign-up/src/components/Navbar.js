@@ -5,24 +5,35 @@ import User from "./User.js";
 
 const Navbar = () => {
   return (
-    <nav>
-      <Link to="/">
-        <h1>HomePage</h1>
+
+    <div className="admin-navbar">
+      <img
+          src="./images/harvestbud_logo.png"
+          alt="harvestbud"
+          className="navbar-logo"
+      />
+      <h1 className="admin-title">HARVEST BUD</h1>
+      <Link to="/" className="navbar-link">
+      <div className="navbar-item">
+          <h3>HOMEPAGE</h3>
+      </div>
       </Link>
 
-      <Link to="/shopc">
-        <li>Cart</li>
+      <Link to="/shopc" className="navbar-link">
+      <div className="navbar-item">
+          <h3>CART</h3>
+      </div>
       </Link>
-      <User />
-      <h2
-        onClick={() => {
+      <div>
+        <User />
+      </div>
+      <i class='bx bx-log-out'
+      onClick={() => {
           localStorage.removeItem("cust-token");
           window.location.replace("/");
-        }}
-      >
-        Log Out
-      </h2>
-    </nav>
+        }}>
+      </i>
+    </div>
   );
 };
 
