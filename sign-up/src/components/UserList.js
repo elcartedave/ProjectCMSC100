@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import "./CSS/UserList.css";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -28,32 +29,35 @@ function UserList() {
 
   return (
     <>
-      <table>
+    <div className="user-list">
+    <h1 className="admin-header">USER MANAGEMENT</h1>
+    <h2 className="admin-subheader">Registered Users</h2>
+      <table className="user-field">
         <tr>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Delete Account</th>
+          <th scope="col">FIRST NAME</th>
+          <th scope="col">LAST NAME</th>
+          <th scope="col">EMAIL</th>
         </tr>
         {customerUsers.map((user) => {
           return (
             <tr key={user._id}>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
+              <td className="user-name">{user.firstName}</td>
+              <td className="user-name">{user.lastName}</td>
+              <td className="user-email">{user.email}</td>
               <td>
                 <button
                   className="nav-btn"
                   onClick={() => deleteUser(user._id)}
                 >
-                  Delete
+                  <i class='bx bx-user-x' undefined ></i> Delete
                 </button>
               </td>
             </tr>
           );
         })}
       </table>
-      <p>Total Users: {customerUsers.length}</p>
+      <h1 className="user-count">TOTAL USERS: {customerUsers.length}</h1>
+      </div>
     </>
   );
 }

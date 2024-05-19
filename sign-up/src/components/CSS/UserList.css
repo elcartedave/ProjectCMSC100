@@ -1,0 +1,74 @@
+.user-list{
+    width: 100%;
+    display: inline-block;
+}
+
+.user-field{
+    margin: 40px 0px 20px 60px;
+    height: 100px;
+    width: 90%;
+    background: #fff;
+    box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 34px;
+}
+
+.user-field th{
+    padding: 20px 0px 0px 30px;
+    color: #000;
+    font-family: Inter;
+    font-size: 25px;
+    font-weight: 700;
+    margin-left: 20px;
+    padding-bottom: 5px;
+}
+
+.user-name{
+    padding: 20px 0px 15px 30px;
+    color: #1E4F2A;
+    font-family: poppins, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.user-email{
+    color: #000;
+    font-family: poppins, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    cursor: pointer;
+    font-size: 12px;
+    background: #FFC700;
+    border-radius: 20px;
+    border: none;
+    padding: 5px 20px;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 15px;
+  }
+  
+  .nav-btn i {
+    font-size: 15px;
+    padding-right: 5px;
+  }
+  
+.nav-btn:hover{
+    background: linear-gradient(90deg, #1E4F2A 0%, #45B560 100%);
+    color: #fff;
+    box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+.user-count{
+    margin: 50px 10px 0px 40px;
+    color: #1e4f2a;
+    font-family: poppins, sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+}
