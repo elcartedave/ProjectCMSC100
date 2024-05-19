@@ -16,14 +16,19 @@ const AdminSidebar = () => {
           <span className="bud">BUD</span>
         </h1>
       </Link>
+      <Link to={"/"} style={{ textDecoration: "none" }}>
+        <div className="sidebar-item">
+          <button>DASHBOARD</button>
+        </div>
+      </Link>
       <Link to={"/listproduct"} style={{ textDecoration: "none" }}>
         <div className="sidebar-item">
-          <button>PRODUCT LIST</button>
+          <button>PRODUCTS</button>
         </div>
       </Link>
       <Link to={"/userlist"} style={{ textDecoration: "none" }}>
         <div className="sidebar-item">
-          <button>USER LIST</button>
+          <button>USERS</button>
         </div>
       </Link>
       <h3
