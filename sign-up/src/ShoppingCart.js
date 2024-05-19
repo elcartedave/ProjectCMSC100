@@ -14,14 +14,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                     const tokenData = response.data.tokenData;
                     setTokenData(tokenData);
                     const userId = tokenData.userId;
+                    console.log("User ID from token:", userId); // Debugging
 
-            axios.post('http://localhost:3001/shopping-cart',{userId})
-                .then((response) => {
-                    setSummaryData(response.data);
-                })
-                .catch((error) => {
-                    console.error("Error fetching shopping cart:", error);
-                });
+                    axios.get(`http://localhost:3001/shoppingcart?userId=${userId}`)
+                        .then((response) => {
+                            setSummaryData(response.data);
+                        })
+                        .catch((error) => {
+                            console.error("Error fetching shopping cart:", error);
+                        });
                 })
                 .catch((error) => {
                     console.error("Token verification error:", error);
