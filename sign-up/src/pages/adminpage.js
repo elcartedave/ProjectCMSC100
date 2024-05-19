@@ -5,6 +5,8 @@ import AdminProductList from "../components/AdminProductList.js";
 import AdminSidebar from "../components/AdminSidebar.js";
 import UserList from "../components/UserList.js";
 import DashBoard from "../components/Dashboard.js";
+import OrderList from "../components/OrderList.js";
+import SalesReport from "../components/SalesReport.js";
 
 const AdminPage = () => {
   return (
@@ -16,6 +18,8 @@ const AdminPage = () => {
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/listproduct" element={<AdminProductList />} />
           <Route path="/userlist" element={<UserList />} />
+          <Route path="/orderlist" element={<OrderList />} />
+          <Route path="/salesreport" element={<SalesReport />} />
         </Routes>
       </div>
     </div>

@@ -31,6 +31,17 @@ const AdminSidebar = () => {
           <button>USERS</button>
         </div>
       </Link>
+      <Link to={"/orderlist"}>
+        <div className="sidebar-item">
+          <button>Orders Management</button>
+        </div>
+      </Link>
+      <Link to={"/salesreport"}>
+        <div className="sidebar-item">
+          <button>Sales Reports</button>
+        </div>
+      </Link>
+
       <h3
         className="logout"
         onClick={() => {
