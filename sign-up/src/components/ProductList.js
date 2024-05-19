@@ -74,7 +74,7 @@ function ProductList() {
   }
 
   function CheckTokenPushCart(tokened, productid, productQuantity) {
-    if (productQuantity != 0) {
+    if (productQuantity !== 0) {
       axios
         .post("http://localhost:3001/shoppingcart", {
           productIDs: productid,
@@ -83,7 +83,7 @@ function ProductList() {
         })
         .then((response) => {
           console.log(response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             alert("added to cart!");
           }
         });

@@ -132,7 +132,7 @@ function ShoppingCart() {
       ) : (
         <p>No items in the shopping cart.</p>
       )}
-      {totalItems != 0 ? (
+      {totalItems !== 0 ? (
         <>
           <p>Total Items: {totalItems}</p>
           <p>Total Price: {totalPrice}</p>
