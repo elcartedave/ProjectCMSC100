@@ -6,50 +6,51 @@ function Checkout() {
   const [summaryData, setSummaryData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [error, setError] = useState("");
 
   
-  const { userid } = useParams();
-  const [userID, setUserID] = useState(null);
-  const [user, setUser] = useState(null);
+//   const { userid } = useParams();
+//   const [userID, setUserID] = useState(null);
+//   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const fetchUserID = async () => {
-      const token = localStorage.getItem("cust-token");
-      if (token) {
-        try {
-          axios
-            .post("http://localhost:3001/token", { token })
-            .then((response) => {
-              setUserID(response.data.tokenData.userId);
-            });
-        } catch (error) {
-          console.error("Error fetching userID:", error);
-        }
-      }
-    };
+//   useEffect(() => {
+//     const fetchUserID = async () => {
+//       const token = localStorage.getItem("cust-token");
+//       if (token) {
+//         try {
+//           axios
+//             .post("http://localhost:3001/token", { token })
+//             .then((response) => {
+//               setUserID(response.data.tokenData.userId);
+//             });
+//         } catch (error) {
+//           console.error("Error fetching userID:", error);
+//         }
+//       }
+//     };
 
-    fetchUserID();
-  }, []);
+//     fetchUserID();
+//   }, []);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (userID === userid) {
-        try {
-          const response = await fetch("http://localhost:3001/userlist");
-          const data = await response.json();
-          const foundUser = data.find((item) => item._id === userID);
-          if (foundUser) {
-            console.log("User found");
-            setUser(foundUser);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      }
-    };
+//   useEffect(() => {
+//     const fetchUser = async () => {
+//       if (userID === userid) {
+//         try {
+//           const response = await fetch("http://localhost:3001/userlist");
+//           const data = await response.json();
+//           const foundUser = data.find((item) => item._id === userID);
+//           if (foundUser) {
+//             console.log("User found");
+//             setUser(foundUser);
+//           }
+//         } catch (error) {
+//           console.error("Error fetching user data:", error);
+//         }
+//       }
+//     };
 
-    fetchUser();
-  }, [userID, userid]);
+//     fetchUser();
+//   }, [userID, userid]);
 
   useEffect(() => {
     const token = localStorage.getItem("cust-token");
@@ -83,29 +84,37 @@ function Checkout() {
     }
   }, []);
 
-  const [orderData, setOrderData] = useState({
-    productID: "",     
-    orderQuantity: "",
-    email: user.email,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString(),
-  });
 
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        console.log(summaryData.length);
+        summaryData.forEach(async element => {
+            const currentDate = new Date();
+            let dateOnly = currentDate.toLocaleDateString();
+            let timeOnly = currentDate.toLocaleTimeString();
+            console.log();
+            let orderData = {
+                productID : element._id,
+                orderQuantity : element.quantity,
+                email : "hello",
+                date: new Date(dateOnly),
+                time: timeOnly,
+            }
+            const response = await axios.post('http://localhost:3001/order', orderData);
+            console.log(response); 
+            if (response && response.data) {
+                setError(response.data); 
+            } else {
+                setError('Response or data is undefined');
+            }
+          });  
+    } catch (error) {
+        setError(error);
+    }
+  };
 
-    const handleSubmit = () => {
-      const productIDs = summaryData.map(item => item.productID).join(', ');
-      const orderQuantities = summaryData.map(item => item.quantity).join(', ');
-
-      setOrderData({
-        ...orderData,
-        productID: productIDs,
-        orderQuantity: orderQuantities,
-
-      });
-
-      console.log(orderData);
-    };
 
   return (
     <div className="container mt-4">
@@ -125,7 +134,6 @@ function Checkout() {
           </div>
         </div>
       ))}
-      <p>Shipping Option: Cash On Delivery</p>
       <p>Total Items: {totalItems}</p>
       <p>Total Price: {totalPrice}</p>
       <button className="btn btn-success" onClick={handleSubmit}>Confirm Transaction</button>

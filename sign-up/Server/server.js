@@ -228,6 +228,39 @@ app.get("/shoppingcart", async function (req, res) {
   }
 });
 
+const orderTransactionSchema = {
+  productID: String,
+  orderQuantity: Number,
+  email: String,
+  date: Date,
+  time: String,
+};
+
+const orderTransaction = mongoose.model(
+  "transactions",
+  orderTransactionSchema,
+  "transactions"
+);
+
+app.post("/order", async function (req, res) {
+  const { productID, orderQuantity, email, date, time } = req.body;
+  var empty = "";
+  if ( productID != empty && orderQuantity != empty && email != empty && date != empty && time != empty) {
+    let newTransaction = new orderTransaction({
+      productID: productID,
+      orderQuantity: orderQuantity,
+      email: email,
+      date: date,
+      time: time,
+    });
+    try {
+      await newTransaction.save();
+      res.status(200).send("Added new transaction");
+    } catch (err) {
+      res.status(500).send("Transaction failed");
+    }
+  }
+});
 
 app.listen(3001, function () {
   console.log("server is running");

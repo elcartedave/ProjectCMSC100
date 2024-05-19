@@ -6,6 +6,7 @@ import UserList from './UserList.js'
 import ProductList from './ProductList.js'
 import Login from './Login.js'
 import ShoppingCart from './ShoppingCart.js'
+import Checkout from './Checkout.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
   { path: '/user-list', element: <UserList />},
   { path: '/product-list', element: <ProductList />},
   { path: '/login', element: <Login />},
-  {path: '/shopc', element: <ShoppingCart />}
+  {path: '/shopc', element: <ShoppingCart />},
+  {path: '/check-out', element: <Checkout />}
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
