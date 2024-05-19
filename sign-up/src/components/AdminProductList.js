@@ -30,9 +30,9 @@ const ListProduct = () => {
 
   return (
     <div className="list-product">
-      <h1 className="admin-header">PRODUCT LIST</h1>
+      <h1 className="admin-header">PRODUCTS</h1>
       <Link to="/addproduct" style={{ textDecoration: "none" }}>
-        <button className="add-product"> <i class='bx bx-plus-circle' ></i> ADD PRODUCT</button>
+        <button className="add-product-button"> <i class='bx bx-plus-circle' ></i> ADD PRODUCT</button>
       </Link>
       <div className="productPanel">
         {allproducts.map((product, index) => {

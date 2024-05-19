@@ -1,10 +1,15 @@
+.list-product{
+    width: 100%;
+    display: inline-block;
+    height: 100%;
+}
+
 .productPanel{
     width: 100%;
-    margin: 10px 10px 20px 20px;
     display: inline-block;
 }
 
-.add-product{
+.add-product-button{
     margin: 40px 10px 0px 40px;
     background: #FFC700;
     border-radius: 20px;
@@ -13,7 +18,7 @@
     font-family: poppins, sans-serif;
 }
 
-.add-product:hover{
+.add-product-button:hover{
     background: linear-gradient(90deg, #1E4F2A 0%, #45B560 100%);
     color: #fff;
     box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
@@ -21,7 +26,7 @@
 .productCard {
     width: 23%; 
     height: 300px;
-    margin: 10px; 
+    margin: 12px;
     padding: 16px;
     text-align: center;
     display: inline-block;  
@@ -42,7 +47,6 @@
 
 .productCard:hover {
     background: linear-gradient(180deg, #FFC700 0%, #FDDA5E 100%);
-    scale: 1.05;
 }
 
 .product-price{
@@ -89,6 +93,7 @@
     margin-top: 10px;
     margin-bottom: 15px;
     text-transform: capitalize;
+    width:90%;
 }
 
 .product-delete{
