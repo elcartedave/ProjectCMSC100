@@ -297,7 +297,7 @@ app.post("/createOrder", async function (req, res) {
 });
 
 app.get("/createOrder", async function (req, res) {
-  const result = await orderTransaction.find({status:"Pending"});
+  const result = await orderTransaction.find({});
   res.send(result);
 });
 
@@ -335,6 +335,11 @@ app.post("/confirmOrder", async function (req, res) {
   }
 });
 
+app.get("/confirmOrder", async function (req, res) {
+  const result = await orderTransaction.find({status:"Success"});
+  res.send(result);
+});
+
 app.post("/declineOrder", async function (req, res) {
   const { transactionID } = req.body;
   if (transactionID) {
@@ -354,6 +359,11 @@ app.post("/declineOrder", async function (req, res) {
   } else {
     res.status(400).send("Invalid request, transaction ID required");
   }
+});
+
+app.get("/declineOrder", async function (req, res) {
+  const result = await orderTransaction.find({status:"Canceled"});
+  res.send(result);
 });
 
 app.post("/shoppingcart", async function (req, res) {
