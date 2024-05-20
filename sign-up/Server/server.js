@@ -310,7 +310,7 @@ app.post("/confirmOrder", async function (req, res) {
       if (!transaction) {
         return res.status(404).send("Transaction not found");
       }
-      transaction.status = "Confirm";
+      transaction.status = "Success";
       await transaction.save();
       
       for (const product of transaction.products) {
@@ -344,7 +344,7 @@ app.post("/declineOrder", async function (req, res) {
         return res.status(404).send("Transaction not found");
       }
       
-      transaction.status = "Decline";
+      transaction.status = "Canceled";
       await transaction.save();
       
       res.status(200).send("Transaction status updated to Decline");
