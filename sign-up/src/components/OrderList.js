@@ -1,30 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
 
-
-    useEffect(() => {
-      axios.get('http://localhost:3001/createOrder').then((response) => {
-        setOrders(response.data);
-      });
+  useEffect(() => {
+    axios.get("http://localhost:3001/createOrder").then((response) => {
+      setOrders(response.data);
     });
+  }, []);
 
   const handleConfirm = async (transactionID) => {
     console.log(transactionID);
     try {
-      await axios.post('http://localhost:3001/confirmOrder', { transactionID });
+      await axios.post("http://localhost:3001/confirmOrder", { transactionID });
     } catch (error) {
-      console.error('Failed to confirm order:', error);
+      console.error("Failed to confirm order:", error);
     }
   };
 
   const handleDecline = async (transactionID) => {
     try {
-      await axios.post('http://localhost:3001/declineOrder', { transactionID });
+      await axios.post("http://localhost:3001/declineOrder", { transactionID });
     } catch (error) {
-      console.error('Failed to decline order:', error);
+      console.error("Failed to decline order:", error);
     }
   };
 
