@@ -4,21 +4,15 @@ import axios from 'axios';
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      console.log(orders);
-      try {
-        const response = await axios.get('http://localhost:3001/createOrder');
-        setOrders(response.data);
-      } catch (error) {
-        console.error('Failed to fetch orders:', error);
-      }
-    };
 
-    fetchOrders();
-  }, []);
+    useEffect(() => {
+      axios.get('http://localhost:3001/createOrder').then((response) => {
+        setOrders(response.data);
+      });
+    });
 
   const handleConfirm = async (transactionID) => {
+    console.log(transactionID);
     try {
       await axios.post('http://localhost:3001/confirmOrder', { transactionID });
     } catch (error) {

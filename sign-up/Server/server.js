@@ -302,10 +302,11 @@ app.get("/createOrder", async function (req, res) {
 });
 
 app.post("/confirmOrder", async function (req, res) {
-  const { transactionID } = req.body;
+  const {transactionID} = req.body;
   if (transactionID) {
     try {
       const transaction = await orderTransaction.findById(transactionID);
+      console.log(transaction);
       if (!transaction) {
         return res.status(404).send("Transaction not found");
       }
@@ -313,15 +314,18 @@ app.post("/confirmOrder", async function (req, res) {
       await transaction.save();
       
       for (const product of transaction.products) {
-        const existingProduct = await Product.findById(product._id);
-        if (!existingProduct) {
-          return res.status(404).send(`Product ${product._id} not found`);
+        try {
+          const existingProduct = await Product.findById(product.productID);
+          if (!existingProduct) {
+            return res.status(404).send(`Product ${product.productID} not found`);
+          }
+          existingProduct.quantity -= product.orderQuantity;
+          await existingProduct.save();
+        } catch (error) {
+          console.error("Error updating product quantity:", error);
+          return res.status(500).send("Failed to update product quantity");
         }
-        
-        existingProduct.quantity -= product.orderQuantity;
-        await existingProduct.save();
       }
-      
       res.status(200).send("Transaction status updated to Confirm, product quantities updated");
     } catch (err) {
       res.status(500).send("Failed to update transaction status or product quantities");
