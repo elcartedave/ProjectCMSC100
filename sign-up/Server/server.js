@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 });
 await mongoose.connect(
   "mongodb+srv://elcartedave:cmsc100@cluster0.o6ffaeb.mongodb.net/"
+  //  "mongodb+srv://sadiares1:hKgPfm6gaefBBSm1@cluster0.namen2s.mongodb.net/ICS"
 );
 
 //create model
@@ -292,6 +293,62 @@ app.post("/createOrder", async function (req, res) {
     } catch (err) {
       res.status(500).send("Transaction failed");
     }
+  }
+});
+
+app.get("/createOrder", async function (req, res) {
+  const result = await orderTransaction.find({status:"Pending"});
+  res.send(result);
+});
+
+app.post("/confirmOrder", async function (req, res) {
+  const { transactionID } = req.body;
+  if (transactionID) {
+    try {
+      const transaction = await orderTransaction.findById(transactionID);
+      if (!transaction) {
+        return res.status(404).send("Transaction not found");
+      }
+      transaction.status = "Confirm";
+      await transaction.save();
+      
+      for (const product of transaction.products) {
+        const existingProduct = await Product.findById(product._id);
+        if (!existingProduct) {
+          return res.status(404).send(`Product ${product._id} not found`);
+        }
+        
+        existingProduct.quantity -= product.orderQuantity;
+        await existingProduct.save();
+      }
+      
+      res.status(200).send("Transaction status updated to Confirm, product quantities updated");
+    } catch (err) {
+      res.status(500).send("Failed to update transaction status or product quantities");
+    }
+  } else {
+    res.status(400).send("Invalid request, transaction ID required");
+  }
+});
+
+app.post("/declineOrder", async function (req, res) {
+  const { transactionID } = req.body;
+  if (transactionID) {
+    try {
+      const transaction = await orderTransaction.findById(transactionID);
+      if (!transaction) {
+        return res.status(404).send("Transaction not found");
+      }
+      
+      transaction.status = "Decline";
+      await transaction.save();
+      
+      res.status(200).send("Transaction status updated to Decline");
+    } catch (err) {
+      res.status(500).send("Failed to update transaction status");
+    }
+  } else {
+    res.status(400).send("Invalid request, transaction ID required");
   }
 });
 
