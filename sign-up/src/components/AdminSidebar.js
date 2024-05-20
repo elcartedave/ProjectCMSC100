@@ -33,7 +33,7 @@ const AdminSidebar = () => {
       </Link>
       <Link to={"/orderlist"}>
         <div className="sidebar-item">
-          <button>Orders Management</button>
+          <button>ORDERS</button>
         </div>
       </Link>
       <Link to={"/salesreport"}>
