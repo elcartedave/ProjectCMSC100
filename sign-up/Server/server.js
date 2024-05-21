@@ -302,7 +302,7 @@ app.get("/createOrder", async function (req, res) {
 });
 
 app.post("/confirmOrder", async function (req, res) {
-  const {transactionID} = req.body;
+  const { transactionID } = req.body;
   if (transactionID) {
     try {
       const transaction = await orderTransaction.findById(transactionID);
@@ -310,34 +310,45 @@ app.post("/confirmOrder", async function (req, res) {
       if (!transaction) {
         return res.status(404).send("Transaction not found");
       }
-      transaction.status = "Success";
-      await transaction.save();
-      
+
       for (const product of transaction.products) {
-        try {
-          const existingProduct = await Product.findById(product.productID);
-          if (!existingProduct) {
-            return res.status(404).send(`Product ${product.productID} not found`);
-          }
-          existingProduct.quantity -= product.orderQuantity;
-          await existingProduct.save();
-        } catch (error) {
-          console.error("Error updating product quantity:", error);
-          return res.status(500).send("Failed to update product quantity");
+        const existingProduct = await Product.findById(product.productID);
+        if (!existingProduct) {
+          return res.status(404).send(`Product ${product.productID} not found`);
+        }
+
+        if (existingProduct.quantity < product.orderQuantity) {
+          transaction.status = "Cancelled";
+          await transaction.save();
+          return res
+            .status(200)
+            .send("Transaction cancelled due to insufficient product quantity");
         }
       }
-      res.status(200).send("Transaction status updated to Confirm, product quantities updated");
+
+      transaction.status = "Success";
+      await transaction.save();
+
+      for (const product of transaction.products) {
+        const existingProduct = await Product.findById(product.productID);
+        existingProduct.quantity -= product.orderQuantity;
+        await existingProduct.save();
+      }
+
+      res
+        .status(200)
+        .send(
+          "Transaction status updated to Success, product quantities updated"
+        );
     } catch (err) {
-      res.status(500).send("Failed to update transaction status or product quantities");
+      console.error("Error updating transaction or product quantities:", err);
+      res
+        .status(500)
+        .send("Failed to update transaction status or product quantities");
     }
   } else {
     res.status(400).send("Invalid request, transaction ID required");
   }
-});
-
-app.get("/confirmOrder", async function (req, res) {
-  const result = await orderTransaction.find({status:"Success"});
-  res.send(result);
 });
 
 app.post("/declineOrder", async function (req, res) {
@@ -348,10 +359,10 @@ app.post("/declineOrder", async function (req, res) {
       if (!transaction) {
         return res.status(404).send("Transaction not found");
       }
-      
+
       transaction.status = "Canceled";
       await transaction.save();
-      
+
       res.status(200).send("Transaction status updated to Decline");
     } catch (err) {
       res.status(500).send("Failed to update transaction status");
@@ -359,11 +370,6 @@ app.post("/declineOrder", async function (req, res) {
   } else {
     res.status(400).send("Invalid request, transaction ID required");
   }
-});
-
-app.get("/declineOrder", async function (req, res) {
-  const result = await orderTransaction.find({status:"Canceled"});
-  res.send(result);
 });
 
 app.post("/shoppingcart", async function (req, res) {

@@ -33,14 +33,15 @@ const ListProduct = () => {
       <h1 className="admin-header">PRODUCTS</h1>
       <Link to="/addproduct" style={{ textDecoration: "none" }}>
         <button className="add-product-button">
-          {" "}
-          <i class="bx bx-plus-circle"></i> ADD PRODUCT
+          <i className="bx bx-plus-circle"></i> ADD PRODUCT
         </button>
       </Link>
-      <div className="productPanel">
-        {allproducts.map((product, index) => {
-          return (
-            <>
+      {allproducts.length === 0 ? (
+        <div>No products available</div>
+      ) : (
+        <div className="productPanel">
+          {allproducts.map((product, index) => {
+            return (
               <div key={index} className="productCard">
                 <img src={product.image} alt="" />
                 <p className="product-name">{product.name}</p>
@@ -56,10 +57,10 @@ const ListProduct = () => {
                   DELETE
                 </button>
               </div>
-            </>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

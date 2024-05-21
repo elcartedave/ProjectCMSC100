@@ -74,7 +74,7 @@ function ProductList() {
   }
 
   function CheckTokenPushCart(tokened, productid, productQuantity) {
-    if (productQuantity !== 0) {
+    if (productQuantity > 0) {
       axios
         .post("http://localhost:3001/shoppingcart", {
           productIDs: productid,
@@ -94,44 +94,56 @@ function ProductList() {
 
   return (
     <>
-      <div className="row">
-        <Filter FonChangeSelect={FonChangeVS}></Filter>
-      </div>
-      <div className="container mt-5">
-        <div className="row">
-          {fProductList().map((prod) => {
-            return (
-              <div className="col-md-4 mb-4" key={prod._id}>
-                <div className="card h-100">
-                  <div className="card-body">
-                    <img
-                      src={prod.image}
-                      alt=""
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                    <h5 className="card-title">{prod.name}</h5>
-                    <br />
-                    <h6 className="card-subtitle mb-2 text-muted">
-                      Type: {prod.type}
-                    </h6>
-                    <p className="card-text">Price: ₱{prod.price}</p>
-                    <p className="card-text">Description: {prod.description}</p>
-                    <p className="card-text">Quantity: {prod.quantity}</p>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() =>
-                        CheckTokenPushCart(tokenData, prod._id, prod.quantity)
-                      }
-                    >
-                      Add to cart
-                    </button>
+      {fProductList().length === 0 ? (
+        <h1>NO PRODUCTS!</h1>
+      ) : (
+        <>
+          <div className="row">
+            <Filter FonChangeSelect={FonChangeVS}></Filter>
+          </div>
+          <div className="container mt-5">
+            <div className="row">
+              {fProductList().map((prod) => {
+                return (
+                  <div className="col-md-4 mb-4" key={prod._id}>
+                    <div className="card h-100">
+                      <div className="card-body">
+                        <img
+                          src={prod.image}
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        />
+                        <h5 className="card-title">{prod.name}</h5>
+                        <br />
+                        <h6 className="card-subtitle mb-2 text-muted">
+                          Type: {prod.type}
+                        </h6>
+                        <p className="card-text">Price: ₱{prod.price}</p>
+                        <p className="card-text">
+                          Description: {prod.description}
+                        </p>
+                        <p className="card-text">Quantity: {prod.quantity}</p>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() =>
+                            CheckTokenPushCart(
+                              tokenData,
+                              prod._id,
+                              prod.quantity
+                            )
+                          }
+                        >
+                          Add to cart
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

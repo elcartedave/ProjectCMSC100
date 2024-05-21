@@ -1,110 +1,145 @@
-.ordernumber-field{
-    margin: 20px 0px 20px 0px;
-    width: 100%;
-    display:flex;
-    justify-content: space-around;
-    cursor: pointer;
+.ordernumber-field {
+  margin: 20px 0px 20px 0px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  cursor: pointer;
 }
 
-.pending-header{
-    margin: 50px 10px 0px 70px;
-    color: #1e4f2a;
-    font-family: "Raleway", sans-serif;
-    font-size: 30px;
-    font-weight: 700;
+.pending-header {
+  margin: 50px 10px 0px 70px;
+  color: #1e4f2a;
+  font-family: "Raleway", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
 }
 
-.ordernumber-card{
-    width: 20%;
-    background-color: #FFC700;
-    text-align: center;
-    border-radius: 20px;
+.ordernumber-card {
+  width: 20%;
+  background-color: #ffc700;
+  text-align: center;
+  border-radius: 20px;
 }
 
-.ordernumber-card:hover{
-    background: linear-gradient(90deg, #1E4F2A 0%, #45B560 100%);
-    box-shadow: 0px 4px 15px 5px rgba(0, 0, 0, 0.25);
-    color: #fff;
-    scale: 1.1;
+.ordernumber-card:hover {
+  background: linear-gradient(90deg, #1e4f2a 0%, #45b560 100%);
+  box-shadow: 0px 4px 15px 5px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  scale: 1.1;
 }
 
-.ordernumber-card:hover .order-title{
-    color: #fff;
+.ordernumber-card:hover .order-title {
+  color: #fff;
 }
 
-.ordernumber-card:hover .order-number{
-    color: #fff;
+.ordernumber-card:hover .order-number {
+  color: #fff;
 }
 
-.order-number, .order-title{
-    color: #000;
-    margin-top: 10px;
-    font-family: poppins, sans-serif;
+.order-number,
+.order-title {
+  color: #000;
+  margin-top: 10px;
+  font-family: poppins, sans-serif;
 }
 
-.order-title{
-    font-size: 20px;
-    padding-top: 5px;
-    padding-bottom: 0px;
-    font-weight: 700;
+.order-title {
+  font-size: 20px;
+  padding-top: 5px;
+  padding-bottom: 0px;
+  font-weight: 700;
 }
 
-.order-number{
-    padding-bottom: 5px;
-    padding-top: 0px;
-    font-size: 18px;
-    font-weight: 500;
+.order-number {
+  padding-bottom: 5px;
+  padding-top: 0px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.order-name, .no-pending{
-    padding: 20px 0px 15px 30px;
-    color: #1E4F2A;
-    font-family: poppins, sans-serif;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    text-transform: uppercase;
+.order-name {
+  padding: 20px 0px 15px 30px;
+  color: #1e4f2a;
+  font-family: poppins, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: left;
+}
+.no-pending {
+  padding: 20px 0px 15px 30px;
+  color: #1e4f2a;
+  font-family: poppins, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.order-description, .order-price{
-    color: #000;
-    font-family: poppins, sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
+.order-description,
+.order-price {
+  color: #000;
+  font-family: poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
 }
 
-.order-price{
-    padding-left: 35px;
+.order-products {
+  color: #000;
+  font-family: poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: center;
 }
 
-.confirm-btn, .cancel-btn {
-    color: #fff;
-    align-items: center;
-    cursor: pointer;
-    font-size: 15px;
-    border-radius: 20px;
-    border: none;
-    padding: 5px 10px 5px 10px;
-    font-family: 'Poppins', sans-serif;
-    margin-bottom: 15px;
-    margin-right: 10px;
+.order-status {
+  color: #000;
+  font-family: poppins, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: center;
 }
 
-.confirm-btn{
-    background: #20882B;
+.order-price {
+  padding-left: 35px;
 }
 
-.cancel-btn{
-    background:#882020;
+.confirm-btn,
+.cancel-btn {
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 20px;
+  border: none;
+  padding: 5px 10px 5px 10px;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 15px;
+  margin-right: 10px;
 }
 
-.confirm-btn:hover{
-    background: linear-gradient(to right, #20882B, #2AC43A);
-    box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+.confirm-btn {
+  background: #20882b;
 }
 
-.cancel-btn:hover{
-    background: linear-gradient(to right, #882020, #B32C2C);
-    box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+.cancel-btn {
+  background: #882020;
+}
+
+.confirm-btn:hover {
+  background: linear-gradient(to right, #20882b, #2ac43a);
+  box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(to right, #882020, #b32c2c);
+  box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+td {
+  text-align: center;
 }
