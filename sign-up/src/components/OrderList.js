@@ -6,6 +6,7 @@ const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("Pending");
+  const [cart, setShoppingCart] = useState([]);
 
   useEffect(() => {
     fetchOrders();
@@ -30,6 +31,15 @@ const OrderList = () => {
     }
   };
 
+  const fetchShoppingCart = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/shoppingcart");
+      setShoppingCart(response.data);
+    } catch (error) {
+      console.error("Failed to fetch ShoppingCart:", error);
+    }
+  };
+
   const getProductNameById = (productID) => {
     const product = products.find((item) => item._id === productID);
     return product ? product.name : "Unknown Product";
@@ -40,6 +50,7 @@ const OrderList = () => {
       const response = await axios.post("http://localhost:3001/confirmOrder", {
         transactionID,
       });
+
       const updatedStatus = response.data.includes("cancelled")
         ? "Cancelled"
         : "Success";
@@ -76,6 +87,8 @@ const OrderList = () => {
   const filteredOrders = orders.filter(
     (order) => order.status === selectedStatus
   );
+
+  filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const totalPending = orders.filter(
     (order) => order.status === "Pending"
@@ -165,13 +178,13 @@ const OrderList = () => {
                     <td>
                       <button
                         className="confirm-btn"
-                        onClick={() => handleConfirm(order._id)}
+                        onClick={() => handleConfirm(order._id, order.email)}
                       >
                         <i className="bx bx-check" />
                       </button>
                       <button
                         className="cancel-btn"
-                        onClick={() => handleDecline(order._id)}
+                        onClick={() => handleDecline(order._id, order.email)}
                       >
                         <i className="bx bx-x" />
                       </button>

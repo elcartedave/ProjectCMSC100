@@ -273,9 +273,18 @@ app.post("/createOrder", async function (req, res) {
     let totalOrderQuantity = 0;
     let totalOrderPrice = 0;
 
-    products.forEach((product) => {
+    products.forEach(async (product) => {
       totalOrderQuantity += product.orderQuantity;
       totalOrderPrice += product.totalPrice;
+      try {
+        await SCS.deleteOne({
+          userID: userID,
+          productID: product.productID,
+        });
+      } catch (error) {
+        console.error("Error deleting cart items:", error);
+        return res.status(500).send("Failed to delete cart items");
+      }
     });
 
     let newTransaction = new orderTransaction({
@@ -306,11 +315,9 @@ app.post("/confirmOrder", async function (req, res) {
   if (transactionID) {
     try {
       const transaction = await orderTransaction.findById(transactionID);
-      console.log(transaction);
       if (!transaction) {
         return res.status(404).send("Transaction not found");
       }
-
       for (const product of transaction.products) {
         const existingProduct = await Product.findById(product.productID);
         if (!existingProduct) {
@@ -360,7 +367,7 @@ app.post("/declineOrder", async function (req, res) {
         return res.status(404).send("Transaction not found");
       }
 
-      transaction.status = "Canceled";
+      transaction.status = "Cancelled";
       await transaction.save();
 
       res.status(200).send("Transaction status updated to Decline");

@@ -6,6 +6,8 @@ export const UserDetailsPage = () => {
   const { userid } = useParams();
   const [userID, setUserID] = useState(null);
   const [user, setUser] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchUserID = async () => {
@@ -24,6 +26,8 @@ export const UserDetailsPage = () => {
     };
 
     fetchUserID();
+    fetchOrders();
+    fetchProducts();
   }, []);
 
   useEffect(() => {
@@ -46,6 +50,33 @@ export const UserDetailsPage = () => {
     fetchUser();
   }, [userID, userid]);
 
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/createOrder");
+      setOrders(response.data);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/productlist");
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  };
+
+  const getProductNameById = (productID) => {
+    const product = products.find((item) => item._id === productID);
+    return product ? product.name : "Deleted Product";
+  };
+
+  const filteredOrders = orders
+    .filter((order) => order.userID === userID)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
   return (
     <div>
       {user ? (
@@ -55,6 +86,38 @@ export const UserDetailsPage = () => {
               Name: {user.firstName} {user.lastName}
             </h3>
             <p>Email: {user.email}</p>
+          </div>
+          <div>
+            <div>
+              <p>Order History</p>
+            </div>
+            {filteredOrders.length === 0 ? (
+              <tr>
+                <td className="no-pending" colSpan="6">
+                  No orders
+                </td>
+              </tr>
+            ) : (
+              filteredOrders.map((order) => (
+                <>
+                  <tr key={order._id}>
+                    <td className="order-name">{order._id}</td>
+                    <td className="order-description">{order.date}</td>
+                    <td className="order-price">{order.totalPrice}</td>
+                    <td className="order-products">
+                      {order.products.map((product, index) => (
+                        <div key={index}>
+                          {getProductNameById(product.productID)} x{" "}
+                          {product.orderQuantity}
+                        </div>
+                      ))}
+                    </td>
+                    <td className="order-status">{order.status}</td>
+                  </tr>
+                  <br />
+                </>
+              ))
+            )}
           </div>
         </>
       ) : (
