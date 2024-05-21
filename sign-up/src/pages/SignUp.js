@@ -8,13 +8,13 @@ const SignUp = () => {
     userType: "customer",
     email: "",
     password: "",
-  });
+  });//it is a state with object that includes data that will be needed in signing up (the userType is predefined as customer)
 
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setsignupData({ ...signupData, [e.target.name]: e.target.value });
-  };
+  };//sets the signupData in use state that spread signupData, e.target.name is about name attribute in form : while e.target.value is like the key
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ const SignUp = () => {
       const response = await axios.post(
         "http://localhost:3001/signup",
         signupData
-      );
+      );//a post request that transfer the signupData to backend and will wait for the response if it is saved or not
       console.log(response);
       if (response && response.data) {
         alert(response.data);

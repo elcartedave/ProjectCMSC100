@@ -4,22 +4,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
 function ShoppingCart() {
-  const [summaryData, setSummaryData] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [summaryData, setSummaryData] = useState([]);//empty array
+  const [totalItems, setTotalItems] = useState(0);// 0 items
+  const [totalPrice, setTotalPrice] = useState(0);//0 price
 
   useEffect(() => {
-    const token = localStorage.getItem("cust-token");
+    const token = localStorage.getItem("cust-token");//gets the  "cust-token" then assign into token
     if (token) {
       axios
-        .post("http://localhost:3001/token", { token })
+        .post("http://localhost:3001/token", { token }) //post method that verifies the token
         .then((response) => {
-          const tokenData = response.data.tokenData;
-          const userId = tokenData.userId;
+          const tokenData = response.data.tokenData;//gets the tokenData from the response
+          const userId = tokenData.userId; //gets the userId from the tokenData 
           console.log("User ID from token:", userId);
 
           axios
-            .get("http://localhost:3001/shoppingcart", { params: { userId } })
+            .get("http://localhost:3001/shoppingcart", { params: { userId } })//the userId will be use to verify which shopping cart is being access
             .then((response) => {
               setSummaryData(response.data);
               console.log("Shopping cart data:", response.data);
@@ -29,8 +29,8 @@ function ShoppingCart() {
                 items += item.quantity;
                 price += item.totalPrice;
               });
-              setTotalItems(items);
-              setTotalPrice(price);
+              setTotalItems(items);//updates the totalItems from each of the items in shopping cart 
+              setTotalPrice(price);//same here but it adds up the price
             })
             .catch((error) => {
               console.error("Error fetching shopping cart:", error);
@@ -43,7 +43,7 @@ function ShoppingCart() {
   }, []);
 
   const handleRemove = (productID) => {
-    const token = localStorage.getItem("cust-token");
+    const token = localStorage.getItem("cust-token");//gets the  "cust-token" then assign into token - same in the useEffect this process needs to be done to verify the user
     axios
       .post("http://localhost:3001/token", { token })
       .then((response) => {
@@ -54,14 +54,14 @@ function ShoppingCart() {
           .post("http://localhost:3001/removeitem", {
             productID,
             userID,
-          })
+          })//when removing an item the productID and userID must be presented as you want to know which product would be remove and from which user
           .then((response) => {
             if (response.data.success) {
               // Update the summaryData state to decrease the quantity or remove the item
               const updatedSummaryData = summaryData
                 .map((item) => {
-                  if (item._id === productID) {
-                    if (item.quantity > 1) {
+                  if (item._id === productID) {//if item id match with product id (identified in shopping cart)
+                    if (item.quantity > 1) {//if greater than 1 just subtract from quantity
                       return {
                         ...item,
                         quantity: item.quantity - 1,
@@ -69,13 +69,13 @@ function ShoppingCart() {
                           item.totalPrice - item.totalPrice / item.quantity,
                       };
                     }
-                    return null; // This will be filtered out
+                    return null; // This will be filtered out (simply removal of the item)
                   }
-                  return item;
+                  return item;//Returns the unchanged item if productID does not match.
                 })
-                .filter(Boolean);
+                .filter(Boolean);//if any null values is find it will be filtered out from updatedSummaryData
 
-              setSummaryData(updatedSummaryData);
+              setSummaryData(updatedSummaryData);//needs to set the updated for summary data
 
               // Recalculate total items and total price
               let items = 0;

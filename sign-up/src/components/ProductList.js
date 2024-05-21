@@ -1,16 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Filter from "./Filter.js";
+import Filter from "./Filter.js"; //import the filter for sorting
 import "./CSS/UserProductList.css";
 
 function ProductList() {
-  const [product, setProduct] = useState([]);
-  const [tokenData, settokenData] = useState([]);
-  const [filtered, setFilter] = useState("all");
-  let ProductL = [...product];
+  const [product, setProduct] = useState([]); //empty state
+  const [tokenData, settokenData] = useState([]); //empty state
+  const [filtered, setFilter] = useState("all"); //initially the showed products is all (unsorted just the way it was loaded)
+  let ProductL = [...product];//spread the product
 
-  const fProductList = () => {
+  const fProductList = () => {//this is a function that what is going to happen if the product is sorted any of by name, type, price, and quantity arranged in descending order
     return ProductL.sort((a, b) => {
       if (filtered === "name") {
         let first = a.name.toLowerCase();
@@ -68,11 +68,11 @@ function ProductList() {
       settokenData(response.data.tokenData);
       console.log(response);
     });
-  }, []);
+  }, []);//get all product and token for which shopping cart of the user will be filled in 
 
   function FonChangeVS(fValue) {
     setFilter(fValue);
-  }
+  }//gets whether you choose name, type, price quantity or all
 
   function CheckTokenPushCart(tokened, productid, productQuantity) {
     if (productQuantity > 0) {
@@ -91,7 +91,7 @@ function ProductList() {
     } else {
       alert("Out of stocks");
     }
-  }
+  }//it pass the parameters tokened: as which userid is used, productid compare to products.id and product quantity always 1
 
   return (
     <>

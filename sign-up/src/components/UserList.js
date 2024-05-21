@@ -2,15 +2,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./CSS/UserList.css";
 
+//function that gets all users
 function UserList() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);//loads all user later
 
   useEffect(() => {
     axios.get("http://localhost:3001/userlist").then((response) => {
       setUsers(response.data);
       console.log(response);
     });
-  });
+  });//get request from /userlist then set the response.data to setUsers
 
   const deleteUser = (id) => {
     axios
@@ -23,7 +24,7 @@ function UserList() {
       .catch((error) => {
         console.error("Error deleting user:", error);
       });
-  };
+  };//delete a user by passing the id, it checks and filter the user by id post because it needs a parameter
 
   const customerUsers = users.filter((user) => user.userType === "customer"); //to show users with type customer only
 

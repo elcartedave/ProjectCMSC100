@@ -5,34 +5,34 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css"; // Import the CSS file
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //use later for routing
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
-  });
+  });//states with loginData object with empty string
 
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
-  };
+  };//sets the loginData in use state that spread loginData, e.target.name is about name attribute in form : while e.target.value is like the key
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();//prevent from reloading
     try {
       const response = await axios.post(
         "http://localhost:3001/login",
         loginData
-      );
-      const token = response.data.token;
+      );//with the data set from the form now will be use in req.body to check if it is existing
+      const token = response.data.token;//extracts token from the response
       alert("Login Successful!");
       window.location.reload();
       navigate("/");
       if (response.data.userType === "customer") {
-        localStorage.setItem("cust-token", token);
+        localStorage.setItem("cust-token", token);//if the user is authenticate as a customer only the customer pages will be available
       }
       if (response.data.userType === "admin") {
-        localStorage.setItem("admin-token", token);
+        localStorage.setItem("admin-token", token);//if the user is an admin it will only see what admin pages, setting of token in the localStorage as admin-token
       }
       console.log(response);
     } catch (error) {

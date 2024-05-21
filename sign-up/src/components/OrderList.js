@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "axios"; //send requests to servers to get data (like fetching information from an API) or to send data (like submitting a form).
 import "./CSS/OrderList.css";
 
 const OrderList = () => {
-  const [orders, setOrders] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState("Pending");
+  const [orders, setOrders] = useState([]); //empty state of array at first
+  const [products, setProducts] = useState([]); //empty state of array at first
+  const [selectedStatus, setSelectedStatus] = useState("Pending"); //all status is initialized as pending
 
   useEffect(() => {
     fetchOrders();
     fetchProducts();
-  }, []);
+  }, []); //empty array initialize
 
   const fetchOrders = async () => {
     try {
@@ -19,7 +19,7 @@ const OrderList = () => {
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
-  };
+  };//get orders from get and sets from setOrders(response.data) are the order documents
 
   const fetchProducts = async () => {
     try {
@@ -28,12 +28,12 @@ const OrderList = () => {
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
-  };
+  };//gets all product from productlist
 
   const getProductNameById = (productID) => {
     const product = products.find((item) => item._id === productID);
     return product ? product.name : "Unknown Product";
-  };
+  };//function that compare ordermid to productID if it is existing 
 
   const handleConfirm = async (transactionID) => {
     try {
@@ -46,7 +46,7 @@ const OrderList = () => {
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === transactionID
-            ? { ...order, status: updatedStatus }
+            ? { ...order, status: updatedStatus }//go to the status key pair then update status 
             : order
         )
       );
@@ -56,7 +56,7 @@ const OrderList = () => {
     } catch (error) {
       alert("Failed to confirm order:", error.response);
     }
-  };
+  };//this handle confirm or the status will be updated by the admin to success
 
   const handleDecline = async (transactionID) => {
     try {
@@ -71,22 +71,22 @@ const OrderList = () => {
     } catch (error) {
       console.error("Failed to decline order:", error);
     }
-  };
+  };//passes the transactioin id for verification on the status that it will be failed 
 
   const filteredOrders = orders.filter(
     (order) => order.status === selectedStatus
-  );
+  );//filters order status based on selected status
 
   const totalPending = orders.filter(
     (order) => order.status === "Pending"
-  ).length;
+  ).length; //gets how many is pending
   const totalSuccess = orders.filter(
     (order) => order.status === "Success"
-  ).length;
+  ).length;//gets how many orders were successful
   const totalCancelled = orders.filter(
     (order) => order.status === "Cancelled"
-  ).length;
-  const totalOrders = totalCancelled + totalPending + totalSuccess;
+  ).length;//gets how many orders were cencelled
+  const totalOrders = totalCancelled + totalPending + totalSuccess; //to dispaly total order regardless of the orders status
 
   return (
     <div>
