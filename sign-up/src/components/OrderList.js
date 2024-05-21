@@ -86,17 +86,11 @@ const OrderList = () => {
   const totalCancelled = orders.filter(
     (order) => order.status === "Cancelled"
   ).length;
-  const totalOrders = totalCancelled + totalPending + totalSuccess;
 
   return (
     <div>
       <h1 className="admin-header">ORDER MANAGEMENT</h1>
       <div className="ordernumber-field">
-        <div>
-          <h2 className="order-title">TOTAL ORDERS</h2>
-          <h3 className="order-number">{totalOrders}</h3>
-        </div>
-
         <div
           className="ordernumber-card"
           onClick={() => setSelectedStatus("Pending")}
