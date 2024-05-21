@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Filter from "./Filter.js";
+import "./CSS/UserProductList.css";
 
 function ProductList() {
   const [product, setProduct] = useState([]);
@@ -94,43 +95,33 @@ function ProductList() {
 
   return (
     <>
-      <div className="row">
+      <div className="list-product">
         <Filter FonChangeSelect={FonChangeVS}></Filter>
       </div>
-      <div className="container mt-5">
-        <div className="row">
+      <div className="productPanel">
           {fProductList().map((prod) => {
             return (
-              <div className="col-md-4 mb-4" key={prod._id}>
-                <div className="card h-100">
-                  <div className="card-body">
+              <div className="productCard" key={prod._id}>
                     <img
                       src={prod.image}
                       alt=""
                       style={{ width: "100px", height: "100px" }}
                     />
-                    <h5 className="card-title">{prod.name}</h5>
-                    <br />
-                    <h6 className="card-subtitle mb-2 text-muted">
-                      Type: {prod.type}
-                    </h6>
-                    <p className="card-text">Price: ₱{prod.price}</p>
-                    <p className="card-text">Description: {prod.description}</p>
-                    <p className="card-text">Quantity: {prod.quantity}</p>
+                    <p className="product-name">{prod.name}</p>
+                    <p className="product-price"> ₱{prod.price}</p>
+                    <p className="product-type">Type: {prod.type} | Quantity: {prod.quantity}</p>
+                    <p className="product-description">{prod.description}</p>
                     <button
-                      className="btn btn-primary"
+                      className="product-add"
                       onClick={() =>
                         CheckTokenPushCart(tokenData, prod._id, prod.quantity)
                       }
                     >
-                      Add to cart
+                    <i class='bx bx-cart-add'></i>  ADD TO CART
                     </button>
-                  </div>
-                </div>
               </div>
             );
           })}
-        </div>
       </div>
     </>
   );
