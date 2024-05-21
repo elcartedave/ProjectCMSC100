@@ -277,7 +277,7 @@ app.post("/createOrder", async function (req, res) {
       totalOrderQuantity += product.orderQuantity;
       totalOrderPrice += product.totalPrice;
       try {
-        await SCS.deleteOne({
+        await SCS.deleteMany({
           userID: userID,
           productID: product.productID,
         });
