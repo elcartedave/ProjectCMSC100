@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./Checkout.css"; // Import your CSS file
 
 function Checkout() {
   const [summaryData, setSummaryData] = useState([]);
@@ -83,26 +84,28 @@ function Checkout() {
 
   return (
     <div className="container mt-4">
-      <h2>Checkout Summary</h2>
-      {summaryData.map((item) => (
-        <div className="card mb-3" key={item._id}>
-          <div className="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <h5 className="card-title">{item.productName}</h5>
-            </div>
-            <div>
-              <p className="card-text">Quantity: {item.quantity}</p>
-            </div>
-            <div>
-              <p className="card-text">Total Price: P{item.totalPrice}</p>
+      <h2 className="checkout-title">Checkout Summary</h2>
+      <div className="card-container">
+        {summaryData.map((item) => (
+          <div className="card card-checkout" key={item._id}>
+            <div className="card-body d-flex justify-content-between align-items-center">
+              <div>
+                <h5 className="card-title">{item.productName}</h5>
+              </div>
+              <div>
+                <p className="card-text">Quantity: {item.quantity}</p>
+              </div>
+              <div>
+                <p className="card-text">Total Price: P{item.totalPrice}</p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-      <p>Shipping Option: Cash On Delivery</p>
-      <p>Total Items: {totalItems}</p>
-      <p>Total Price: {totalPrice}</p>
-      <button className="btn btn-success" onClick={handleCheckout}>
+        ))}
+      </div>
+      <p className="shipping-option">Shipping Option: Cash On Delivery</p>
+      <p className="total-info">Total Items: {totalItems}</p>
+      <p className="total-info">Total Price: {totalPrice}</p>
+      <button className="btn btn-success btn-confirm" onClick={handleCheckout}>
         Confirm Transaction
       </button>
     </div>

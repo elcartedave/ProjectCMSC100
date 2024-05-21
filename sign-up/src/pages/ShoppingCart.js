@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import "./ShoppingCart.css";
+
 
 function ShoppingCart() {
   const [summaryData, setSummaryData] = useState([]);
@@ -104,21 +106,15 @@ function ShoppingCart() {
 
   return (
     <div className="container mt-4">
-      <h2>Shopping Cart</h2>
-      {summaryData.length > 0 ? (
-        summaryData.map((item) => (
-          <div className="card mb-3" key={item._id}>
-            <div className="card-body d-flex justify-content-between align-items-center">
-              <div>
-                <h5 className="card-title">{item.productName}</h5>
-              </div>
-              <div>
-                <p className="card-text">Quantity: {item.quantity}</p>
-              </div>
-              <div>
-                <p className="card-text">Total Price: P{item.totalPrice}</p>
-              </div>
-              <div>
+      <h2 className="cart-title">Shopping Cart</h2>
+      <div className="card-container">
+        {summaryData.length > 0 ? (
+          summaryData.map((item) => (
+            <div className="card" key={item._id}>
+              <div className="card-body">
+                <div className="card-title">{item.productName}</div>
+                <div className="card-text quantity">Quantity: {item.quantity}</div>
+                <div className="card-text price">Total Price: P{item.totalPrice}</div>
                 <button
                   className="btn btn-danger"
                   onClick={() => handleRemove(item._id)}
@@ -127,12 +123,12 @@ function ShoppingCart() {
                 </button>
               </div>
             </div>
-          </div>
-        ))
-      ) : (
-        <p>No items in the shopping cart.</p>
-      )}
-      {totalItems !== 0 ? (
+          ))
+        ) : (
+          <p>No items in the shopping cart.</p>
+        )}
+      </div>
+      {totalItems !== 0 && (
         <>
           <p>Total Items: {totalItems}</p>
           <p>Total Price: {totalPrice}</p>
@@ -140,11 +136,12 @@ function ShoppingCart() {
             <button>Checkout</button>
           </Link>
         </>
-      ) : (
-        <></>
       )}
     </div>
   );
+  
+  
+  
 }
 
 export default ShoppingCart;
