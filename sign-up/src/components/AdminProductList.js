@@ -140,8 +140,10 @@ const ListProduct = () => {
           <i className="bx bx-plus-circle"></i> ADD PRODUCT
         </button>
       </Link>
-      {fProductList().length === 0 ? (
-        <div>No products available</div>
+      {product.length === 0 ? (
+        <h1 className="pending-header">
+          <i class="bx bx-x"></i>No products available
+        </h1>
       ) : (
         <div className="productPanel">
           {fProductList().map((product, index) => {

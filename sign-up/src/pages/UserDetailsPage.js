@@ -82,15 +82,25 @@ export const UserDetailsPage = () => {
       {user ? (
         <>
           <div>
-            <h3>
-              Name: {user.firstName} {user.lastName}
-            </h3>
-            <p>Email: {user.email}</p>
+            <h1 className="admin-header">
+            <i class='bx bxs-user' ></i> {user.firstName} {user.lastName}
+            </h1>
+            <h2 className="admin-subheader">{user.email}</h2>
           </div>
+          
           <div>
             <div>
-              <p>Order History</p>
+              <h1 className="pending-header">ORDER HISTORY</h1>
             </div>
+            <table className="user-field">
+              <tr>
+              <th scope="col">TRANSACTION ID</th>
+              <th scope="col">DATE</th>
+              <th scope="col">PRICE</th>
+              <th scope="col">PRODUCTS</th>
+              <th scope="col">ORDER QTY</th>
+              <th scope="col">STATUS</th>
+              </tr>
             {filteredOrders.length === 0 ? (
               <tr>
                 <td className="no-pending" colSpan="6">
@@ -108,20 +118,22 @@ export const UserDetailsPage = () => {
                       {order.products.map((product, index) => (
                         <div key={index}>
                           {getProductNameById(product.productID)} x{" "}
-                          {product.orderQuantity}
+                          {product.orderQuantity} 
                         </div>
                       ))}
                     </td>
+                    <td className="order-quantity">{order.orderQuantity} PRODUCT</td>
                     <td className="order-status">{order.status}</td>
                   </tr>
                   <br />
                 </>
               ))
             )}
+            </table>
           </div>
         </>
       ) : (
-        <h1>Loading</h1>
+        <h1 className="admin-header">Loading</h1>
       )}
     </div>
     //this part prints the user details if it is valid and prompts otherwise

@@ -2,8 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import "../components/CSS/ShoppingCart.css";
-
 function ShoppingCart() {
   const [summaryData, setSummaryData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
