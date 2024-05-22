@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "../components/CSS/Checkout.css";
 
 function Checkout() {
   const [summaryData, setSummaryData] = useState([]);

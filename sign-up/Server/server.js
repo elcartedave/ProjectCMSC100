@@ -74,6 +74,7 @@ app.post("/signup", async function (req, res) {
   var merchant = "merchant";
   var customer = "customer";
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
   if (
     req.body.firstName != empty &&
     req.body.lastName != empty &&
@@ -81,28 +82,33 @@ app.post("/signup", async function (req, res) {
     req.body.password != empty &&
     req.body.email != empty
   ) {
+    let existing = await User.findOne({ email: req.body.email });
     let ut = req.body.userType.toLowerCase();
-    if (
-      (ut == merchant || ut == customer) &&
-      validator.isEmail(req.body.email)
-    ) {
-      let newsignUP = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        userType: req.body.userType.toLowerCase(),
-        email: req.body.email,
-        password: hashedPassword,
-      });
-      await newsignUP
-        .save()
-        .then(() => {
-          res.status(200).send("Account created successfully");
-        })
-        .catch((err) => {
-          res.status(500).send("Error creating account: " + err.message);
+    if (existing == null) {
+      if (
+        (ut == merchant || ut == customer) &&
+        validator.isEmail(req.body.email)
+      ) {
+        let newsignUP = new User({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          userType: req.body.userType.toLowerCase(),
+          email: req.body.email,
+          password: hashedPassword,
         });
+        await newsignUP
+          .save()
+          .then(() => {
+            res.status(200).send("Account created successfully");
+          })
+          .catch((err) => {
+            res.status(500).send("Error creating account: " + err.message);
+          });
+      } else {
+        res.status(400).send("Invalid data provided");
+      }
     } else {
-      res.status(400).send("Invalid data provided");
+      res.status(409).send("A user already exists with this email");
     }
   } else {
     res.status(400).send("Incomplete data provided");
