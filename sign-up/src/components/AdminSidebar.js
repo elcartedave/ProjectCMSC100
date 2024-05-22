@@ -18,27 +18,27 @@ const AdminSidebar = () => {
       </Link>
       <Link to={"/"} style={{ textDecoration: "none" }}>
         <div className="sidebar-item">
-          <button>DASHBOARD</button>
+          <button> <i class='bx bxs-dashboard' ></i> DASHBOARD</button>
         </div>
       </Link>
       <Link to={"/listproduct"} style={{ textDecoration: "none" }}>
         <div className="sidebar-item">
-          <button>PRODUCTS</button>
+          <button> <i class='bx bxs-shopping-bags' ></i> PRODUCTS</button>
         </div>
       </Link>
       <Link to={"/userlist"} style={{ textDecoration: "none" }}>
         <div className="sidebar-item">
-          <button>USERS</button>
+          <button><i class='bx bxs-user' ></i> USERS</button>
         </div>
       </Link>
       <Link to={"/orderlist"}>
         <div className="sidebar-item">
-          <button>ORDERS</button>
+          <button> <i class='bx bxs-package' ></i> ORDERS</button>
         </div>
       </Link>
       <Link to={"/salesreport"}>
         <div className="sidebar-item">
-          <button>Sales Reports</button>
+          <button> <i class='bx bxs-chart'></i> Sales Reports</button>
         </div>
       </Link>
 
