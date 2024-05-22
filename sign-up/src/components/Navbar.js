@@ -21,7 +21,7 @@ const Navbar = () => {
 
       <Link to="/shopc" className="navbar-link">
       <div className="navbar-item">
-          <h3>CART</h3>
+          <h3><i class='bx bxs-cart bx-tada' ></i></h3>
       </div>
       </Link>
       <div>

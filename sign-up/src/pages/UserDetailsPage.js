@@ -133,7 +133,7 @@ export const UserDetailsPage = () => {
           </div>
         </>
       ) : (
-        <h1>Loading</h1>
+        <h1 className="admin-header">Loading</h1>
       )}
     </div>
     //this part prints the user details if it is valid and prompts otherwise
