@@ -37,7 +37,7 @@ const ListProduct = () => {
         </button>
       </Link>
       {allproducts.length === 0 ? (
-        <div>No products available</div>
+        <h1 className="pending-header"><i class='bx bx-x'></i>No products available</h1>
       ) : (
         <div className="productPanel">
           {allproducts.map((product, index) => {
