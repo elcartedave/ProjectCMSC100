@@ -6,7 +6,7 @@ const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("Pending");
-  const [cart, setShoppingCart] = useState([]);
+  // const [cart, setShoppingCart] = useState([]);
 
   useEffect(() => {
     fetchOrders();
@@ -31,14 +31,14 @@ const OrderList = () => {
     }
   };
 
-  const fetchShoppingCart = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/shoppingcart");
-      setShoppingCart(response.data);
-    } catch (error) {
-      console.error("Failed to fetch ShoppingCart:", error);
-    }
-  };
+  // const fetchShoppingCart = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:3001/shoppingcart");
+  //     setShoppingCart(response.data);
+  //   } catch (error) {
+  //     console.error("Failed to fetch ShoppingCart:", error);
+  //   }
+  // };
 
   const getProductNameById = (productID) => {
     const product = products.find((item) => item._id === productID);

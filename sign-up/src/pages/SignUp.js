@@ -23,7 +23,6 @@ const SignUp = () => {
         "http://localhost:3001/signup",
         signupData
       );
-      console.log(response);
       if (response && response.data) {
         alert(response.data);
         window.location.replace("/");
@@ -47,8 +46,12 @@ const SignUp = () => {
           onSubmit={handleSubmit}
         >
           <div className="form-group">
-            <label htmlFor="fname" className="fname-label">FIRST NAME</label>
-            <label htmlFor="lname" className="lname-label">LAST NAME</label>
+            <label htmlFor="fname" className="fname-label">
+              FIRST NAME
+            </label>
+            <label htmlFor="lname" className="lname-label">
+              LAST NAME
+            </label>
             <input
               type="text"
               className="signup-input-fname"
@@ -70,7 +73,9 @@ const SignUp = () => {
               required
             />
 
-            <h3 htmlFor="email" className="email-label">EMAIL</h3>
+            <h3 htmlFor="email" className="email-label">
+              EMAIL
+            </h3>
             <input
               type="email"
               className="signup-input"
@@ -85,7 +90,7 @@ const SignUp = () => {
             <h3 className="password-label">PASSWORD</h3>
             <input
               type="password"
-              className="signup-input" 
+              className="signup-input"
               id="password"
               name="password"
               placeholder="Passowrd"
@@ -93,17 +98,19 @@ const SignUp = () => {
               onChange={handleChange}
               required
             />
-          <div class="button-wrapper">
-          <button className= "signup-button" type="submit">SIGN UP</button>
+            <div class="button-wrapper">
+              <button className="signup-button" type="submit">
+                SIGN UP
+              </button>
+            </div>
+            {error && <p className="error-message">{error}</p>}
+            <div className="newuser-wrapper">
+              <p className="new-user-text">ACCOUNT EXIST?</p>
+              <a href="/" className="create-account-link">
+                Login to your Account
+              </a>
+            </div>
           </div>
-          {error && <p className="error-message">{error}</p>}
-          <div className="newuser-wrapper">
-            <p className="new-user-text">ACCOUNT EXIST?</p>
-            <a href="/" className="create-account-link">
-              Login to your Account
-            </a>
-          </div>
-        </div>
         </form>
       </div>
       <h1 className="web-title">
@@ -119,7 +126,6 @@ const SignUp = () => {
         alt="harvestbud"
         className="web-logo"
       />
-        
     </div>
   );
 };

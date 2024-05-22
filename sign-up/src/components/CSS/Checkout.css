@@ -1,0 +1,68 @@
+/* Checkout.css */
+
+/* Title */
+.checkout-title {
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Card Container */
+.card-container {
+  display: flex;
+  justify-content: center; /* horizontally center */
+  align-items: center; /* vertically center */
+  height: 100%; /* ensure container takes full height */
+}
+
+/* Card */
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px; /* adjust width as needed */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 16px;
+}
+
+/* Shipping Option */
+.shipping-option {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Total Items and Total Price */
+.total-info {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Confirm Transaction Button */
+.btn-confirm {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}

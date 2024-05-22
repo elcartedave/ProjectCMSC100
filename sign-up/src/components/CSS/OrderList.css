@@ -84,6 +84,7 @@
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
+  padding-left: 0px;
 }
 
 .order-products {
@@ -102,6 +103,16 @@
   font-style: normal;
   font-weight: 400;
   text-align: center;
+}
+
+.order-quantity{
+  color: #000;
+  font-family: poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: center;
+  padding-left: 0px;
 }
 
 .order-price {

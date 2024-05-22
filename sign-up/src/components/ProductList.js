@@ -7,7 +7,8 @@ import "./CSS/UserProductList.css";
 function ProductList() {
   const [product, setProduct] = useState([]);
   const [tokenData, settokenData] = useState([]);
-  const [filtered, setFilter] = useState("all");
+  const [filtered, setFilter] = useState("name");
+  const [filtered1, setFilter1] = useState("ascending");
   let ProductL = [...product];
 
   const fProductList = () => {
@@ -15,42 +16,82 @@ function ProductList() {
       if (filtered === "name") {
         let first = a.name.toLowerCase();
         let second = b.name.toLowerCase();
-        if (first < second) {
-          return -1;
-        } else if (first > second) {
-          return 1;
-        } else {
-          return 0;
+        if (filtered1 === "ascending") {
+          if (first < second) {
+            return -1;
+          } else if (first > second) {
+            return 1;
+          } else {
+            return 0;
+          }
+        } else if (filtered1 === "descending") {
+          if (first > second) {
+            return -1;
+          } else if (first < second) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       } else if (filtered === "type") {
         let first = a.type;
         let second = b.type;
-        if (first < second) {
-          return -1;
-        } else if (first > second) {
-          return 1;
-        } else {
-          return 0;
+        if (filtered1 === "ascending") {
+          if (first < second) {
+            return -1;
+          } else if (first > second) {
+            return 1;
+          } else {
+            return 0;
+          }
+        } else if (filtered1 === "descending") {
+          if (first > second) {
+            return -1;
+          } else if (first < second) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       } else if (filtered === "price") {
         let first = parseInt(a.price);
         let second = parseInt(b.price);
-        if (first < second) {
-          return -1;
-        } else if (first > second) {
-          return 1;
-        } else {
-          return 0;
+        if (filtered1 === "ascending") {
+          if (first < second) {
+            return -1;
+          } else if (first > second) {
+            return 1;
+          } else {
+            return 0;
+          }
+        } else if (filtered1 === "descending") {
+          if (first > second) {
+            return -1;
+          } else if (first < second) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       } else if (filtered === "quantity") {
         let first = parseInt(a.quantity);
         let second = parseInt(b.quantity);
-        if (first < second) {
-          return -1;
-        } else if (first > second) {
-          return 1;
-        } else {
-          return 0;
+        if (filtered1 === "ascending") {
+          if (first < second) {
+            return -1;
+          } else if (first > second) {
+            return 1;
+          } else {
+            return 0;
+          }
+        } else if (filtered1 === "descending") {
+          if (first > second) {
+            return -1;
+          } else if (first < second) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       } else {
         return ProductL;
@@ -72,6 +113,10 @@ function ProductList() {
 
   function FonChangeVS(fValue) {
     setFilter(fValue);
+  }
+
+  function FonChangeVS1(fValue) {
+    setFilter1(fValue);
   }
 
   function CheckTokenPushCart(tokened, productid, productQuantity) {
@@ -96,7 +141,10 @@ function ProductList() {
   return (
     <>
       <div className="list-product">
-        <Filter FonChangeSelect={FonChangeVS}></Filter>
+        <Filter
+          FonChangeSelect={FonChangeVS}
+          FonChangeSelect1={FonChangeVS1}
+        ></Filter>
       </div>
       <div className="productPanel">
         {fProductList().map((prod) => {
