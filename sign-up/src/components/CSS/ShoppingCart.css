@@ -20,8 +20,7 @@
 }
 
 .card {
-  flex: 1 1 calc(100% - 24px); /* Make cards take full width minus margin */
-  max-width: calc(50% - 24px); /* Two cards per row at max */
+  /* Ensure two cards per row at max */
   margin: 12px;
   padding: 16px;
   text-align: center;
@@ -30,6 +29,7 @@
   transition: box-shadow 0.3s;
   background: #fff;
   box-shadow: 0px 4px 10px 5px rgba(0, 0, 0, 0.25);
+  display: inline-block;
 }
 
 .card-body {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "../components/CSS/Checkout.css";
 
 function Checkout() {
@@ -53,7 +52,6 @@ function Checkout() {
           const foundUser = data.find((item) => item._id === userId);
           const date = new Date();
           const email = foundUser.email;
-          console.log(email);
           const products = summaryData.map((item) => ({
             productID: item._id,
             orderQuantity: item.quantity,
@@ -83,26 +81,32 @@ function Checkout() {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container">
       <h2>Checkout Summary</h2>
-      {summaryData.map((item) => (
-        <div className="card mb-3" key={item._id}>
-          <div className="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <h5 className="card-title">{item.productName}</h5>
-            </div>
-            <div>
-              <p className="card-text">Quantity: {item.quantity}</p>
-            </div>
-            <div>
-              <p className="card-text">Total Price: P{item.totalPrice}</p>
-            </div>
-          </div>
-        </div>
-      ))}
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {summaryData.map((item) => (
+            <tr key={item._id}>
+              <td>{item.productName}</td>
+              <td>{item.quantity}</td>
+              <td>P{item.totalPrice / item.quantity}</td>{" "}
+              {/* Calculate price per item */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <p>Shipping Option: Cash On Delivery</p>
-      <p>Total Items: {totalItems}</p>
-      <p>Total Price: {totalPrice}</p>
+      <div className="total-summary">
+        <p>Total Items: {totalItems}</p>
+        <p>Total Price: P{totalPrice}</p>
+      </div>
       <button className="btn btn-success" onClick={handleCheckout}>
         Confirm Transaction
       </button>
