@@ -486,7 +486,69 @@ app.post("/removeitem", async (req, res) => {
   }
 });
 
-//app.get("/user")
+app.get("/salesreport", async function (req, res) {
+  const { startDate, endDate } = req.query;
+
+  const dateFilter = {};
+  if (startDate) dateFilter.$gte = new Date(startDate);
+  if (endDate) dateFilter.$lte = new Date(endDate);
+
+  const matchStage = { status: "Success" };
+  if (startDate || endDate) {
+    matchStage.date = dateFilter;
+  }
+
+  try {
+    const result = await orderTransaction.aggregate([
+      // Match only confirmed transactions within the specified date range
+      { $match: matchStage },
+      // Unwind the products array in transactions to handle each product individually
+      { $unwind: "$products" },
+      // Convert productID to ObjectId to match with products collection
+      {
+        $addFields: {
+          productIDAsOID: { $toObjectId: "$products.productID" },
+        },
+      },
+      // Join with products collection to get product details
+      {
+        $lookup: {
+          from: "products",
+          localField: "productIDAsOID",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+      { $unwind: "$productDetails" },
+      // Group by productID to aggregate the total sales quantity and total sales amount
+      {
+        $group: {
+          _id: "$products.productID",
+          productName: { $first: "$productDetails.name" },
+          totalSalesQuantity: { $sum: "$products.orderQuantity" },
+          totalSalesAmount: { $sum: "$products.totalPrice" },
+        },
+      },
+      // Project the desired fields in the final result
+      {
+        $project: {
+          _id: 0,
+          productID: "$_id",
+          productName: 1,
+          totalSalesQuantity: 1,
+          totalSalesAmount: 1,
+        },
+      },
+      // Sort by productName if needed
+      { $sort: { productName: 1 } },
+    ]);
+
+    res.send(result);
+  } catch (error) {
+    console.error("Error generating sales report:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 app.listen(3001, function () {
   console.log("server is running on port 3001");
