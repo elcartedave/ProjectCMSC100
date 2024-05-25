@@ -159,7 +159,7 @@ const OrderList = () => {
                   <td className="order-name">{order._id}</td>
                   <td className="order-description">{order.date}</td>
                   <td className="order-description">{order.email}</td>
-                  <td className="order-price">{order.totalPrice}</td>
+                  <td className="order-price">Php {order.totalPrice}</td>
                   <td className="order-products">
                     {order.products.map((product, index) => (
                       <div key={index}>

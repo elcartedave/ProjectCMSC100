@@ -96,8 +96,7 @@ function Checkout() {
             <tr key={item._id}>
               <td>{item.productName}</td>
               <td>{item.quantity}</td>
-              <td>P{item.totalPrice / item.quantity}</td>{" "}
-              {/* Calculate price per item */}
+              <td>P{item.totalPrice}</td> {/* Calculate price per item */}
             </tr>
           ))}
         </tbody>

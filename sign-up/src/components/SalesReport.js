@@ -88,6 +88,7 @@ const SalesReport = () => {
           <table>
             <thead>
               <tr>
+                <th>Product Image</th>
                 <th>Product Name</th>
                 <th>Total Sales Quantity</th>
                 <th>Total Sales Amount</th>
@@ -96,6 +97,13 @@ const SalesReport = () => {
             <tbody>
               {salesReport.map((item) => (
                 <tr key={item.productID}>
+                  <td>
+                    <img
+                      src={item.productImage}
+                      alt={item.productName}
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </td>
                   <td>{item.productName}</td>
                   <td>{item.totalSalesQuantity}</td>
                   <td>Php {item.totalSalesAmount}</td>

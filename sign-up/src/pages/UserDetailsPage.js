@@ -83,52 +83,54 @@ export const UserDetailsPage = () => {
         <>
           <div>
             <h1 className="admin-header">
-            <i class='bx bxs-user' ></i> {user.firstName} {user.lastName}
+              <i class="bx bxs-user"></i> {user.firstName} {user.lastName}
             </h1>
             <h2 className="admin-subheader">{user.email}</h2>
           </div>
-          
+
           <div>
             <div>
               <h1 className="pending-header">ORDER HISTORY</h1>
             </div>
             <table className="user-field">
               <tr>
-              <th scope="col">TRANSACTION ID</th>
-              <th scope="col">DATE</th>
-              <th scope="col">PRICE</th>
-              <th scope="col">PRODUCTS</th>
-              <th scope="col">ORDER QTY</th>
-              <th scope="col">STATUS</th>
+                <th scope="col">TRANSACTION ID</th>
+                <th scope="col">DATE</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">PRODUCTS</th>
+                <th scope="col">ORDER QTY</th>
+                <th scope="col">STATUS</th>
               </tr>
-            {filteredOrders.length === 0 ? (
-              <tr>
-                <td className="no-pending" colSpan="6">
-                  No orders
-                </td>
-              </tr>
-            ) : (
-              filteredOrders.map((order) => (
-                <>
-                  <tr key={order._id}>
-                    <td className="order-name">{order._id}</td>
-                    <td className="order-description">{order.date}</td>
-                    <td className="order-price">{order.totalPrice}</td>
-                    <td className="order-products">
-                      {order.products.map((product, index) => (
-                        <div key={index}>
-                          {getProductNameById(product.productID)} x{" "}
-                          {product.orderQuantity} 
-                        </div>
-                      ))}
-                    </td>
-                    <td className="order-quantity">{order.orderQuantity} PRODUCT</td>
-                    <td className="order-status">{order.status}</td>
-                  </tr>
-                  <br />
-                </>
-              ))
-            )}
+              {filteredOrders.length === 0 ? (
+                <tr>
+                  <td className="no-pending" colSpan="6">
+                    No orders
+                  </td>
+                </tr>
+              ) : (
+                filteredOrders.map((order) => (
+                  <>
+                    <tr key={order._id}>
+                      <td className="order-name">{order._id}</td>
+                      <td className="order-description">{order.date}</td>
+                      <td className="order-price">Php {order.totalPrice}</td>
+                      <td className="order-products">
+                        {order.products.map((product, index) => (
+                          <div key={index}>
+                            {getProductNameById(product.productID)} x{" "}
+                            {product.orderQuantity}
+                          </div>
+                        ))}
+                      </td>
+                      <td className="order-quantity">
+                        {order.orderQuantity} PRODUCT
+                      </td>
+                      <td className="order-status">{order.status}</td>
+                    </tr>
+                    <br />
+                  </>
+                ))
+              )}
             </table>
           </div>
         </>

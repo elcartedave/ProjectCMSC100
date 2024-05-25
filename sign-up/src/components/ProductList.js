@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Filter from "./Filter.js";
 import "./CSS/UserProductList.css";
+import Notification from "./Notification.js";
 
 function ProductList() {
   const [product, setProduct] = useState([]);
   const [tokenData, settokenData] = useState([]);
   const [filtered, setFilter] = useState("name");
   const [filtered1, setFilter1] = useState("ascending");
+  const [notification, setNotification] = useState("");
   let ProductL = [...product];
 
   const fProductList = () => {
@@ -120,26 +122,30 @@ function ProductList() {
   }
 
   function CheckTokenPushCart(tokened, productid, productQuantity) {
-    if (productQuantity > 0) {
-      axios
-        .post("http://localhost:3001/shoppingcart", {
-          productIDs: productid,
-          userIDs: tokened.userId,
-          quantity: 1,
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            alert("added to cart!");
-          }
-        });
-    } else {
-      alert("Out of stocks");
-    }
+    setNotification(""); // Reset notification to trigger the change
+    setTimeout(() => {
+      if (productQuantity > 0) {
+        axios
+          .post("http://localhost:3001/shoppingcart", {
+            productIDs: productid,
+            userIDs: tokened.userId,
+            quantity: 1,
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+              setNotification("Added to cart!");
+            }
+          });
+      } else {
+        setNotification("Out of Stock");
+      }
+    }, 0); // Delay to ensure state reset
   }
 
   return (
     <>
+      <Notification message={notification} />
       <div className="list-product">
         <Filter
           FonChangeSelect={FonChangeVS}

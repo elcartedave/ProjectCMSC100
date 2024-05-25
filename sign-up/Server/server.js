@@ -434,6 +434,7 @@ app.get("/shoppingcart", async function (req, res) {
               $multiply: ["$productQuantity", "$ProductInShopCart.price"],
             },
           },
+          stock: { $first: "$ProductInShopCart.quantity" },
         },
       },
     ]);
@@ -486,6 +487,26 @@ app.post("/removeitem", async (req, res) => {
   }
 });
 
+app.post("/removeAllItems", async (req, res) => {
+  const { userID } = req.body;
+
+  if (!userID) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  try {
+    // Remove all items for the user
+    await SCS.deleteMany({ userID });
+    res.json({
+      success: true,
+      message: "All items removed from cart successfully",
+    });
+  } catch (error) {
+    console.error("Error removing all items from cart:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/salesreport", async function (req, res) {
   const { startDate, endDate } = req.query;
 
@@ -500,17 +521,13 @@ app.get("/salesreport", async function (req, res) {
 
   try {
     const result = await orderTransaction.aggregate([
-      // Match only confirmed transactions within the specified date range
       { $match: matchStage },
-      // Unwind the products array in transactions to handle each product individually
       { $unwind: "$products" },
-      // Convert productID to ObjectId to match with products collection
       {
         $addFields: {
           productIDAsOID: { $toObjectId: "$products.productID" },
         },
       },
-      // Join with products collection to get product details
       {
         $lookup: {
           from: "products",
@@ -520,16 +537,15 @@ app.get("/salesreport", async function (req, res) {
         },
       },
       { $unwind: "$productDetails" },
-      // Group by productID to aggregate the total sales quantity and total sales amount
       {
         $group: {
           _id: "$products.productID",
           productName: { $first: "$productDetails.name" },
           totalSalesQuantity: { $sum: "$products.orderQuantity" },
           totalSalesAmount: { $sum: "$products.totalPrice" },
+          productImage: { $first: "$productDetails.image" }, // Include the image URL
         },
       },
-      // Project the desired fields in the final result
       {
         $project: {
           _id: 0,
@@ -537,9 +553,9 @@ app.get("/salesreport", async function (req, res) {
           productName: 1,
           totalSalesQuantity: 1,
           totalSalesAmount: 1,
+          productImage: 1, // Include the image URL in the projection
         },
       },
-      // Sort by productName if needed
       { $sort: { productName: 1 } },
     ]);
 
