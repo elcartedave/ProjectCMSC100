@@ -5,6 +5,7 @@
   align-items: center; /* Center items vertically */
   background-color: #fbd242;
   padding: 0 20px; /* Optional: Add padding for better spacing */
+  -webkit-user-select: none;
 }
 
 .navbar-logo {
@@ -20,7 +21,7 @@
   font-size: 25px;
   font-weight: 700;
   margin: 10px;
-  padding-right: 42%;
+  padding-right: 40%;
 }
 .navbar-link {
   text-decoration: none;
@@ -37,6 +38,7 @@
   font-size: 25px;
   font-weight: 700;
   color: #000;
+  
 }
 
 .navbar-item:hover h3 {

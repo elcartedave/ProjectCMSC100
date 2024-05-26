@@ -184,33 +184,35 @@ function ShoppingCart() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Shopping Cart</h2>
+    <div className="shoppingcart-container">
+      <h1 className="admin-header">SHOPPING CART</h1>
       {summaryData.length > 0 ? (
         <div>
+          <button className="add-product-button" onClick={handleRemoveAll}>
+            Remove All
+          </button>
           {summaryData.map((item) => (
-            <div className="card mb-3" key={item._id}>
-              <div className="card-body d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 className="card-title">{item.productName}</h5>
+            <div className = "cart-item" key={item._id}>
+              <div className="cartitem-info">
+                <div className="cartitem-image">
+                  <i class="bx bx-image-alt"></i>
                 </div>
-                <div>
-                  <p className="card-text">Quantity: {item.quantity}</p>
-                </div>
-                <div>
-                  <p className="card-text">
+                <div className="cartitem-details">
+                  <h1 className="cartitem-name">{item.productName}</h1>
+                  <h2 className="cartitem-description">Quantity: {item.quantity}</h2>
+                  <h2 className="cartitem-description">
                     Total Price: Php {item.totalPrice.toFixed(2)}
-                  </p>
+                  </h2>
                 </div>
-                <div>
+                <div className="cartitem-buttons">
                   <button
-                    className="btn btn-danger btn-sm mr-2"
+                    className="cancel-btn"
                     onClick={() => handleRemove(item._id)}
                   >
                     -
                   </button>
                   <button
-                    className="btn btn-success btn-sm mr-2"
+                    className="confirm-btn"
                     onClick={() => handleIncrease(item._id)}
                     disabled={item.quantity >= item.stock}
                   >
@@ -221,20 +223,17 @@ function ShoppingCart() {
             </div>
           ))}
           <>
-            <p>Total Items: {totalItems}</p>
-            <p>Total Price: {totalPrice}</p>
-            <div>
-              <button className="btn btn-danger" onClick={handleRemoveAll}>
-                Remove All
-              </button>
-              <Link to="/checkout" className="btn btn-primary ml-2">
-                Checkout
-              </Link>
-            </div>
+          <div className="cart-summary">
+            <p className="summary-text">Total Items: {totalItems}</p>
+            <p className="summary-text">Total Price: ₱ {totalPrice.toFixed(2)}</p>
+            <Link to="/checkout" className="btn btn-primary checkout-button">
+              Checkout
+            </Link>
+          </div>
           </>
         </div>
       ) : (
-        <p>Your shopping cart is empty.</p>
+        <h2 className="admin-subheader">Your shopping cart is empty.</h2>
       )}
     </div>
   );

@@ -37,29 +37,34 @@ const Filter = (props) => {
 
   return (
     <>
-      <div className="drop-down">
-        <p className="sort-title">SORT BY:</p>
-        <button className="sort-btn" value="name" onClick={FonChange}>
-          Name
-        </button>
-        <button className="sort-btn" value="type" onClick={FonChange}>
-          Type
-        </button>
-        <button className="sort-btn" value="price" onClick={FonChange}>
-          Price
-        </button>
-        <button className="sort-btn" value="quantity" onClick={FonChange}>
-          Quantity
-        </button>
-      </div>
-      <div className="asc-desc">
-        <button className="orderBtn" value="ascending" onClick={FonChange1}>
-          ASCENDING
-        </button>
-        <button className="orderBtn" value="descending" onClick={FonChange1}>
-          DESCENDING
-        </button>
-      </div>
+<div className="sort-container">
+  <div className="drop-down">
+    <p className="sort-title">SORT BY:</p>
+    <div className="asc-desc">
+      <button className="order-btn" value="ascending" onClick={FonChange1}>
+        ASC
+      </button>
+      <button className="order-btn" value="descending" onClick={FonChange1}>
+        DESC
+      </button>
+    </div>
+    
+    <button className="sort-btn" value="name" onClick={FonChange}>
+      Name
+    </button>
+    <button className="sort-btn" value="type" onClick={FonChange}>
+      Type
+    </button>
+    <button className="sort-btn" value="price" onClick={FonChange}>
+      Price
+    </button>
+    <button className="sort-btn" value="quantity" onClick={FonChange}>
+      Quantity
+    </button>
+  </div>
+</div>
+
+
     </>
   );
 };

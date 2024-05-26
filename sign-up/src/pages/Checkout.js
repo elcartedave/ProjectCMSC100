@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../components/CSS/Checkout.css";
+import Notification from "../components/Notification.js";
 
 function Checkout() {
   const [summaryData, setSummaryData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("cust-token");
@@ -40,6 +42,7 @@ function Checkout() {
   }, []);
 
   const handleCheckout = () => {
+    setNotification(""); // Reset notification to trigger the change
     const token = localStorage.getItem("cust-token");
     if (token) {
       axios
@@ -57,7 +60,7 @@ function Checkout() {
             orderQuantity: item.quantity,
             totalPrice: item.totalPrice,
           }));
-
+  
           axios
             .post("http://localhost:3001/createOrder", {
               userID: userId,
@@ -66,8 +69,10 @@ function Checkout() {
               date,
             })
             .then(() => {
-              alert("Transaction successful!");
-              window.location.replace("/");
+              setNotification("Order Checkout!");
+              setTimeout(() => {
+                window.location.replace("/");
+              }, 1000);
             })
             .catch((error) => {
               console.error("Transaction error:", error);
@@ -79,37 +84,41 @@ function Checkout() {
         });
     }
   };
+  
 
   return (
+    <>
+    <Notification message={notification} />
     <div className="container">
-      <h2>Checkout Summary</h2>
-      <table className="table">
+      <h1 className="admin-header">CHECKOUT SUMMARY</h1>
+      <table className="user-field">
         <thead>
           <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Price</th>
+            <th>PRODUCT NAME </th>
+            <th>QUANTITY</th>
+            <th>PRICE</th>
           </tr>
         </thead>
         <tbody>
           {summaryData.map((item) => (
             <tr key={item._id}>
-              <td>{item.productName}</td>
-              <td>{item.quantity}</td>
-              <td>P{item.totalPrice}</td> {/* Calculate price per item */}
+              <td className="order-name">{item.productName}</td>
+              <td className="order-description">{item.quantity}</td>
+              <td className="order-price">P{item.totalPrice}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <p>Shipping Option: Cash On Delivery</p>
-      <div className="total-summary">
+      <div className="checkout-summary">
+        <p>Shipping Option: Cash On Delivery</p>
         <p>Total Items: {totalItems}</p>
-        <p>Total Price: P{totalPrice}</p>
-      </div>
-      <button className="btn btn-success" onClick={handleCheckout}>
-        Confirm Transaction
+        <p>Total Price: ₱ {totalPrice}</p>
+        <button className="add-product-button" onClick={handleCheckout}>
+        <i class='bx bx-cart-download'></i> CHECKOUT ORDERS
       </button>
+      </div>
     </div>
+    </>
   );
 }
 
