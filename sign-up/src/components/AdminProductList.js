@@ -130,11 +130,11 @@ const ListProduct = () => {
 
   return (
     <div className="list-product">
+      <h1 className="admin-header">PRODUCTS</h1>
       <Filter
         FonChangeSelect={FonChangeVS}
         FonChangeSelect1={FonChangeVS1}
       ></Filter>
-      <h1 className="admin-header">PRODUCTS</h1>
       <Link to="/addproduct" style={{ textDecoration: "none" }}>
         <button className="add-product-button">
           <i className="bx bx-plus-circle"></i> ADD PRODUCT
