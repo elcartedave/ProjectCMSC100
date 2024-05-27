@@ -28,16 +28,11 @@ const Navbar = () => {
       <div>
         <User />
       </div>
-      {/* <i
-        class="bx bx-log-out"
-        onClick={() => {
-          localStorage.removeItem("cust-token");
-          window.location.replace("/");
-        }}
-      ></i> */}
+
       <i
         onClick={() => {
           localStorage.removeItem("cust-token");
+          localStorage.removeItem("hasShownModal");
           window.location.replace("/");
         }}
         class="Btn"

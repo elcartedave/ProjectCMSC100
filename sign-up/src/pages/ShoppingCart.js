@@ -192,14 +192,16 @@ function ShoppingCart() {
             Remove All
           </button>
           {summaryData.map((item) => (
-            <div className = "cart-item" key={item._id}>
+            <div className="cart-item" key={item._id}>
               <div className="cartitem-info">
                 <div className="cartitem-image">
-                  <i class="bx bx-image-alt"></i>
+                  <img src={item.image} alt="" />
                 </div>
                 <div className="cartitem-details">
                   <h1 className="cartitem-name">{item.productName}</h1>
-                  <h2 className="cartitem-description">Quantity: {item.quantity}</h2>
+                  <h2 className="cartitem-description">
+                    Quantity: {item.quantity}
+                  </h2>
                   <h2 className="cartitem-description">
                     Total Price: Php {item.totalPrice.toFixed(2)}
                   </h2>
@@ -223,13 +225,15 @@ function ShoppingCart() {
             </div>
           ))}
           <>
-          <div className="cart-summary">
-            <p className="summary-text">Total Items: {totalItems}</p>
-            <p className="summary-text">Total Price: ₱ {totalPrice.toFixed(2)}</p>
-            <Link to="/checkout" className="btn btn-primary checkout-button">
-              Checkout
-            </Link>
-          </div>
+            <div className="cart-summary">
+              <p className="summary-text">Total Items: {totalItems}</p>
+              <p className="summary-text">
+                Total Price: ₱ {totalPrice.toFixed(2)}
+              </p>
+              <Link to="/checkout" className="btn btn-primary checkout-button">
+                Checkout
+              </Link>
+            </div>
           </>
         </div>
       ) : (

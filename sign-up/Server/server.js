@@ -435,6 +435,7 @@ app.get("/shoppingcart", async function (req, res) {
             },
           },
           stock: { $first: "$ProductInShopCart.quantity" },
+          image: { $first: "$ProductInShopCart.image" },
         },
       },
     ]);

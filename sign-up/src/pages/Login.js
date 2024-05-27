@@ -25,7 +25,6 @@ const Login = () => {
         loginData
       );
       const token = response.data.token;
-      alert("Login Successful!");
       window.location.reload();
       navigate("/");
       if (response.data.userType === "customer") {

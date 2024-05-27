@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./CSS/AddProduct.css";
 import { useNavigate } from "react-router-dom";
+import Notification from "./Notification.js";
+
 const AddProduct = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState(false);
@@ -21,7 +23,11 @@ const AddProduct = () => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   };
 
-  const Add_Product = async () => {
+  const [notification, setNotification] = useState("");
+
+  const Add_Product = async (e) => {
+    e.preventDefault();
+    setNotification("");
     console.log(productDetails);
     let responseData;
     let product = productDetails;
@@ -40,6 +46,7 @@ const AddProduct = () => {
       .then((data) => {
         responseData = data;
       });
+
     if (responseData.success) {
       product.image = responseData.image_url;
       console.log(product);
@@ -54,7 +61,7 @@ const AddProduct = () => {
         .then((resp) => resp.json())
         .then((data) => {
           if (data.success) {
-            alert("Product Added!");
+            setNotification("Product Added!");
             setProductDetails({
               name: "",
               image: "",
@@ -64,102 +71,106 @@ const AddProduct = () => {
               quantity: "",
             });
             setImage(false);
-            navigate("/listproduct");
+            setTimeout(() => {
+              window.location.replace("/listproduct");
+            }, 1000);
           } else {
-            alert("Failed!");
+            setNotification("Failed!");
           }
         });
     }
   };
 
   return (
-    <div className="add-product">
-      <h1 className="admin-header">ADD A PRODUCT</h1>
-      <div className="addproduct-itemfield">
-        <p className="input-label">Product Name</p>
-        <input
-          value={productDetails.name}
-          onChange={changeHandler}
-          type="text"
-          name="name"
-          className="product-input"
-          placeholder="Type Here"
-          autocomplete="off"
-        />
+    <>
+      <Notification message={notification} />
+      <div className="add-product">
+        <h1 className="admin-header">ADD A PRODUCT</h1>
+        <form onSubmit={Add_Product} className="addproduct-itemfield">
+          <p className="input-label">Product Name</p>
+          <input
+            value={productDetails.name}
+            onChange={changeHandler}
+            type="text"
+            name="name"
+            className="product-input"
+            placeholder="Type Here"
+            autoComplete="off"
+            required
+          />
           <p className="input-label">Price</p>
           <input
             value={productDetails.price}
             onChange={changeHandler}
-            type="text"
+            type="number"
             name="price"
             className="product-input"
             placeholder="Type Here"
-            autocomplete="off"
+            autoComplete="off"
+            required
           />
-        <p className="input-label">Product Type</p>
-        <select
-          value={productDetails.type}
-          onChange={changeHandler}
-          name="type"
-          className="select-type"
-        >
-          <option value="crop">Crop</option>
-          <option value="poultry">Poultry</option>
-        </select>       
-        <p className="image-label">Product Image</p>
-        <img
-            src={
-              image
-                ? URL.createObjectURL(image)
-                : "./images/add-image.png"
-            }
+          <p className="input-label">Product Type</p>
+          <select
+            value={productDetails.type}
+            onChange={changeHandler}
+            name="type"
+            className="select-type"
+            required
+          >
+            <option value="crop">Crop</option>
+            <option value="poultry">Poultry</option>
+          </select>
+          <p className="image-label">Product Image</p>
+          <img
+            src={image ? URL.createObjectURL(image) : "./images/add-image.png"}
             alt=""
             className="product-thumbnail"
           />
-        <br />
-        <label htmlFor="file-input" className="product-image"> <i class='bx bx-image-add' ></i> ADD IMAGE</label>
-        <input
-          onChange={imageHandler}
-          className="image-input"
-          type="file"
-          name="image"
-          id="file-input"
-          hidden
-        />
-        <p className="input-label">Description</p>
-        <input
-          value={productDetails.description}
-          onChange={changeHandler}
-          name="description"
-          className="product-input"
-          type="text"
-          placeholder="Type Here"
-          autocomplete="off"
-        />
-        <p className="input-label">Quantity</p>
-        <input
-          value={productDetails.quantity}
-          onChange={changeHandler}
-          type="number"
-          placeholder="Type Here"
-          name="quantity"
-          className="product-input"
-          autocomplete="off"
-        />
-      <div>
-      <button
-        onClick={() => {
-          Add_Product();
-          console.log("Image" + image);
-        }}
-        className="add-button"
-      >
-        <i class='bx bx-check'></i>
-          ADD PRODUCT
-      </button>
+          <br />
+          <label htmlFor="file-input" className="product-image">
+            <i className="bx bx-image-add"></i> ADD IMAGE
+          </label>
+          <input
+            onChange={imageHandler}
+            className="image-input"
+            type="file"
+            name="image"
+            id="file-input"
+            hidden
+            required
+          />
+          <p className="input-label">Description</p>
+          <input
+            value={productDetails.description}
+            onChange={changeHandler}
+            name="description"
+            className="product-input"
+            type="text"
+            placeholder="Type Here"
+            autoComplete="off"
+            required
+          />
+          <p className="input-label">Quantity</p>
+          <input
+            value={productDetails.quantity}
+            onChange={changeHandler}
+            type="number"
+            placeholder="Type Here"
+            name="quantity"
+            className="product-input"
+            autoComplete="off"
+            required
+          />
+          <div>
+            <button type="submit" className="add-button">
+              <i className="bx bx-check"></i>
+              ADD PRODUCT
+            </button>
+          </div>
+        </form>
       </div>
-      </div>
-    </div>
+    </>
   );
 };
+
 export default AddProduct;

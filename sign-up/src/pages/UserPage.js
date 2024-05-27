@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductList from "../components/ProductList.js";
 import Navbar from "../components/Navbar.js";
 import { Route, Routes } from "react-router-dom";
@@ -6,7 +6,17 @@ import ShoppingCart from "./ShoppingCart.js";
 import { UserDetailsPage } from "./UserDetailsPage.js";
 import Unauthorized from "./unauthorized.js";
 import Checkout from "./Checkout.js";
+import Modal from "../components/Modal.js";
 const UserPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const hasShownModal = localStorage.getItem("hasShownModal");
+    if (!hasShownModal) {
+      setShowModal(true);
+      localStorage.setItem("hasShownModal", "true");
+    }
+  }, []);
   return (
     <div>
       <Navbar />
@@ -17,6 +27,12 @@ const UserPage = () => {
         <Route path="/user/:userid" element={<UserDetailsPage />} />
         <Route path="*" element={<Unauthorized />} />
       </Routes>
+      <Modal
+        message="Welcome Customer! Feel free to add items to your cart!"
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        time={8000}
+      />
     </div>
   );
 };

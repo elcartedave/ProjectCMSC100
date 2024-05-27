@@ -1,0 +1,25 @@
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust this based on the height of your navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%; /* Increased width */
+  max-width: 800px; /* Optional maximum width */
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out;
+}
+
+.notification.show {
+  opacity: 1;
+  top: 100px; /* Adjust this for the slide down effect */
+}
+
+.notification.hide {
+  opacity: 0;
+  top: 70px; /* Initial position */
+}

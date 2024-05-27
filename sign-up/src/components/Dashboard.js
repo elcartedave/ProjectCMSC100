@@ -4,10 +4,16 @@ import { Link } from "react-router-dom";
 import "./CSS/Dashboard.css";
 
 const AdminNavbar = () => {
+  const [sales, setSales] = useState(0);
+  const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
     fetchOrders();
     fetchInfo();
+    fetchUsers();
+    fetchSalesReport();
   }, []);
 
   const fetchOrders = async () => {
@@ -19,31 +25,47 @@ const AdminNavbar = () => {
     }
   };
 
-
   const fetchInfo = async () => {
-    await fetch("http://localhost:3001/productlist")
-      .then((res) => res.json())
-      .then((data) => {
-        setAllProducts(data);
-      });
+    try {
+      const response = await fetch("http://localhost:3001/productlist");
+      const data = await response.json();
+      setAllProducts(data);
+    } catch (error) {
+      console.error("Failed to fetch product info:", error);
+    }
   };
 
-  useEffect(() => {
-    axios.get("http://localhost:3001/userlist").then((response) => {
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/userlist");
       setUsers(response.data);
-      console.log(response);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  };
+
+  const fetchSalesReport = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/salesreport");
+      calculateTotals(response.data);
+    } catch (error) {
+      console.error("Failed to fetch sales report:", error);
+    }
+  };
+
+  const calculateTotals = (report) => {
+    let totalAmount = 0;
+    report.forEach((item) => {
+      totalAmount += item.totalSalesAmount;
     });
-  });
+    setSales(totalAmount);
+  };
 
-  const [orders, setOrders] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [allproducts, setAllProducts] = useState([]);
-
-  const totalOrders =  orders.filter((order) => order.status === "Pending").length +
-  orders.filter((order) => order.status === "Success").length +
-  orders.filter((order) => order.status === "Cancelled").length;
-  const totalUsers = users.filter((user) => user.userType === "customer").length;
-  const totalProducts = allproducts.length;
+  const totalOrders = orders.length;
+  const totalUsers = users.filter(
+    (user) => user.userType === "customer"
+  ).length;
+  const totalProducts = allProducts.length;
 
   return (
     <div className="dashboard">
@@ -52,36 +74,59 @@ const AdminNavbar = () => {
 
       <h1 className="pending-header">HIGHLIGHTS</h1>
       <div className="ordernumber-field">
+        <Link
+          to={"/userlist"}
+          style={{ textDecoration: "none" }}
+          className="ordernumber-card"
+        >
+          <div>
+            <h2 className="order-title">
+              <i className="bx bxs-user"></i> USERS
+            </h2>
+            <h3 className="order-number">{totalUsers}</h3>
+          </div>
+        </Link>
 
-      <Link to={"/userlist"} style={{ textDecoration: "none" }} className="ordernumber-card">
-        <div>
-          <h2 className="order-title"><i class='bx bxs-user'></i> USERS</h2>
-          <h3 className="order-number">{totalUsers}</h3>
-        </div>
-      </Link>
+        <Link
+          to={"/listproduct"}
+          style={{ textDecoration: "none" }}
+          className="ordernumber-card"
+        >
+          <div>
+            <h2 className="order-title">
+              <i className="bx bxs-shopping-bags"></i> PRODUCTS
+            </h2>
+            <h3 className="order-number">{totalProducts}</h3>
+          </div>
+        </Link>
 
-      <Link to={"/listproduct"} style={{ textDecoration: "none" }} className="ordernumber-card">
-        <div>
-          <h2 className="order-title"><i class='bx bxs-shopping-bags' ></i> PRODUCTS</h2>
-          <h3 className="order-number">{totalProducts}</h3>
-        </div>
-      </Link>
+        <Link
+          to={"/orderlist"}
+          style={{ textDecoration: "none" }}
+          className="ordernumber-card"
+        >
+          <div>
+            <h2 className="order-title">
+              <i className="bx bxs-package"></i> ORDERS
+            </h2>
+            <h3 className="order-number">{totalOrders}</h3>
+          </div>
+        </Link>
 
-      <Link to={"/orderlist"} style={{ textDecoration: "none" }} className="ordernumber-card">
-        <div>
-          <h2 className="order-title"><i class='bx bxs-package' ></i> ORDERS</h2>
-          <h3 className="order-number">{totalOrders}</h3>
-        </div>
-      </Link>
-
-      <Link to={"/salesreport"} style={{ textDecoration: "none" }} className="ordernumber-card">
-        <div>
-          <h2 className="order-title"><i class='bx bxs-chart' ></i> SALES</h2>
-          <h3 className={totalOrders}></h3>
-        </div>
-      </Link>
+        <Link
+          to={"/salesreport"}
+          style={{ textDecoration: "none" }}
+          className="ordernumber-card"
+        >
+          <div>
+            <h2 className="order-title">
+              <i className="bx bxs-chart"></i> SALES
+            </h2>
+            <h3 className="order-number">PHP {sales}</h3>
+          </div>
+        </Link>
       </div>
-      
+
       <h1 className="pending-header">RECENT ACTIVITY</h1>
       <table className="user-field">
         <thead>
