@@ -15,6 +15,19 @@
   font-weight: 700;
 }
 
+.highlights-title {
+  font-family: 'Poppins', sans-serif; /* Added quotes around font-family */
+  font-size: 25px;
+  margin: 5px;
+  padding: 15px 15px 0px 15px;
+}
+
+.highlights-number {
+  font-family: 'Poppins', sans-serif; /* Added quotes around font-family */
+  font-size: 20px;
+  margin: 5px;
+  padding: 0px 15px 15px 15px;
+}
 
 
 

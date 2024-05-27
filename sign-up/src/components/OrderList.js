@@ -99,34 +99,31 @@ const OrderList = () => {
   const totalCancelled = orders.filter(
     (order) => order.status === "Cancelled"
   ).length;
-
+    
   return (
     <div>
       <h1 className="admin-header">ORDER MANAGEMENT</h1>
       <div className="ordernumber-field">
-        <div
+        <button
           className="ordernumber-card"
           onClick={() => setSelectedStatus("Pending")}
         >
-          <h2 className="order-title">PENDING ORDERS</h2>
-          <h3 className="order-number">{totalPending}</h3>
-        </div>
+          <h2 className="order-title">PENDING ORDERS: {totalPending}</h2>
+        </button>
 
-        <div
+        <button
           className="ordernumber-card"
           onClick={() => setSelectedStatus("Success")}
         >
-          <h2 className="order-title">CONFIRMED ORDERS</h2>
-          <h3 className="order-number">{totalSuccess}</h3>
-        </div>
+          <h2 className="order-title">CONFIRMED ORDERS: {totalSuccess}</h2>
+        </button>
 
-        <div
+        <button
           className="ordernumber-card"
           onClick={() => setSelectedStatus("Cancelled")}
         >
-          <h2 className="order-title">CANCELLED ORDERS</h2>
-          <h3 className="order-number">{totalCancelled}</h3>
-        </div>
+          <h2 className="order-title">CANCELLED ORDERS: {totalCancelled}</h2>
+        </button>
       </div>
 
       <h1 className="pending-header">{selectedStatus.toUpperCase()} ORDERS:</h1>

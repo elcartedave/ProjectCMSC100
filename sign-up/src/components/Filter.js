@@ -10,27 +10,42 @@ const Filter = (props) => {
   }
 
   useEffect(() => {
-    function handleClick(event) {
+    function handleSortClick(event) {
       const sortoptions = document.querySelectorAll(".sort-btn");
-
       sortoptions.forEach((option) => {
         if (option !== event.target) {
           option.classList.remove("clicked");
         }
       });
+      event.target.classList.toggle("clicked");
+    }
 
+    function handleOrderClick(event) {
+      const orderoptions = document.querySelectorAll(".order-btn");
+      orderoptions.forEach((option) => {
+        if (option !== event.target) {
+          option.classList.remove("clicked");
+        }
+      });
       event.target.classList.toggle("clicked");
     }
 
     const sortButtons = document.querySelectorAll(".sort-btn");
     sortButtons.forEach((button) => {
-      button.addEventListener("click", handleClick);
+      button.addEventListener("click", handleSortClick);
     });
 
-    // Cleanup event listeners on component unmount
+    const orderButtons = document.querySelectorAll(".order-btn");
+    orderButtons.forEach((button) => {
+      button.addEventListener("click", handleOrderClick);
+    });
+
     return () => {
       sortButtons.forEach((button) => {
-        button.removeEventListener("click", handleClick);
+        button.removeEventListener("click", handleSortClick);
+      });
+      orderButtons.forEach((button) => {
+        button.removeEventListener("click", handleOrderClick);
       });
     };
   }, []);

@@ -51,7 +51,7 @@ const AdminSidebar = () => {
         <div className="sidebar-item">
           <button>
             {" "}
-            <i class="bx bxs-chart"></i> Sales Reports
+            <i class="bx bxs-chart"></i> SALES
           </button>
         </div>
       </Link>
@@ -64,7 +64,7 @@ const AdminSidebar = () => {
           window.location.replace("/");
         }}
       >
-        LOG OUT
+        <i class="bx bx-log-out"></i> LOGOUT
       </h3>
     </div>
   );

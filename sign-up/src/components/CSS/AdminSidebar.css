@@ -68,6 +68,13 @@
   font-size: 20px;
 }
 
+.logout:hover {
+  background-image: linear-gradient(90deg, #1e4f2a 0%, #45b560 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .navbar {
   display: flex;
   align-items: center;

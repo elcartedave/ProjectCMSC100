@@ -76,53 +76,53 @@ const AdminNavbar = () => {
       <div className="ordernumber-field">
         <Link
           to={"/userlist"}
-          style={{ textDecoration: "none" }}
+          style={{margin: "0px 10px", width: "22%", textDecoration: "none" }} // Applying styles directly
           className="ordernumber-card"
         >
           <div>
-            <h2 className="order-title">
+            <h2 className="highlights-title">
               <i className="bx bxs-user"></i> USERS
             </h2>
-            <h3 className="order-number">{totalUsers}</h3>
+            <h3 className="highlights-number">{totalUsers}</h3>
           </div>
         </Link>
 
         <Link
           to={"/listproduct"}
-          style={{ textDecoration: "none" }}
+          style={{margin: "0px 10px", width: "22%", textDecoration: "none" }} // Applying styles directly
           className="ordernumber-card"
         >
           <div>
-            <h2 className="order-title">
+            <h2 className="highlights-title">
               <i className="bx bxs-shopping-bags"></i> PRODUCTS
             </h2>
-            <h3 className="order-number">{totalProducts}</h3>
+            <h3 className="highlights-number">{totalProducts}</h3>
           </div>
         </Link>
 
         <Link
           to={"/orderlist"}
-          style={{ textDecoration: "none" }}
+          style={{margin: "0px 10px", width: "22%", textDecoration: "none" }} // Applying styles directly
           className="ordernumber-card"
         >
           <div>
-            <h2 className="order-title">
+            <h2 className="highlights-title">
               <i className="bx bxs-package"></i> ORDERS
             </h2>
-            <h3 className="order-number">{totalOrders}</h3>
+            <h3 className="highlights-number">{totalOrders}</h3>
           </div>
         </Link>
 
         <Link
           to={"/salesreport"}
-          style={{ textDecoration: "none" }}
+          style={{margin: "0px 10px", width: "22%", textDecoration: "none" }} // Applying styles directly
           className="ordernumber-card"
         >
           <div>
-            <h2 className="order-title">
+            <h2 className="highlights-title">
               <i className="bx bxs-chart"></i> SALES
             </h2>
-            <h3 className="order-number">PHP {sales}</h3>
+            <h3 className="highlights-number">PHP {sales}</h3>
           </div>
         </Link>
       </div>

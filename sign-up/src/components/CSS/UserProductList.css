@@ -31,6 +31,12 @@
   border-radius: 5px;
 }
 
+.sort-btn:hover {
+  background-image: linear-gradient(90deg, #1e4f2a 0%, #45b560 100%);
+  color: #fff;
+  background-size: 100%;
+}
+
 .sort-btn.clicked {
   background-image: linear-gradient(90deg, #1e4f2a 0%, #45b560 100%);
   color: #fff;
@@ -48,6 +54,15 @@
 }
 
 .order-btn:hover {
+  background-image: linear-gradient(90deg, #1e4f2a 0%, #45b560 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  font-weight: bolder;
+  text-transform: uppercase;
+}
+
+.order-btn.clicked {
     background-image: linear-gradient(90deg, #1e4f2a 0%, #45b560 100%);
     background-size: 100%;
     -webkit-background-clip: text;
