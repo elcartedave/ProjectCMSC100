@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "../components/CSS/UserDetailsPage.css";
 
 export const UserDetailsPage = () => {
   const { userid } = useParams();
@@ -123,9 +124,9 @@ export const UserDetailsPage = () => {
             </h1>
             <h2 className="admin-subheader">{user.email}</h2>
           </div>
-
-          <div>
-            <h2>Edit User Details</h2>
+        <div className="edit">
+          <div className="edit-container">
+            <h2 className="edit-header">USER DETAILS</h2>
             <input
               type="text"
               value={firstName}
@@ -146,9 +147,9 @@ export const UserDetailsPage = () => {
             />
             <button onClick={handleUserDetailsUpdate}>Update</button>
           </div>
-
-          <div>
-            <h2>Change Password</h2>
+        
+          <div className="edit-container">
+            <h2 className="edit-header">CHANGE PASSWORD</h2>
             <input
               type="password"
               value={newPassword}
@@ -163,6 +164,7 @@ export const UserDetailsPage = () => {
             />
             <button onClick={handlePasswordChange}>Update Password</button>
           </div>
+        </div>
 
           <div>
             <h1 className="pending-header">ORDER HISTORY</h1>

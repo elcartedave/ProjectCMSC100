@@ -77,12 +77,13 @@ const SalesReport = () => {
 
   return (
     <div>
-      <h1>Sales Report</h1>
+      <h1 className="admin-header">SALES REPORT</h1>
       <div>
-        <label>Select Time Period: </label>
+        <label className="admin-subheader">Select Time Period: </label>
         <select
           value={timePeriod}
           onChange={(e) => setTimePeriod(e.target.value)}
+          style={{ padding: "5px", borderRadius: "10px"}}
         >
           <option value="allTime">All Time</option>
           <option value="weekly">This Week</option>
@@ -91,12 +92,18 @@ const SalesReport = () => {
         </select>
       </div>
       {salesReport.length === 0 ? (
-        <h1>No Sales Yet!</h1>
+        <h1 className="pending-header">No Sales Yet!</h1>
       ) : (
         <>
-          <h2>Total Number of Sales: {totalSalesQuantity}</h2>
-          <h2>Total Sales Amount: Php {totalSalesAmount}</h2>
-          <table>
+          <div className="ordernumber-field">
+            <div className="ordernumber-card">
+              <h2 className="order-title">Total Number of Sales: {totalSalesQuantity}</h2>
+            </div>
+            <div className="ordernumber-card">
+            <h2 className="order-title">Total Sales Amount: Php {totalSalesAmount}</h2>
+            </div>
+          </div>
+          <table className="user-field">
             <thead>
               <tr>
                 <th>Product Image</th>
@@ -112,12 +119,12 @@ const SalesReport = () => {
                     <img
                       src={item.productImage}
                       alt={item.productName}
-                      style={{ width: "50px", height: "50px" }}
+                      style={{ width: "50px", height: "50px", margin: "10px 15px"}}
                     />
                   </td>
-                  <td>{item.productName}</td>
-                  <td>{item.totalSalesQuantity}</td>
-                  <td>Php {item.totalSalesAmount}</td>
+                  <td className="order-name">{item.productName}</td>
+                  <td className="order-description">{item.totalSalesQuantity}</td>
+                  <td className="order-price">Php {item.totalSalesAmount}</td>
                 </tr>
               ))}
             </tbody>
