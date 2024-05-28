@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "../components/CSS/UserDetailsPage.css";
 
 export const UserDetailsPage = () => {
   const { userid } = useParams();
@@ -115,6 +116,7 @@ export const UserDetailsPage = () => {
         email,
       }); //same with the password it also needs the userId as it is need to find the ._id of user in User collection to update any of the attribute
       alert("User details updated successfully");
+      window.location.reload();
     } catch (error) {
       console.error("Error updating user details:", error);
     }
@@ -130,45 +132,46 @@ export const UserDetailsPage = () => {
             </h1>
             <h2 className="admin-subheader">{user.email}</h2>
           </div>
+          <div className="edit">
+            <div className="edit-container">
+              <h2 className="edit-header">USER DETAILS</h2>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="Enter first name"
+              />
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Enter last name"
+              />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email"
+              />
+              <button onClick={handleUserDetailsUpdate}>Update</button>
+            </div>
 
-          <div>
-            <h2>Edit User Details</h2>
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Enter first name"
-            />
-            <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Enter last name"
-            />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email"
-            />
-            <button onClick={handleUserDetailsUpdate}>Update</button>
-          </div>
-
-          <div>
-            <h2>Change Password</h2>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Enter new password"
-            />
-            <input
-              type="password"
-              value={retypePassword}
-              onChange={(e) => setRetypePassword(e.target.value)}
-              placeholder="Retype new password"
-            />
-            <button onClick={handlePasswordChange}>Update Password</button>
+            <div className="edit-container">
+              <h2 className="edit-header">CHANGE PASSWORD</h2>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter new password"
+              />
+              <input
+                type="password"
+                value={retypePassword}
+                onChange={(e) => setRetypePassword(e.target.value)}
+                placeholder="Retype new password"
+              />
+              <button onClick={handlePasswordChange}>Update Password</button>
+            </div>
           </div>
 
           <div>

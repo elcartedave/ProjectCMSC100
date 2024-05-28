@@ -5,20 +5,20 @@ const SalesReport = () => {
   const [salesReport, setSalesReport] = useState([]);
   const [totalSalesAmount, setTotalSalesAmount] = useState(0);
   const [totalSalesQuantity, setTotalSalesQuantity] = useState(0);
-  const [timePeriod, setTimePeriod] = useState("allTime");//show the instance as all time as it is initialize
+  const [timePeriod, setTimePeriod] = useState("allTime"); //show the instance as all time as it is initialize
 
   useEffect(() => {
     fetchSalesReport();
-  }, [timePeriod]);//render the data on which time period the admin wants
+  }, [timePeriod]); //render the data on which time period the admin wants
 
   const fetchSalesReport = async () => {
     try {
       const { startDate, endDate } = getDateRange(timePeriod);
       const response = await axios.get("http://localhost:3001/salesreport", {
         params: { startDate, endDate },
-      });//sends the starting date and end date
+      }); //sends the starting date and end date
       setSalesReport(response.data);
-      calculateTotals(response.data);//calc total sales of a certain product then total it
+      calculateTotals(response.data); //calc total sales of a certain product then total it
     } catch (error) {
       console.error("Failed to fetch sales report:", error);
     }
@@ -28,7 +28,7 @@ const SalesReport = () => {
     // Create a new Date object representing the current date and time
     const now = new Date();
     let startDate, endDate;
-  
+
     // Determine the start and end date based on the specified period
     switch (period) {
       case "weekly":
@@ -55,16 +55,16 @@ const SalesReport = () => {
         endDate = null;
         break;
     }
-  
+
     // Return the start and end dates in ISO string format
     return {
       startDate: startDate ? startDate.toISOString() : null,
       endDate: endDate ? endDate.toISOString() : null,
     };
   };
-  
 
-  const calculateTotals = (report) => {//calculate total by gettung total amount of each item and total quantity sales of each item
+  const calculateTotals = (report) => {
+    //calculate total by gettung total amount of each item and total quantity sales of each item
     let totalAmount = 0;
     let totalQuantity = 0;
     report.forEach((item) => {
@@ -77,12 +77,13 @@ const SalesReport = () => {
 
   return (
     <div>
-      <h1>Sales Report</h1>
+      <h1 className="admin-header">SALES REPORT</h1>
       <div>
-        <label>Select Time Period: </label>
+        <label className="admin-subheader">Select Time Period: </label>
         <select
           value={timePeriod}
           onChange={(e) => setTimePeriod(e.target.value)}
+          style={{ padding: "5px", borderRadius: "10px" }}
         >
           <option value="allTime">All Time</option>
           <option value="weekly">This Week</option>
@@ -91,12 +92,22 @@ const SalesReport = () => {
         </select>
       </div>
       {salesReport.length === 0 ? (
-        <h1>No Sales Yet!</h1>
+        <h1 className="pending-header">No Sales Yet!</h1>
       ) : (
         <>
-          <h2>Total Number of Sales: {totalSalesQuantity}</h2>
-          <h2>Total Sales Amount: Php {totalSalesAmount}</h2>
-          <table>
+          <div className="ordernumber-field">
+            <div className="ordernumber-card">
+              <h2 className="order-title">
+                Total Number of Sales: {totalSalesQuantity}
+              </h2>
+            </div>
+            <div className="ordernumber-card">
+              <h2 className="order-title">
+                Total Sales Amount: Php {totalSalesAmount}
+              </h2>
+            </div>
+          </div>
+          <table className="user-field">
             <thead>
               <tr>
                 <th>Product Image</th>
@@ -112,12 +123,18 @@ const SalesReport = () => {
                     <img
                       src={item.productImage}
                       alt={item.productName}
-                      style={{ width: "50px", height: "50px" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        margin: "10px 15px",
+                      }}
                     />
                   </td>
-                  <td>{item.productName}</td>
-                  <td>{item.totalSalesQuantity}</td>
-                  <td>Php {item.totalSalesAmount}</td>
+                  <td className="order-name">{item.productName}</td>
+                  <td className="order-description">
+                    {item.totalSalesQuantity}
+                  </td>
+                  <td className="order-price">Php {item.totalSalesAmount}</td>
                 </tr>
               ))}
             </tbody>
