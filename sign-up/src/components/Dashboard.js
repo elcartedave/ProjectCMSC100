@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./CSS/Dashboard.css";
 
 const AdminNavbar = () => {
+  //sets the state on respective 0, empty
   const [sales, setSales] = useState(0);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
@@ -14,7 +15,7 @@ const AdminNavbar = () => {
     fetchInfo();
     fetchUsers();
     fetchSalesReport();
-  }, []);
+  }, []);//put all fetch information to useEffect so that it is rendered everytime
 
   const fetchOrders = async () => {
     try {
@@ -23,7 +24,7 @@ const AdminNavbar = () => {
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
-  };
+  };//gets all orders from orderTransaction collection then set that data to setOrders
 
   const fetchInfo = async () => {
     try {
@@ -33,7 +34,7 @@ const AdminNavbar = () => {
     } catch (error) {
       console.error("Failed to fetch product info:", error);
     }
-  };
+  };//gets again the products then set the responsedata to all products
 
   const fetchUsers = async () => {
     try {
@@ -42,24 +43,24 @@ const AdminNavbar = () => {
     } catch (error) {
       console.error("Failed to fetch users:", error);
     }
-  };
+  };//gets all user from user collection then set its responsedata to Users
 
   const fetchSalesReport = async () => {
     try {
       const response = await axios.get("http://localhost:3001/salesreport");
-      calculateTotals(response.data);
+      calculateTotals(response.data);//pass the data to calculate only the sales because it is displayed
     } catch (error) {
       console.error("Failed to fetch sales report:", error);
     }
-  };
+  };//gets all sales report from the aggregated informtaion
 
   const calculateTotals = (report) => {
     let totalAmount = 0;
     report.forEach((item) => {
-      totalAmount += item.totalSalesAmount;
+      totalAmount += item.totalSalesAmount;//gets each items total sales then total it
     });
     setSales(totalAmount);
-  };
+  };//only gets the total amount of all sales
 
   const totalOrders = orders.length;
   const totalUsers = users.filter(

@@ -11,13 +11,13 @@ import Modal from "../components/Modal.js";
 import Unauthorized from "./unauthorized.js";
 
 const AdminPage = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);// State to manage the visibility of the modal
 
   useEffect(() => {
-    const hasShownModal = localStorage.getItem("hasShownModal");
+    const hasShownModal = localStorage.getItem("hasShownModal");// Check if the modal has been shown before using localStorage
     if (!hasShownModal) {
       setShowModal(true);
-      localStorage.setItem("hasShownModal", "true");
+      localStorage.setItem("hasShownModal", "true");// If not, show the modal and set the flag in localStorage
     }
   }, []);
   return (

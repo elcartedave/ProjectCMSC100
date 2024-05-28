@@ -10,14 +10,14 @@ function ShoppingCart() {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const token = localStorage.getItem("cust-token");
+    const token = localStorage.getItem("cust-token");//know that the user is customer
     if (token) {
       axios
         .post("http://localhost:3001/token", { token })
         .then((response) => {
           const tokenData = response.data.tokenData;
           const userId = tokenData.userId;
-          console.log("User ID from token:", userId);
+          console.log("User ID from token:", userId);//get the user id from the token
 
           axios
             .get("http://localhost:3001/shoppingcart", { params: { userId } })
@@ -25,7 +25,7 @@ function ShoppingCart() {
               const sortedData = response.data.sort((a, b) =>
                 a.productName.localeCompare(b.productName)
               );
-              setSummaryData(sortedData);
+              setSummaryData(sortedData);//sort products by product name
               console.log("Shopping cart data:", sortedData);
               let items = 0;
               let price = 0;
@@ -33,8 +33,8 @@ function ShoppingCart() {
                 items += item.quantity;
                 price += item.totalPrice;
               });
-              setTotalItems(items);
-              setTotalPrice(price);
+              setTotalItems(items);//total quantity of a product (each)
+              setTotalPrice(price);//total price of a product (each)
             })
             .catch((error) => {
               console.error("Error fetching shopping cart:", error);
@@ -46,23 +46,23 @@ function ShoppingCart() {
     }
   }, []);
 
-  const handleIncrease = (productID) => {
+  const handleIncrease = (productID) => {//if you want to add quantity without going back to the product listing
     const token = localStorage.getItem("cust-token");
     axios
       .post("http://localhost:3001/token", { token })
       .then((response) => {
         const tokenData = response.data.tokenData;
-        const userID = tokenData.userId;
+        const userID = tokenData.userId;//get userid
         axios
           .post("http://localhost:3001/shoppingcart", {
             productIDs: productID,
             userIDs: userID,
             quantity: 1,
-          })
+          })//add that quantity to the shopping cart 
           .then((response) => {
             console.log(response);
             axios
-              .get("http://localhost:3001/shoppingcart", {
+              .get("http://localhost:3001/shoppingcart", {//this recalculate and update the shopping cart of the user
                 params: { userId: userID },
               })
               .then((response) => {
@@ -157,10 +157,10 @@ function ShoppingCart() {
         .post("http://localhost:3001/token", { token })
         .then((response) => {
           const tokenData = response.data.tokenData;
-          const userID = tokenData.userId;
+          const userID = tokenData.userId;//find user id by token
 
           axios
-            .post("http://localhost:3001/removeAllItems", { userID })
+            .post("http://localhost:3001/removeAllItems", { userID })//remove all items like reset the shopping cart after the checkout button is click
             .then((response) => {
               if (response.data.success) {
                 setSummaryData([]);

@@ -9,13 +9,13 @@ const Login = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
-  });
+  });//start with empty password and email
 
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
-  };
+  };//set the changes get from the input of user
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +23,8 @@ const Login = () => {
       const response = await axios.post(
         "http://localhost:3001/login",
         loginData
-      );
-      const token = response.data.token;
+      );//check the details on state pass as a para to /login
+      const token = response.data.token;//give token to the response data to know whether what pages to show if admin or customer
       window.location.reload();
       navigate("/");
       if (response.data.userType === "customer") {

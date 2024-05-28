@@ -5,55 +5,66 @@ const SalesReport = () => {
   const [salesReport, setSalesReport] = useState([]);
   const [totalSalesAmount, setTotalSalesAmount] = useState(0);
   const [totalSalesQuantity, setTotalSalesQuantity] = useState(0);
-  const [timePeriod, setTimePeriod] = useState("allTime");
+  const [timePeriod, setTimePeriod] = useState("allTime");//show the instance as all time as it is initialize
 
   useEffect(() => {
     fetchSalesReport();
-  }, [timePeriod]);
+  }, [timePeriod]);//render the data on which time period the admin wants
 
   const fetchSalesReport = async () => {
     try {
       const { startDate, endDate } = getDateRange(timePeriod);
       const response = await axios.get("http://localhost:3001/salesreport", {
         params: { startDate, endDate },
-      });
+      });//sends the starting date and end date
       setSalesReport(response.data);
-      calculateTotals(response.data);
+      calculateTotals(response.data);//calc total sales of a certain product then total it
     } catch (error) {
       console.error("Failed to fetch sales report:", error);
     }
   };
 
   const getDateRange = (period) => {
+    // Create a new Date object representing the current date and time
     const now = new Date();
     let startDate, endDate;
-
+  
+    // Determine the start and end date based on the specified period
     switch (period) {
       case "weekly":
+        // Set startDate to the first day of the current week (Sunday)
         startDate = new Date(now.setDate(now.getDate() - now.getDay()));
+        // Set endDate to the last day of the current week (Saturday)
         endDate = new Date(now.setDate(now.getDate() + 6 - now.getDay()));
         break;
       case "monthly":
+        // Set startDate to the first day of the current month
         startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        // Set endDate to the last day of the current month
         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         break;
       case "yearly":
+        // Set startDate to the first day of the current year
         startDate = new Date(now.getFullYear(), 0, 1);
+        // Set endDate to the last day of the current year
         endDate = new Date(now.getFullYear(), 11, 31);
         break;
       default:
+        // If no valid period is provided, set startDate and endDate to null
         startDate = null;
         endDate = null;
         break;
     }
-
+  
+    // Return the start and end dates in ISO string format
     return {
       startDate: startDate ? startDate.toISOString() : null,
       endDate: endDate ? endDate.toISOString() : null,
     };
   };
+  
 
-  const calculateTotals = (report) => {
+  const calculateTotals = (report) => {//calculate total by gettung total amount of each item and total quantity sales of each item
     let totalAmount = 0;
     let totalQuantity = 0;
     report.forEach((item) => {

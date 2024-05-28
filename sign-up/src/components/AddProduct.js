@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Notification from "./Notification.js";
 
 const AddProduct = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // use to jump path
   const [image, setImage] = useState(false);
   const [productDetails, setProductDetails] = useState({
     name: "",
@@ -13,7 +13,8 @@ const AddProduct = () => {
     price: "",
     description: "",
     quantity: "",
-  });
+  });//state the has empty values from the start if no product is added yet but has a custom 
+  //type as crop unless specified as poultry
 
   const imageHandler = (e) => {
     setImage(e.target.files[0]); //get image
@@ -21,7 +22,7 @@ const AddProduct = () => {
 
   const changeHandler = (e) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
-  };
+  };//change the state details when entered information on the form
 
   const [notification, setNotification] = useState("");
 
@@ -33,7 +34,7 @@ const AddProduct = () => {
     let product = productDetails;
 
     let formData = new FormData();
-    formData.append("product", image);
+    formData.append("product", image);//gets image then append it to the formData
 
     await fetch("http://localhost:3001/upload", {
       method: "POST",
@@ -45,7 +46,7 @@ const AddProduct = () => {
       .then((resp) => resp.json())
       .then((data) => {
         responseData = data;
-      });
+      });//gets the image 
 
     if (responseData.success) {
       product.image = responseData.image_url;
@@ -56,8 +57,8 @@ const AddProduct = () => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(product),
-      })
+        body: JSON.stringify(product),//convert all details to a json that will later be saved
+      })//saves the product on the collection
         .then((resp) => resp.json())
         .then((data) => {
           if (data.success) {
@@ -72,7 +73,7 @@ const AddProduct = () => {
             });
             setImage(false);
             setTimeout(() => {
-              window.location.replace("/listproduct");
+              window.location.replace("/listproduct");//jump to /listproduct
             }, 1000);
           } else {
             setNotification("Failed!");

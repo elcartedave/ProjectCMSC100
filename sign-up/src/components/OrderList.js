@@ -5,13 +5,13 @@ import "./CSS/OrderList.css";
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState("Pending");
+  const [selectedStatus, setSelectedStatus] = useState("Pending");//set all status to pending 
   // const [cart, setShoppingCart] = useState([]);
 
   useEffect(() => {
     fetchOrders();
     fetchProducts();
-  }, []);
+  }, []);//put the fetch items on the useEffect
 
   const fetchOrders = async () => {
     try {
@@ -20,7 +20,7 @@ const OrderList = () => {
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
-  };
+  };//gets all orders from orderTransaction collection
 
   const fetchProducts = async () => {
     try {
@@ -29,7 +29,7 @@ const OrderList = () => {
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
-  };
+  };//gets all products from pruducts collection later be used to display items in order not all products
 
   // const fetchShoppingCart = async () => {
   //   try {
@@ -43,15 +43,16 @@ const OrderList = () => {
   const getProductNameById = (productID) => {
     const product = products.find((item) => item._id === productID);
     return product ? product.name : "Unknown Product";
-  };
+  };//this takes a product id then comapre it to the _id in the collection if find return product.name if not unknown product
 
   const handleConfirm = async (transactionID) => {
     try {
       const response = await axios.post("http://localhost:3001/confirmOrder", {
         transactionID,
-      });
+      });//takes the transaction id pass it because it is a req.body in confirmOrder
 
-      const updatedStatus = response.data.includes("cancelled")
+      const updatedStatus = response.data.includes("cancelled")//if the return data is cancelled then it will update the status of the order
+      //because there are times admin still accept all order not looking at the quantity so it automatically cancelled order if there is no quantity left
         ? "Cancelled"
         : "Success";
       setOrders((prevOrders) =>
@@ -82,23 +83,30 @@ const OrderList = () => {
     } catch (error) {
       console.error("Failed to decline order:", error);
     }
-  };
+  };//returns a status of order that is cancelled
 
-  const filteredOrders = orders.filter(
-    (order) => order.status === selectedStatus
-  );
+  // Filter the orders array to include only the orders that match the selected status
+const filteredOrders = orders.filter(
+  (order) => order.status === selectedStatus
+);
 
-  filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+// Sort the filtered orders by date in descending order
+filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const totalPending = orders.filter(
-    (order) => order.status === "Pending"
-  ).length;
-  const totalSuccess = orders.filter(
-    (order) => order.status === "Success"
-  ).length;
-  const totalCancelled = orders.filter(
-    (order) => order.status === "Cancelled"
-  ).length;
+// Calculate the total number of orders with status "Pending"
+const totalPending = orders.filter(
+  (order) => order.status === "Pending"
+).length;
+
+// Calculate the total number of orders with status "Success"
+const totalSuccess = orders.filter(
+  (order) => order.status === "Success"
+).length;
+
+// Calculate the total number of orders with status "Cancelled"
+const totalCancelled = orders.filter(
+  (order) => order.status === "Cancelled"
+).length;
     
   return (
     <div>

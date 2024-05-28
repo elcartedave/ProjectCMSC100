@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 const Filter = (props) => {
   function FonChange(event) {
     props.FonChangeSelect(event.target.value);
-  }
+  }//when botton is selected this change the value that is passed on the dashboard and productlist
 
   function FonChange1(event) {
     props.FonChangeSelect1(event.target.value);
-  }
+  }//same as filter
 
   useEffect(() => {
     function handleSortClick(event) {
@@ -18,7 +18,7 @@ const Filter = (props) => {
         }
       });
       event.target.classList.toggle("clicked");
-    }
+    }//put in the use effect so every click it updated which event was selected
 
     function handleOrderClick(event) {
       const orderoptions = document.querySelectorAll(".order-btn");
@@ -28,25 +28,25 @@ const Filter = (props) => {
         }
       });
       event.target.classList.toggle("clicked");
-    }
+    }//which button is click 
 
     const sortButtons = document.querySelectorAll(".sort-btn");
     sortButtons.forEach((button) => {
       button.addEventListener("click", handleSortClick);
-    });
+    });//add a event listener for all with className sort btn
 
     const orderButtons = document.querySelectorAll(".order-btn");
     orderButtons.forEach((button) => {
       button.addEventListener("click", handleOrderClick);
-    });
+    });//add a event listener for all with className order btn
 
     return () => {
       sortButtons.forEach((button) => {
         button.removeEventListener("click", handleSortClick);
-      });
+      });//name, price, type, quantity
       orderButtons.forEach((button) => {
         button.removeEventListener("click", handleOrderClick);
-      });
+      });//for sorting asc or desc
     };
   }, []);
 

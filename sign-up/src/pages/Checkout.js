@@ -11,14 +11,14 @@ function Checkout() {
 
   useEffect(() => {
     const token = localStorage.getItem("cust-token");
-    if (token) {
+    if (token) {//gets the userid from the tokenData
       axios
         .post("http://localhost:3001/token", { token })
         .then((response) => {
           const tokenData = response.data.tokenData;
           const userId = tokenData.userId;
 
-          axios
+          axios//get all the items of the shopping cart that is from userid
             .get("http://localhost:3001/shoppingcart", { params: { userId } })
             .then((response) => {
               setSummaryData(response.data);
@@ -59,7 +59,7 @@ function Checkout() {
             productID: item._id,
             orderQuantity: item.quantity,
             totalPrice: item.totalPrice,
-          }));
+          }));//to checkout it needs email, user id then it creates an array of product (it contains the product id quantity and price)
   
           axios
             .post("http://localhost:3001/createOrder", {
@@ -67,7 +67,7 @@ function Checkout() {
               products,
               email,
               date,
-            })
+            })//pass the details to here from above to be saved
             .then(() => {
               setNotification("Order Checkout!");
               setTimeout(() => {

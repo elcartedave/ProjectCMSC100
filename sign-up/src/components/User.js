@@ -23,7 +23,7 @@ const User = () => {
     };
 
     fetchUserID();
-  }, []);
+  }, []);//get the token oof userid from token
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,7 +42,7 @@ const User = () => {
     };
 
     fetchUser();
-  }, [userID]);
+  }, [userID]);//get the information of user by using the ._id
 
   if (!user) {
     return <div>Loading...</div>;

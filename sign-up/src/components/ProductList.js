@@ -105,12 +105,12 @@ function ProductList() {
     axios.get("http://localhost:3001/productlist").then((response) => {
       setProduct(response.data);
       console.log(response);
-    });
+    });//get all products from product collection
     const token = localStorage.getItem("cust-token");
     axios.post("http://localhost:3001/token", { token }).then((response) => {
       settokenData(response.data.tokenData);
       console.log(response);
-    });
+    });//get token of user that is need in verification that the user is ordering
   }, []);
 
   function FonChangeVS(fValue) {
@@ -121,7 +121,7 @@ function ProductList() {
     setFilter1(fValue);
   }
 
-  function CheckTokenPushCart(tokened, productid, productQuantity) {
+  function CheckTokenPushCart(tokened, productid, productQuantity) {//pasing the token of user(contain userid) product id and product quantitty put in the cart
     setNotification(""); // Reset notification to trigger the change
     setTimeout(() => {
       if (productQuantity > 0) {
@@ -130,7 +130,7 @@ function ProductList() {
             productIDs: productid,
             userIDs: tokened.userId,
             quantity: 1,
-          })
+          })//pass the details that later be saved in SCS 
           .then((response) => {
             console.log(response);
             if (response.status === 200) {
@@ -138,7 +138,7 @@ function ProductList() {
             }
           });
       } else {
-        setNotification("Out of Stock");
+        setNotification("Out of Stock");//when user try to add to cart an out of stock product
       }
     }, 0); // Delay to ensure state reset
   }

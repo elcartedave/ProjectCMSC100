@@ -10,7 +10,7 @@ function UserList() {
       setUsers(response.data);
       console.log(response);
     });
-  });
+  });//returns the list of user from user collection
 
   const deleteUser = (id) => {
     axios
@@ -23,7 +23,7 @@ function UserList() {
       .catch((error) => {
         console.error("Error deleting user:", error);
       });
-  };
+  };//if the admin wants to delete an account of customer user by finding the user id of the customer then delete it
 
   const customerUsers = users.filter((user) => user.userType === "customer"); //to show users with type customer only
 

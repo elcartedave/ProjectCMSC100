@@ -8,13 +8,13 @@ const SignUp = () => {
     userType: "customer",
     email: "",
     password: "",
-  });
+  });//a state wherein all are empty string except userType it is initially customer as all the signup will be customer
 
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setsignupData({ ...signupData, [e.target.name]: e.target.value });
-  };
+  };//set the information from the form to signupData
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ const SignUp = () => {
       const response = await axios.post(
         "http://localhost:3001/signup",
         signupData
-      );
+      );//pass the data to the backend and it will confirm it if the pass information is valid
       if (response && response.data) {
         alert(response.data);
         window.location.replace("/");
