@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div className="admin-navbar">
       <img
-        src="./images/harvestbud_logo.png"
+        src={`${process.env.PUBLIC_URL}/images/harvestbud_logo.png`}
         alt="harvestbud"
         className="navbar-logo"
       />

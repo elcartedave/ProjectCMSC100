@@ -16,10 +16,12 @@ export const UserDetailsPage = () => {
 
   useEffect(() => {
     const fetchUserID = async () => {
-      const token = localStorage.getItem("cust-token");//get the token to get token id of the cusstomer
+      const token = localStorage.getItem("cust-token"); //get the token to get token id of the cusstomer
       if (token) {
         try {
-          const response = await axios.post("http://localhost:3001/token", { token });
+          const response = await axios.post("http://localhost:3001/token", {
+            token,
+          });
           setUserID(response.data.tokenData.userId);
         } catch (error) {
           console.error("Error fetching userID:", error);
@@ -31,7 +33,7 @@ export const UserDetailsPage = () => {
     fetchOrders();
     fetchProducts();
     //handleUserDetailsUpdate();
-  }, []);//first render
+  }, []); //first render
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,7 +55,7 @@ export const UserDetailsPage = () => {
     };
 
     fetchUser();
-  }, [userID, userid]);//always fetchUser for every render
+  }, [userID, userid]); //always fetchUser for every render
 
   const fetchOrders = async () => {
     try {
@@ -62,7 +64,7 @@ export const UserDetailsPage = () => {
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
-  };//get all orders from orderTransaction collection
+  }; //get all orders from orderTransaction collection
 
   const fetchProducts = async () => {
     try {
@@ -71,29 +73,34 @@ export const UserDetailsPage = () => {
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
-  };//get all product from productlist
+  }; //get all product from productlist
 
   const getProductNameById = (productID) => {
     const product = products.find((item) => item._id === productID);
     return product ? product.name : "Deleted Product";
-  };//having a product id check its item._ if found show product name else the product is deleted
+  }; //having a product id check its item._ if found show product name else the product is deleted
 
   const filteredOrders = orders
     .filter((order) => order.userID === userID)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));//get the order of the user and sort it by date
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); //get the order of the user and sort it by date
 
   const handlePasswordChange = async () => {
     if (newPassword !== retypePassword) {
       alert("Passwords do not match!");
       return;
-    }//handles the change of the password if the new pass and retype is not same show alert
+    } //handles the change of the password if the new pass and retype is not same show alert
 
     try {
-      const response = await axios.post("http://localhost:3001/updatePassword", {
-        userId: userID,
-        newPassword,
-      });//if equal use the userid to find userid in User collection then update the password with newPassword
+      const response = await axios.post(
+        "http://localhost:3001/updatePassword",
+        {
+          userId: userID,
+          newPassword,
+        }
+      ); //if equal use the userid to find userid in User collection then update the password with newPassword
       alert(response.data);
+      setNewPassword("");
+      setRetypePassword("");
     } catch (error) {
       console.error("Error updating password:", error);
     }
@@ -106,7 +113,7 @@ export const UserDetailsPage = () => {
         firstName,
         lastName,
         email,
-      });//same with the password it also needs the userId as it is need to find the ._id of user in User collection to update any of the attribute
+      }); //same with the password it also needs the userId as it is need to find the ._id of user in User collection to update any of the attribute
       alert("User details updated successfully");
     } catch (error) {
       console.error("Error updating user details:", error);
