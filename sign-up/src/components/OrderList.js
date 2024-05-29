@@ -74,10 +74,9 @@ const OrderList = () => {
     }
   };
 
-  const filteredOrders = orders.filter(
-    (order) => order.status === selectedStatus
-  );
-
+  const filteredOrders = orders
+    .filter((order) => order.status === selectedStatus)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
   filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const totalPending = orders.filter(
@@ -178,7 +177,9 @@ const OrderList = () => {
                       {order.status === "Cancelled" &&
                         (order.cancelledBy === "admin"
                           ? " (Cancelled by Admin)"
-                          : " (Cancelled by User)")}
+                          : order.cancelledBy == "user"
+                          ? " (Cancelled by User)"
+                          : "")}
                     </td>
                   )}
                 </tr>
