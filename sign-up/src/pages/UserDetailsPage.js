@@ -247,7 +247,7 @@ export const UserDetailsPage = () => {
                         </td>
                         <td>
                           {order.status === "Pending" && (
-                            <button
+                            <button className="cancel-btn"
                               onClick={() => handleOrderCancel(order._id)}
                             >
                               Cancel
