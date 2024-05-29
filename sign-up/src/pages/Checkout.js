@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../components/CSS/Checkout.css";
 import Notification from "../components/Notification.js";
+import Modal from "../components/Modal.js"; // Import the Modal component
 
 function Checkout() {
   const [summaryData, setSummaryData] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [notification, setNotification] = useState("");
+  const [modalMessage, setModalMessage] = useState(""); // State for modal message
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+
 
   useEffect(() => {
     const token = localStorage.getItem("cust-token");
@@ -59,15 +63,42 @@ function Checkout() {
             productID: item._id,
             orderQuantity: item.quantity,
             totalPrice: item.totalPrice,
-          }));//to checkout it needs email, user id then it creates an array of product (it contains the product id quantity and price)
+          }));
   
+          // Track items that exceed available stock
+          const itemsExceedingStock = [];
+          summaryData.forEach((item) => {//check each item of summaryData(products in shopping cart)
+            if (item.quantity > item.stock) {//checks each quantity and stock
+              const excessQuantity = item.quantity - item.stock;//subtract it so that you get the excess
+              itemsExceedingStock.push({//push in the array to be later displayed, it is an object displaying 
+                //product name and the value of excess
+                productName: item.productName,
+                excessQuantity,
+              });
+            }
+          });
+
+          if (itemsExceedingStock.length > 0) {//if there is an existing product
+            const message = itemsExceedingStock.map(//have a for loop
+              (item) =>
+                `${item.productName} (Excess: ${item.excessQuantity} units)`
+            ).join("\n");//that will be print in the set Modal Mewssage
+            setModalMessage(`Some items in your cart exceed available stock:\n${message}`);
+            setShowModal(true); // Show the modal
+            setTimeout(() => {
+              setShowModal(false); // Close the modal after 5 seconds
+            }, 5000);
+            return; // Exit the checkout process
+          }
+  
+          // Proceed with creating the order if all items pass the stock check
           axios
             .post("http://localhost:3001/createOrder", {
               userID: userId,
               products,
               email,
               date,
-            })//pass the details to here from above to be saved
+            })
             .then(() => {
               setNotification("Order Checkout!");
               setTimeout(() => {
@@ -85,10 +116,17 @@ function Checkout() {
     }
   };
   
+  
 
   return (
     <>
     <Notification message={notification} />
+    <Modal
+        message={modalMessage}
+        show={showModal}
+        handleClose={() => setShowModal(false)} // Close modal function
+        time={5000} // Auto-close modal after 5 seconds
+      />
     <div className="container">
       <h1 className="admin-header">CHECKOUT SUMMARY</h1>
       <table className="user-field">
