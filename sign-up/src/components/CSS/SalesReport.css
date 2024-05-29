@@ -1,0 +1,33 @@
+/* SalesReport.css */
+.sales-chart {
+    width: 95%;  /* Adjust the width as needed */
+    margin: -50px 10px 10px 10px;
+    justify-content: center;
+    display: flex;
+}
+
+.chart-container {
+  padding: 20px;
+  border-radius: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
+.pie-chart {
+    width: 300px;  
+    height: 200px; 
+    padding: 10px;
+}
+
+.pie-chart:hover {
+    scale: 1.05;
+    transition: 0.3s;
+}
+
+.sales-highlight {
+  font-family: poppins, sans-serif;
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #FFC700;
+}
