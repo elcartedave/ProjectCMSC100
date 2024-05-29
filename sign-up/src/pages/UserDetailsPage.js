@@ -113,7 +113,6 @@ export const UserDetailsPage = () => {
         userId: userID,
         firstName,
         lastName,
-        email,
       }); //same with the password it also needs the userId as it is need to find the ._id of user in User collection to update any of the attribute
       alert("User details updated successfully");
       window.location.reload();
@@ -121,6 +120,19 @@ export const UserDetailsPage = () => {
       console.error("Error updating user details:", error);
     }
   };
+
+  const handleEmailUpdate = async () => {
+    try{
+      await axios.post("http://localhost:3001/updateEmail",{
+        userId: userID,
+        email,
+      });
+      alert("User email updated successfully");
+      window.location.reload();
+    } catch(error){
+      alert("Email existing or Email is not valid.");
+    }
+  }
 
   return (
     <div>
@@ -147,13 +159,14 @@ export const UserDetailsPage = () => {
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Enter last name"
               />
+              <button onClick={handleUserDetailsUpdate}>Update</button>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter email"
               />
-              <button onClick={handleUserDetailsUpdate}>Update</button>
+              <button onClick={handleEmailUpdate}>Update</button>
             </div>
 
             <div className="edit-container">
