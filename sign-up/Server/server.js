@@ -15,6 +15,7 @@ import {
   updatePassword,
   updateUser,
   userList,
+  updateEmail,
 } from "../src/controllers/userscontroller.js";
 import {
   createOrder,
@@ -82,6 +83,7 @@ app.get("/userlist", userList);
 app.post("/userlist", deleteUser);
 app.post("/updatePassword", updatePassword);
 app.post("/updateUser", updateUser);
+app.post("/updateEmail", updateEmail);
 
 //authentication
 app.post("/signup", signup);

@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/user.js";
+import validator from "validator";
 
 //app get method that finds all user
 export const userList = async function (req, res) {
@@ -37,7 +38,7 @@ export const updatePassword = async (req, res) => {
 
 // app.post that update user details route
 export const updateUser = async (req, res) => {
-  const { userId, firstName, lastName} = req.body; //check if there is an input to be updated
+  const { userId, firstName, lastName } = req.body; //check if there is an input to be updated
   if (!userId || !firstName || !lastName) {
     return res
       .status(400)
@@ -45,7 +46,7 @@ export const updateUser = async (req, res) => {
   }
   //same as the password finds the user instance by userId and check which attribute will be updated
   try {
-    await User.findByIdAndUpdate(userId, { firstName, lastName});
+    await User.findByIdAndUpdate(userId, { firstName, lastName });
     res.status(200).send("User details updated successfully");
   } catch (error) {
     res.status(500).send("Error updating user details: " + error.message);
@@ -53,21 +54,22 @@ export const updateUser = async (req, res) => {
 };
 
 export const updateEmail = async (req, res) => {
-  const {userId, email} = req.body;
-  if(!userId || email){
+  const { userId, email } = req.body;
+  if (!userId || !email) {
     return res.status(400).send("User ID and Email are required");
   }
 
-  try{
+  try {
     let existing = await User.findOne({ email: req.body.email });
-    if (existing == null && validator.isEmail(req.body.email)) {
-      await User.findByIdAndUpdate(userId,{email});
+    if (existing == null && validator.isEmail(email)) {
+      await User.findByIdAndUpdate(userId, { email });
       res.status(200).send("User email updated successfully");
+    } else {
+      res
+        .status(400)
+        .send("Error on email, input a valid email or email is existing");
     }
-    else{
-      res.status(400).send("Error on email, input a valid email or email is existing");
-    }
-  } catch(error){
-    res.status(500).send("Error updating user email details "+ error.message);
+  } catch (error) {
+    res.status(500).send("Error updating user email details " + error.message);
   }
-}
+};
