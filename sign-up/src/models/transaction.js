@@ -15,6 +15,7 @@ const orderTransactionSchema = new mongoose.Schema({
   email: String,
   date: Date,
   status: String,
+  cancelledBy: String,
 });
 
 //model for schema with instance as oderTransaction

@@ -103,11 +103,39 @@ export const declineOrder = async function (req, res) {
       }
 
       transaction.status = "Cancelled";
+      transaction.cancelledBy = "admin"; // Mark cancellation as by admin
       await transaction.save();
 
       res.status(200).send("Transaction status updated to Decline");
     } catch (err) {
       res.status(500).send("Failed to update transaction status");
+    }
+  } else {
+    res.status(400).send("Invalid request, transaction ID required");
+  }
+};
+
+export const cancelOrder = async function (req, res) {
+  const { transactionID } = req.body; // Accept cancelledBy parameter
+  if (transactionID) {
+    try {
+      const transaction = await orderTransaction.findById(transactionID);
+      if (!transaction) {
+        return res.status(404).send("Transaction not found");
+      }
+
+      if (transaction.status !== "Pending") {
+        return res.status(400).send("Only pending orders can be cancelled");
+      }
+
+      transaction.status = "Cancelled";
+      transaction.cancelledBy = "user";
+      await transaction.save();
+
+      res.status(200).send("Order cancelled successfully");
+    } catch (err) {
+      console.error("Error cancelling order:", err);
+      res.status(500).send("Failed to cancel the order");
     }
   } else {
     res.status(400).send("Invalid request, transaction ID required");

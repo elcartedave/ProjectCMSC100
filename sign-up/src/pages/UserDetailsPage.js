@@ -17,7 +17,7 @@ export const UserDetailsPage = () => {
 
   useEffect(() => {
     const fetchUserID = async () => {
-      const token = localStorage.getItem("cust-token"); //get the token to get token id of the cusstomer
+      const token = localStorage.getItem("cust-token");
       if (token) {
         try {
           const response = await axios.post("http://localhost:3001/token", {
@@ -33,8 +33,7 @@ export const UserDetailsPage = () => {
     fetchUserID();
     fetchOrders();
     fetchProducts();
-    //handleUserDetailsUpdate();
-  }, []); //first render
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -56,7 +55,7 @@ export const UserDetailsPage = () => {
     };
 
     fetchUser();
-  }, [userID, userid]); //always fetchUser for every render
+  }, [userID, userid]);
 
   const fetchOrders = async () => {
     try {
@@ -65,7 +64,7 @@ export const UserDetailsPage = () => {
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
-  }; //get all orders from orderTransaction collection
+  };
 
   const fetchProducts = async () => {
     try {
@@ -74,22 +73,22 @@ export const UserDetailsPage = () => {
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
-  }; //get all product from productlist
+  };
 
   const getProductNameById = (productID) => {
     const product = products.find((item) => item._id === productID);
     return product ? product.name : "Deleted Product";
-  }; //having a product id check its item._ if found show product name else the product is deleted
+  };
 
   const filteredOrders = orders
     .filter((order) => order.userID === userID)
-    .sort((a, b) => new Date(b.date) - new Date(a.date)); //get the order of the user and sort it by date
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const handlePasswordChange = async () => {
     if (newPassword !== retypePassword) {
       alert("Passwords do not match!");
       return;
-    } //handles the change of the password if the new pass and retype is not same show alert
+    }
 
     try {
       const response = await axios.post(
@@ -98,7 +97,7 @@ export const UserDetailsPage = () => {
           userId: userID,
           newPassword,
         }
-      ); //if equal use the userid to find userid in User collection then update the password with newPassword
+      );
       alert(response.data);
       setNewPassword("");
       setRetypePassword("");
@@ -113,7 +112,7 @@ export const UserDetailsPage = () => {
         userId: userID,
         firstName,
         lastName,
-      }); //same with the password it also needs the userId as it is need to find the ._id of user in User collection to update any of the attribute
+      });
       alert("User details updated successfully");
       window.location.reload();
     } catch (error) {
@@ -122,17 +121,31 @@ export const UserDetailsPage = () => {
   };
 
   const handleEmailUpdate = async () => {
-    try{
-      await axios.post("http://localhost:3001/updateEmail",{
+    try {
+      await axios.post("http://localhost:3001/updateEmail", {
         userId: userID,
         email,
       });
       alert("User email updated successfully");
       window.location.reload();
-    } catch(error){
+    } catch (error) {
       alert("Email existing or Email is not valid.");
     }
-  }
+  };
+
+  const handleOrderCancel = async (orderId) => {
+    try {
+      const response = await axios.post("http://localhost:3001/cancelOrder", {
+        transactionID: orderId,
+        cancelledBy: "user", // specify who is cancelling the order
+      });
+      alert(response.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      alert("Failed to cancel the order. Please try again.");
+    }
+  };
 
   return (
     <div>
@@ -203,7 +216,7 @@ export const UserDetailsPage = () => {
               <tbody>
                 {filteredOrders.length === 0 ? (
                   <tr>
-                    <td className="no-pending" colSpan="6">
+                    <td className="no-pending" colSpan="7">
                       No orders
                     </td>
                   </tr>
@@ -225,7 +238,22 @@ export const UserDetailsPage = () => {
                         <td className="order-quantity">
                           {order.orderQuantity} PRODUCT
                         </td>
-                        <td className="order-status">{order.status}</td>
+                        <td className="order-status">
+                          {order.status}
+                          {order.status === "Cancelled" &&
+                            (order.cancelledBy === "admin"
+                              ? " (Cancelled by Admin)"
+                              : " (Cancelled by User)")}
+                        </td>
+                        <td>
+                          {order.status === "Pending" && (
+                            <button
+                              onClick={() => handleOrderCancel(order._id)}
+                            >
+                              Cancel
+                            </button>
+                          )}
+                        </td>
                       </tr>
                       <br />
                     </React.Fragment>

@@ -23,6 +23,7 @@ import {
   declineOrder,
   getOrder,
   salesReport,
+  cancelOrder,
 } from "../src/controllers/transactioncontroller.js";
 import {
   addToCart,
@@ -101,6 +102,7 @@ app.get("/createOrder", getOrder);
 app.post("/confirmOrder", confirmOrder);
 app.post("/declineOrder", declineOrder);
 app.get("/salesreport", salesReport);
+app.post("/cancelOrder", cancelOrder);
 
 //shopping cart routes
 app.post("/shoppingcart", addToCart);

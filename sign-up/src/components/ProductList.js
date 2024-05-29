@@ -7,6 +7,7 @@ import Notification from "./Notification.js";
 
 function ProductList() {
   const [product, setProduct] = useState([]);
+  const [salesReport, setSalesReport] = useState([]);
   const [tokenData, settokenData] = useState([]);
   const [filtered, setFilter] = useState("name");
   const [filtered1, setFilter1] = useState("ascending");
@@ -100,17 +101,33 @@ function ProductList() {
       }
     });
   };
+  const fetchSalesReport = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/salesreport");
+      setSalesReport(response.data);
+    } catch (error) {
+      console.error("Failed to fetch sales report:", error);
+    }
+  };
+
+  const getTotalItemsSold = (productId) => {
+    const productSales = salesReport.find(
+      (item) => item.productID === productId
+    );
+    return productSales ? productSales.totalSalesQuantity : 0;
+  };
 
   useEffect(() => {
     axios.get("http://localhost:3001/productlist").then((response) => {
       setProduct(response.data);
       console.log(response);
-    });//get all products from product collection
+    }); //get all products from product collection
     const token = localStorage.getItem("cust-token");
     axios.post("http://localhost:3001/token", { token }).then((response) => {
       settokenData(response.data.tokenData);
       console.log(response);
-    });//get token of user that is need in verification that the user is ordering
+    }); //get token of user that is need in verification that the user is ordering
+    fetchSalesReport();
   }, []);
 
   function FonChangeVS(fValue) {
@@ -121,7 +138,8 @@ function ProductList() {
     setFilter1(fValue);
   }
 
-  function CheckTokenPushCart(tokened, productid, productQuantity) {//pasing the token of user(contain userid) product id and product quantitty put in the cart
+  function CheckTokenPushCart(tokened, productid, productQuantity) {
+    //pasing the token of user(contain userid) product id and product quantitty put in the cart
     setNotification(""); // Reset notification to trigger the change
     setTimeout(() => {
       if (productQuantity > 0) {
@@ -130,7 +148,7 @@ function ProductList() {
             productIDs: productid,
             userIDs: tokened.userId,
             quantity: 1,
-          })//pass the details that later be saved in SCS 
+          }) //pass the details that later be saved in SCS
           .then((response) => {
             console.log(response);
             if (response.status === 200) {
@@ -138,7 +156,7 @@ function ProductList() {
             }
           });
       } else {
-        setNotification("Out of Stock");//when user try to add to cart an out of stock product
+        setNotification("Out of Stock"); //when user try to add to cart an out of stock product
       }
     }, 0); // Delay to ensure state reset
   }
@@ -164,8 +182,10 @@ function ProductList() {
               <p className="product-name">{prod.name}</p>
               <p className="product-price"> ₱{prod.price}</p>
               <p className="product-type">
-                Type: {prod.type} | Quantity: {prod.quantity}
+                Type: {prod.type} | Quantity: {prod.quantity} | Sold:{" "}
+                {getTotalItemsSold(prod._id)}
               </p>
+
               <p className="product-description">{prod.description}</p>
               <button
                 className="product-add"
