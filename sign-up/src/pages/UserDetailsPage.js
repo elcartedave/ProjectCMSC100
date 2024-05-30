@@ -243,11 +243,14 @@ export const UserDetailsPage = () => {
                           {order.status === "Cancelled" &&
                             (order.cancelledBy === "admin"
                               ? " (Cancelled by Admin)"
-                              : " (Cancelled by User)")}
+                              : order.cancelledBy == "user"
+                              ? " (Cancelled by User)"
+                              : "")}
                         </td>
                         <td>
                           {order.status === "Pending" && (
-                            <button className="cancel-btn"
+                            <button
+                              className="cancel-btn"
                               onClick={() => handleOrderCancel(order._id)}
                             >
                               Cancel
