@@ -51,3 +51,16 @@ export const productList = async function (req, res) {
   const result = await Product.find({}); //returns all instance of product
   res.send(result);
 };
+
+// Update the quantity of a product
+export const updateQuantity = async (req, res) => {
+  const { _id, quantityChange } = req.body;
+  const product = await Product.findById(_id);
+  if (product) {
+    product.quantity += quantityChange;
+    await product.save();
+    res.json({ success: true, product });
+  } else {
+    res.json({ success: false, message: "Product not found" });
+  }
+};

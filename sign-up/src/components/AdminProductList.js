@@ -4,10 +4,10 @@ import Filter from "./Filter.js";
 import { Link } from "react-router-dom";
 
 const ListProduct = () => {
-  const [product, setAllProducts] = useState([]);//empty state 
-  const [filtered, setFilter] = useState("name");//initialize filter by name 
-  const [filtered1, setFilter1] = useState("ascending");//initialize filter by ascending a-z
-  let ProductL = [...product];//spread the products
+  const [product, setAllProducts] = useState([]); //empty state
+  const [filtered, setFilter] = useState("name"); //initialize filter by name
+  const [filtered1, setFilter1] = useState("ascending"); //initialize filter by ascending a-z
+  let ProductL = [...product]; //spread the products
 
   //how the filter being done, depending on what the admin press on his option this will condition will be done
   const fProductList = () => {
@@ -100,11 +100,11 @@ const ListProduct = () => {
 
   function FonChangeVS(fValue) {
     setFilter(fValue);
-  }//gets the value for name || quantity || price || type
+  } //gets the value for name || quantity || price || type
 
   function FonChangeVS1(fValue) {
     setFilter1(fValue);
-  }// gets value if either asc or desc
+  } // gets value if either asc or desc
 
   const fetchInfo = async () => {
     await fetch("http://localhost:3001/productlist")
@@ -112,11 +112,11 @@ const ListProduct = () => {
       .then((data) => {
         setAllProducts(data);
       });
-  };//gets all product from the collection of productlist in admin side
+  }; //gets all product from the collection of productlist in admin side
 
   useEffect(() => {
     fetchInfo();
-  }, []);//put into useEffect that what every you click it is being rendered and still being show
+  }, []); //put into useEffect that what every you click it is being rendered and still being show
 
   const remove_product = async (id) => {
     await fetch("http://localhost:3001/removeproduct", {
@@ -128,8 +128,20 @@ const ListProduct = () => {
       body: JSON.stringify({ _id: id }),
     });
     await fetchInfo();
-  };// if you want to remove product in the product list collection
+  }; // if you want to remove product in the product list collection
   //it passes the product id converts it to a json string that later be find then remove
+
+  const updateQuantity = async (id, quantityChange) => {
+    await fetch("http://localhost:3001/updatequantity", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ _id: id, quantityChange: quantityChange }),
+    });
+    await fetchInfo();
+  };
 
   return (
     <div className="list-product">
@@ -165,6 +177,17 @@ const ListProduct = () => {
                 >
                   DELETE
                 </button>
+                <div className="quantity-buttons">
+                  <button
+                    id="minus-btn"
+                    onClick={() => updateQuantity(product._id, -1)}
+                  >
+                    -
+                  </button>
+                  <button onClick={() => updateQuantity(product._id, 1)}>
+                    +
+                  </button>
+                </div>
               </div>
             );
           })}

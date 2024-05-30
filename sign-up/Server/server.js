@@ -9,6 +9,7 @@ import {
   addProduct,
   productList,
   removeProduct,
+  updateQuantity,
 } from "../src/controllers/productcontroller.js";
 import {
   deleteUser,
@@ -95,6 +96,7 @@ app.post("/token", token);
 app.post("/addproduct", addProduct);
 app.post("/removeProduct", removeProduct);
 app.get("/productlist", productList);
+app.post("/updatequantity", updateQuantity);
 
 //transaction routes
 app.post("/createOrder", createOrder);
