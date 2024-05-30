@@ -57,7 +57,11 @@ export const updateQuantity = async (req, res) => {
   const { _id, quantityChange } = req.body;
   const product = await Product.findById(_id);
   if (product) {
-    product.quantity += quantityChange;
+    if (quantityChange > 0 && product.quantity >= 0) {
+      product.quantity += quantityChange;
+    } else if (quantityChange < 0 && product.quantity > 0) {
+      product.quantity += quantityChange;
+    }
     await product.save();
     res.json({ success: true, product });
   } else {
