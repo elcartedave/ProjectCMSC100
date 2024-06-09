@@ -2,10 +2,10 @@
 
 # Members:
 
--Elcarte, Dave Andrie
--Comia, Ron Dennis
--Diares, Clyde
--Castro, Fernando Eugene
+- Elcarte, Dave Andrie
+- Comia, Ron Dennis
+- Diares, Clyde
+- Castro, Fernando Eugene
 
 # Overview
 
@@ -14,10 +14,10 @@ browse products, add them to their cart, and check them out. They can also view 
 
 # Task Distribution
 
--Front-End
-Ron Comia
-Eugene Castro
+- Front-End
+  Ron Comia
+  Eugene Castro
 
--Back-End
-Dave Elcarte
-Clyde Diares
+- Back-End
+  Dave Elcarte
+  Clyde Diares
